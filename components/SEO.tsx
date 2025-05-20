@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-export default function SEO({ title, description, ogImage }: any) {
+export default function SEO({ title, description, ogImage }: {title: string, description: string, ogImage: string}) {
   return (
     <Head>
       <title>{title}</title>
@@ -9,7 +9,7 @@ export default function SEO({ title, description, ogImage }: any) {
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://yourdomain.com" />
+      <meta property="og:url" content="https://chessnaami.ir" />
     </Head>
   );
 }
