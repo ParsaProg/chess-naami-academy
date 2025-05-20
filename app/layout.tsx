@@ -30,7 +30,7 @@ export default function RootLayout({
         <SEO
           title="آکادمی شطرنج نعامی"
           description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
-          ogImage="https://yourdomain.com/og-image.jpg"
+          ogImage="https://raw.githubusercontent.com/ParsaProg/chess-naami-academy/refs/heads/main/app/favicon.ico"
         />
         {children}
       </body>
