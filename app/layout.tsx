@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SEO from "../components/SEO";
+import NavBar from "@/components/ui/NavBar";
+import Footer from "@/components/ui/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,22 +25,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" dir="rtl">
+
       <head>
+        
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.ico" type="image/ico" sizes="16x16" />
         <link rel="icon" href="/favicon.ico" type="image/ico" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/favicon.ico" /> {/* For Apple devices */}
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className="select-none"
       >
         <SEO
           title="آکادمی شطرنج نعامی"
           description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
           ogImage="https://raw.githubusercontent.com/ParsaProg/chess-naami-academy/refs/heads/main/app/favicon.ico"
         />
+        <NavBar />
         {children}
+        <Footer />
       </body>
     </html>
   );
