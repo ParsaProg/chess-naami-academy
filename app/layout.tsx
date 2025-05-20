@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import SEO from "../components/SEO";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SEO
+          title="آکادمی شطرنج نعامی"
+          description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
+          ogImage="https://yourdomain.com/og-image.jpg"
+        />
         {children}
       </body>
     </html>
