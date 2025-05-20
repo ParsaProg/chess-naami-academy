@@ -12,7 +12,7 @@ export default function NavBar() {
     "text-black font-bold text-xl cursor-pointer rounded-md hover:bg-slate-200 gap-x-2 flex items-center transition-all duration-200 p-2";
   return (
     <div className="transition-all duration-200 border-b-[1px] border-b-slate-300 mt-3 mx-auto">
-      <div className="w-[85%] mx-auto flex items-center gap-x-[20px] h-[50px] mb-3 justify-between">
+      <div className="main-container w-[85%] mx-auto flex items-center gap-x-[20px] h-[50px] mb-3 justify-start">
         <div className="flex items-center gap-x-3 font-bold text-lg md:text-2xl text-[#F69B0D]">
           <img
             src={NavIcon.src}
@@ -22,7 +22,7 @@ export default function NavBar() {
           />
           آکادمی شطرنج نعامی
         </div>
-        <section className="flex items-center gap-x-[30px] links">
+        <section className="mr-14 flex items-center gap-x-[30px] links">
           <div className={`${navTextClass}`}>
             <FiHome size={20} />
             صفحه اصلی

@@ -9,4 +9,7 @@
   .menu {
     display: block;
   }
+  .main-container{
+    justify-content: space-between;
+  }
 }
