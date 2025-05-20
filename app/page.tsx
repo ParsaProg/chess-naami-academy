@@ -1,5 +1,4 @@
 import Image from "next/image";
-// add commet for commit test
 
 export default function Home() {
   return (
