@@ -25,7 +25,7 @@ export default function RootLayout({
 
       </head>
       <body
-      className="select-none"
+      className="select-none w-full"
       >
         <SEO
           title="آکادمی شطرنج نعامی"
