@@ -8,8 +8,6 @@ import { FiMenu } from "react-icons/fi";
 import { FaChessKnight } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
 
-
-
 export default function NavBar() {
   const navTextClass =
     "text-black font-bold text-xl cursor-pointer rounded-md hover:bg-[#F49F06] hover:text-white gap-x-2 flex items-center transition-all duration-200 px-3 py-2";
