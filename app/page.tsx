@@ -1,4 +1,5 @@
 import LinksContainers from "@/components/main/landing/linksContainers";
+import StudentComments from "@/components/main/landing/studentsComment";
 import TopLandingSection from "@/components/main/landing/topLanding";
 import WhyUs from "@/components/main/landing/whyUs";
 
@@ -8,6 +9,7 @@ export default function Home() {
       <TopLandingSection />
       <LinksContainers />
       <WhyUs />
+      <StudentComments />
       <div className="pb-[20px]"></div>
     </div>
   );
