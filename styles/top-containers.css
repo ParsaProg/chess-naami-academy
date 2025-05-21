@@ -1,3 +1,9 @@
 .container-counter{
     box-shadow: 1px 1px 20px 10px rgba(217, 215, 215, 0.537);
 }
+
+textarea{
+    max-height: 200px;
+    min-height: 100px;
+    resize: vertical;
+}
