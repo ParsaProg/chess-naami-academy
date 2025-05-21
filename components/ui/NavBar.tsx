@@ -47,7 +47,7 @@ export default function NavBar() {
           </div>
         </section>
         <div className="cursor-pointer menu rounded-lg border-[2px] border-slate-200 p-3">
-          <FiMenu size={25} />
+          <FiMenu size={20} />
         </div>
       </div>
     </div>
