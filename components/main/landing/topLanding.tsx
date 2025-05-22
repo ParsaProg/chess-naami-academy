@@ -26,8 +26,8 @@ export default function TopLandingSection({ContactUsComponentScroll, whyUsCompon
             <button onClick={whyUsComponentScroll} className="w-full sm:w-[200px] lg:w-[250px] py-2 lg:py-3 rounded-lg bg-[#F39F08] text-white cursor-pointer text-lg lg:text-xl font-bold">
               چرا ما را انتخاب کنید؟
             </button>
-            <button onClick={ContactUsComponentScroll} className="text-md w-full sm:w-[320px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
-              تست استعدادیابی و مشاوره رایگان
+            <button className="w-full sm:w-[200px] lg:w-[250px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
+              مشاوره‌ی رایگان
             </button>
           </div>
         </div>
