@@ -90,13 +90,13 @@ export default function Footer() {
                 className="text-[#EC971A] mt-1 flex-shrink-0"
               />
               <p className="text-slate-400 text-sm sm:text-base">
-                تهران، خیابان پونک، پلاک 1234
+                تهران پونک بلوار عدل خیابان کمالی آموزشگاه شطرنج استاد نعامی
               </p>
             </div>
             <div className="flex items-center gap-2">
               <FaPhone size={16} className="text-[#EC971A] flex-shrink-0" />
               <p className="text-slate-400 text-sm sm:text-base">
-                ۰۲۱-۸۸۷۷۶۶۵۵
+                ۰۹۳۳۴۰۱۳۰۰۶
               </p>
             </div>
             <div className="flex items-center gap-2">

@@ -6,11 +6,11 @@ import { FaBookOpen } from "react-icons/fa6";
 import { HiFire } from "react-icons/hi";
 import { HiUsers } from "react-icons/hi";
 
-export default function WhyUs() {
+export default function WhyUs({whyUsComponentRef}: any) {
   return (
-   <div className="links-containers w-[95%] max-w-[1400px] mt-[40px] md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
+   <div ref={whyUsComponentRef} className="links-containers w-[95%] max-w-[1400px] mt-[40px] md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
   {/* Heading */}
-  <h1 className="font-bold text-black text-2xl sm:text-3xl md:text-4xl text-center">
+  <h1  className="font-bold text-black text-2xl sm:text-3xl md:text-4xl text-center">
     چرا <strong className="text-[#F39F08]">آکادمی شطرنج </strong> ما؟
   </h1>
 

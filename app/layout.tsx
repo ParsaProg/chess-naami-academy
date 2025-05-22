@@ -33,6 +33,7 @@ export default function RootLayout({
           ogImage="https://raw.githubusercontent.com/ParsaProg/chess-naami-academy/refs/heads/main/app/favicon.ico"
         />
         <NavBar />
+        <div className="h-[50px]"></div>
         {children}
         <Footer />
       </body>

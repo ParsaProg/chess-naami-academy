@@ -16,7 +16,7 @@ export default function LinksContainers() {
 
       {/* Description */}
       <p className="w-full md:w-[90%] lg:w-[800px] text-slate-700 font-bold text-base sm:text-lg text-center mt-3 sm:mt-4 md:mt-5">
-        دوره‌های مای برای تمامی سطوح از مبتدی تا پیشرفته طراحی شده‌اند. با
+        دوره‌های ما برای تمامی سطوح از مبتدی تا پیشرفته طراحی شده‌اند. با
         مربیان محبوب و برنامه‌های آموزشی استاندارد، مسیر موفقیت خود را هموار
         کنید
       </p>
@@ -30,7 +30,7 @@ export default function LinksContainers() {
           </div>
           <div className="m-4 sm:m-5">
             <h1 className="font-bold text-black text-xl sm:text-2xl">
-              دوره‌های آموزشی
+              کلاس آنلاین
             </h1>
             <p className="mt-2 sm:mt-3 text-base sm:text-lg font-[600] text-slate-600">
               دوره‌های آموزشی به صورت آنلاین و حضوری، خصوصی، مقدماتی و پیشرفته و
@@ -50,7 +50,7 @@ export default function LinksContainers() {
           </div>
           <div className="m-4 sm:m-5">
             <h1 className="font-bold text-black text-xl sm:text-2xl">
-              مقالات علمی
+              مسابقات انلاین
             </h1>
             <p className="mt-2 sm:mt-3 text-base sm:text-lg font-[600] text-slate-600">
               مقالات علمی برای سطوح مقدماتی ، متوسط و پیشرفته، بسیار غنی برای
@@ -70,7 +70,7 @@ export default function LinksContainers() {
           </div>
           <div className="m-4 sm:m-5">
             <h1 className="font-bold text-black text-xl sm:text-2xl">
-              ویدیو‌های آموزشی
+              پازل ها و مطالب آموزشی
             </h1>
             <p className="mt-2 sm:mt-3 text-base sm:text-lg font-[600] text-slate-600">
               ویدیو‌های آموزشی برای سطوح مقدماتی ، متوسط و پیشرفته، بسیار غنی
