@@ -17,17 +17,17 @@ export default function NaamiAbout() {
           در سه بخش مقدماتی ، متوسطه ، پیشرفته ارائه می‌ دهند.
         </h1>
 
-        <div className="mt-4 sm:mt-5 space-y-3 sm:space-y-4">
+        <ul className="mt-4 sm:mt-5 space-y-3 sm:space-y-4">
           <li className="text-xl sm:text-xl lg:text-2xl font-bold text-[#F69B0D]">
             مربی رسمی فدراسیون شطرنج
           </li>
-          <li className="text-lg sm:text-xl lg:text-2xl font-bold text-[#F69B0D]">
-            مسئول انجمن شطرنج کانون مفتح کانون مرکزی تهران وکانون
+          <li className="text-md sm:text-md lg:text-xl font-bold text-[#F69B0D]">
+            مسئول انجمن شطرنج کانون مفتح کانون مرکزی تهران 
           </li>
           <li className="text-xl sm:text-xl lg:text-2xl font-bold text-[#F69B0D]">
             کانون شطرنج منطقه یک آموزش پرورش
           </li>
-        </div>
+        </ul>
       </div>
 
       {/* Image - Comes first on desktop, but after text on mobile */}
