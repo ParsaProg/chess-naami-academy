@@ -24,7 +24,7 @@ export default function TopLandingSection() {
               چرا ما را انتخاب کنید؟
             </button>
             <button className="w-full sm:w-[200px] lg:w-[250px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
-              مشاوره‌ی رایگان
+              تست استعدادیابی و مشاوره رایگان
             </button>
           </div>
         </div>
