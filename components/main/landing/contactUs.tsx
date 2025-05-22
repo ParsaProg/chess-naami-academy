@@ -92,37 +92,38 @@ export default function ContactUs({ ContactUsComponentRef }: any) {
         </button>
       </section>
 
-  {/* Contact Info - Now stacks below form on mobile */}
-  <div className="flex flex-col w-full gap-6">
-    <section className="container-counter border-[1px] bg-[#F9FAFC] border-slate-200 p-5 rounded-xl w-full">
-      <h1 className="text-black font-bold text-xl sm:text-2xl">اطلاعات تماس</h1>
-      
-      <div className="flex items-start mt-4 sm:mt-6 gap-3">
-        <div className="flex items-center justify-center rounded-full min-w-[45px] sm:min-w-[55px] h-[45px] sm:h-[55px] bg-[#F9F3C3] text-[#F09F0A]">
-          <FaLocationDot className="text-lg sm:text-xl" />
-        </div>
-        <div className="flex flex-col items-start gap-y-1">
-          <h1 className="font-bold text-black text-lg sm:text-xl">آدرس</h1>
-          <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
-            تهران، پونک، خیابان بهشتی، پلاک ۱۲۳ باشگاه شطرنج نعامی
-          </h4>
-        </div>
-      </div>
+      {/* Contact Info - Now stacks below form on mobile */}
+      <div className="flex flex-col w-full gap-6">
+        <section className="container-counter border-[1px] bg-[#F9FAFC] border-slate-200 p-5 rounded-xl w-full">
+          <h1 className="text-black font-bold text-xl sm:text-2xl">
+            اطلاعات تماس
+          </h1>
 
-      <div className="flex items-start mt-4 sm:mt-6 gap-3">
-        <div className="flex items-center justify-center rounded-full min-w-[45px] sm:min-w-[55px] h-[45px] sm:h-[55px] bg-[#F9F3C3] text-[#F09F0A]">
-          <FaPhone className="text-lg sm:text-xl" />
-        </div>
-        <div className="flex flex-col items-start gap-y-1">
-          <h1 className="font-bold text-black text-lg sm:text-xl">تلفن تماس</h1>
-          <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
-            ۰۲۱-۸۸۷۷۶۶۵۵
-          </h4>
-          <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
-            ۰۹۱۷۱۸۰۶۷۲۵
-          </h4>
-        </div>
-      </div>
+          <div className="flex items-start mt-4 sm:mt-6 gap-3">
+            <div className="flex items-center justify-center rounded-full min-w-[45px] sm:min-w-[55px] h-[45px] sm:h-[55px] bg-[#F9F3C3] text-[#F09F0A]">
+              <FaLocationDot className="text-lg sm:text-xl" />
+            </div>
+            <div className="flex flex-col items-start gap-y-1">
+              <h1 className="font-bold text-black text-lg sm:text-xl">آدرس</h1>
+              <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
+                تهران پونک بلوار عدل خیابان کمالی آموزشگاه شطرنج استاد نعامی
+              </h4>
+            </div>
+          </div>
+
+          <div className="flex items-start mt-4 sm:mt-6 gap-3">
+            <div className="flex items-center justify-center rounded-full min-w-[45px] sm:min-w-[55px] h-[45px] sm:h-[55px] bg-[#F9F3C3] text-[#F09F0A]">
+              <FaPhone className="text-lg sm:text-xl" />
+            </div>
+            <div className="flex flex-col items-start gap-y-1">
+              <h1 className="font-bold text-black text-lg sm:text-xl">
+                تلفن تماس
+              </h1>
+              <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
+                ۰۹۳۳۴۰۱۳۰۰۶
+              </h4>
+            </div>
+          </div>
 
           <div className="flex items-start mt-4 sm:mt-6 gap-3">
             <div className="flex items-center justify-center rounded-full min-w-[45px] sm:min-w-[55px] h-[45px] sm:h-[55px] bg-[#F9F3C3] text-[#F09F0A]">
