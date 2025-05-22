@@ -7,7 +7,7 @@ import ReadyToStartLearning from "@/components/main/landing/readyToStartLearning
 import StudentComments from "@/components/main/landing/studentsComment";
 import TopLandingSection from "@/components/main/landing/topLanding";
 import WhyUs from "@/components/main/landing/whyUs";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 export default function Home() {
   const whyUsComponentRef = useRef<HTMLDivElement>(null);

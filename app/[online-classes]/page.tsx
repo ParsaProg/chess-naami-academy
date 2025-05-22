@@ -1,8 +1,5 @@
 "use client";
 import { IoPersonAddOutline, IoBookOutline } from "react-icons/io5";
-import { IoIosArrowDown } from "react-icons/io";
-import { useState } from "react";
-
 type ClassData = {
   title: string;
   endpoint: string;
