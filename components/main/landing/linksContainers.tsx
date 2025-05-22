@@ -5,7 +5,11 @@ import { FaChess } from "react-icons/fa";
 import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { FaBagShopping } from "react-icons/fa6";
 
-export default function LinksContainers() {
+interface isDialogShow {
+   setIsDialogShow: (value: boolean) => void;
+}
+
+export default function LinksContainers({ setIsDialogShow }: isDialogShow) {
   return (
     <div className="links-containers w-[95%] max-w-[1400px] mt-[40px] md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
       {/* Heading */}
@@ -16,9 +20,8 @@ export default function LinksContainers() {
 
       {/* Description */}
       <p className="w-full md:w-[90%] lg:w-[800px] text-slate-700 font-bold text-base sm:text-lg text-center mt-3 sm:mt-4 md:mt-5">
-        دوره‌های ما برای تمامی سطوح از مبتدی تا پیشرفته طراحی شده‌اند. با
-        مربیان محبوب و برنامه‌های آموزشی استاندارد، مسیر موفقیت خود را آسان 
-        کنید
+        دوره‌های ما برای تمامی سطوح از مبتدی تا پیشرفته طراحی شده‌اند. با مربیان
+        محبوب و برنامه‌های آموزشی استاندارد، مسیر موفقیت خود را آسان کنید
       </p>
 
       {/* Cards Grid */}
@@ -28,6 +31,7 @@ export default function LinksContainers() {
           <div className="flex items-center justify-center w-full h-[150px] sm:h-[200px] bg-[#F49E0B] rounded-tl-lg rounded-tr-lg text-white">
             <IoExtensionPuzzleSharp className="text-[60px] sm:text-[80px]" />
           </div>
+
           <div className="m-4 sm:m-5">
             <h1 className="font-bold text-black text-xl sm:text-2xl">
               کلاس آنلاین
@@ -53,8 +57,7 @@ export default function LinksContainers() {
               مسابقات انلاین
             </h1>
             <p className="mt-2 sm:mt-3 text-base sm:text-lg font-[600] text-slate-600">
-              مقالات علمی برای سطوح مقدماتی ، متوسط و پیشرفته، بسیار غنی برای
-              آموختن
+              رگزاری مسابقات انلاین رایگان به صورت هفتگی
             </p>
             <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3 hover:bg-slate-200 transition-all duration-200">
               ورود کنید
