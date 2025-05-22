@@ -4,6 +4,7 @@ import ChessAcademyImage from "../../../public/assets/images/chess-academy.png";
 import Image from "next/image";
 import "../../../styles/top-containers.css";
 import CountUp from "react-countup";
+import PersianCountUp from "@/lib/persianCountUpDigit";
 
 interface ScrollFunctions {
   ContactUsComponentScroll?: () => void;
@@ -65,25 +66,25 @@ export default function TopLandingSection({
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 lg:gap-[50px] mt-[50px] md:mt-[80px] px-4 lg:px-0">
         <div className=" container-counter text-center bg-white rounded-xl p-3 ">
           <h1 className="text-[#ea7908] font-bold text-2xl md:text-3xl">
-            <CountUp end={12} duration={2} />+
+            <PersianCountUp num={12} duration={2} />+
           </h1>
           <p className="font-bold text-base md:text-xl">مربیان حرفه‌ای</p>
         </div>
         <div className=" container-counter text-center bg-white rounded-xl p-3  ">
           <h1 className="text-[#ea7908] font-bold text-2xl md:text-3xl">
-            <CountUp end={1300} duration={2} />+
+            <PersianCountUp num={1300} duration={2} />+
           </h1>
           <p className="font-bold text-base md:text-xl">دانش‌آموز موفق</p>
         </div>
         <div className=" container-counter text-center  bg-white rounded-xl p-3  ">
           <h1 className="text-[#ea7908] font-bold text-2xl md:text-3xl">
-            <CountUp end={20} duration={2} />+
+            <PersianCountUp num={20} duration={2} />+
           </h1>
           <p className="font-bold text-base md:text-xl">دوره تخصصی</p>
         </div>
         <div className=" container-counter text-center  bg-white rounded-xl p-3  ">
           <h1 className="text-[#ea7908] font-bold text-2xl md:text-3xl">
-            <CountUp end={18} duration={2} />+
+            <PersianCountUp num={18} duration={2} />+
           </h1>
           <p className="font-bold text-base md:text-xl">سال تجربه</p>
         </div>
