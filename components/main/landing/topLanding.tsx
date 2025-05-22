@@ -3,7 +3,6 @@
 import ChessAcademyImage from "../../../public/assets/images/chess-academy.png";
 import Image from "next/image";
 import "../../../styles/top-containers.css";
-import CountUp from "react-countup";
 import PersianCountUp from "@/lib/persianCountUpDigit";
 
 interface ScrollFunctions {
