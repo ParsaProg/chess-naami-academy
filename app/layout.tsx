@@ -30,7 +30,6 @@ export default function RootLayout({
         <NavBar />
         <div className="h-[50px]"></div>
         {children}
-        <div id="not-found-portal" />
         <Footer />
       </body>
     </html>
