@@ -20,7 +20,7 @@ export default function ContactUs({ ContactUsComponentRef }: ContactUsProps) {
     >
       {/* Contact Form - Now comes first on mobile */}
       <section className="container-counter border-[1px] border-slate-200 p-5 rounded-xl w-full">
-        <h1 className="text-black font-bold text-xl sm:text-2xl">فرم تماس</h1>
+        <h1 className="text-black font-bold text-xl sm:text-2xl">فرم ثبت‌نام</h1>
         <div className="mt-4 sm:mt-6">
           <h3 className="text-black font-[400] text-base sm:text-lg">
             نام و نام خانوادگی

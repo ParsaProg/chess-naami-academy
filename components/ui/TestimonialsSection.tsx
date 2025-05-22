@@ -30,10 +30,14 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => (
       </div>
       <div>
         <h1 className="text-lg md:text-xl font-bold">{testimonial.name}</h1>
-        <h2 className="text-base md:text-lg text-[#F49E0B]">{testimonial.role}</h2>
+        <h2 className="text-base md:text-lg text-[#F49E0B]">
+          {testimonial.role}
+        </h2>
       </div>
     </div>
-    <p className="font-normal mt-4 md:mt-5 text-slate-300">{testimonial.text}</p>
+    <p className="font-normal mt-4 md:mt-5 text-slate-300">
+      {testimonial.text}
+    </p>
     <div className="flex gap-1 mt-3 md:mt-4">
       {[1, 2, 3, 4, 5].map((val) => (
         <FaStar key={val} size={20} color="#F4C52D" />
@@ -80,6 +84,28 @@ const TestimonialsSection = () => {
       role: "دانش‌آموز دورۀ مبتدی",
       text: "«من بدون هیچ پیش زمینه ای وارد آکادمی شدم و در مدت کوتاهی توانستم اصول اولیه شطرنج را یاد بگیرم. محیط آکادمی بسیار دوستانه و حرفه ای است.»",
     },
+
+    {
+      id: 4,
+      initial: "آ",
+      name: "امیررضا توسلی",
+      role: "دانش‌آموز دورۀ پیشرفته",
+      text: "من ۵ سال به صورت آنلاین دارم با آموزشگاه شطرنج استاد نعامی کار میکنم مقام های زیادی  تو شهر و استان خودم دارم واین آموزشگاه به دیگران پیشنهاد میدهم.",
+    },
+    {
+      id: 5,
+      initial: "ک",
+      name: "کیان خوش بین",
+      role: "دانش‌آموز دورۀ پیشرفته",
+      text: "فرزند من ۸ ساله هست دوسال به صورت آنلاین و حضوری با آموزشگاه استاد دارن کار میکنند و از کادر آموزشی و اخلاق حرفه ای ایشان خیلی راضی هستیم.",
+    },
+    {
+      id: 6,
+      initial: "س",
+      name: "سام منصوریان‌فرد",
+      role: "دانش‌آموز دورۀ مبتدی",
+      text: "فرزند من ۶ ساله هست ۳ ماهه داره آنلاین آموزش میبینه واز آموزش کاملاا تخصصی کودکانه که همراه با شعر میباشد هم خودم لذت میبرم و هم فرزندم و فکر نمیکردم بتونه آنقدر خوب با آنلاین آموزش ببیند",
+    },
   ];
 
   const handleSwiperInit = (swiper: SwiperType) => {
@@ -119,14 +145,14 @@ const TestimonialsSection = () => {
           </Swiper>
 
           <button
-            ref={prevRef}
+            ref={nextRef}
             className="absolute left-0 bottom-[-25px] z-10 transform bg-white/30 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white/50 transition-all duration-300"
             aria-label="Previous testimonial"
           >
             <IoIosArrowBack className="text-2xl text-[#F49E0B]" />
           </button>
           <button
-            ref={nextRef}
+            ref={prevRef}
             className="absolute right-0 bottom-[-25px] z-10 transform bg-white/30 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white/50 transition-all duration-300"
             aria-label="Next testimonial"
           >
