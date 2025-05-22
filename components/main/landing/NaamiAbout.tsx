@@ -25,7 +25,7 @@ export default function NaamiAbout() {
             مسئول انجمن شطرنج کانون مفتح کانون مرکزی تهران وکانون
           </li>
           <li className="text-xl sm:text-xl lg:text-2xl font-bold text-[#F69B0D]">
-            منطقه یک آموزش پرورش
+            کانون شطرنج منطقه یک آموزش پرورش
           </li>
         </div>
       </div>
