@@ -17,7 +17,7 @@ export default function LinksContainers() {
       {/* Description */}
       <p className="w-full md:w-[90%] lg:w-[800px] text-slate-700 font-bold text-base sm:text-lg text-center mt-3 sm:mt-4 md:mt-5">
         دوره‌های ما برای تمامی سطوح از مبتدی تا پیشرفته طراحی شده‌اند. با
-        مربیان محبوب و برنامه‌های آموزشی استاندارد، مسیر موفقیت خود را هموار
+        مربیان محبوب و برنامه‌های آموزشی استاندارد، مسیر موفقیت خود را آسان 
         کنید
       </p>
 
