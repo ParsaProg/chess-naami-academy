@@ -1,5 +1,4 @@
 import TestimonialsSection from "@/components/ui/TestimonialsSection";
-import { FaStar } from "react-icons/fa";
 
 export default function StudentComments() {
   return (

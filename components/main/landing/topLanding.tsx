@@ -5,10 +5,14 @@ import Image from "next/image";
 import "../../../styles/top-containers.css";
 import CountUp from "react-countup";
 
+interface ScrollFunctions {
+  ContactUsComponentScroll?: () => void;
+  whyUsComponentScroll?: () => void;
+}
 export default function TopLandingSection({
   ContactUsComponentScroll,
   whyUsComponentScroll,
-}: any) {
+}: ScrollFunctions) {
   return (
     <div className="relative mt-[50px] md:mt-[100px] w-[95%] mx-auto">
       {/* Main content - flex column on mobile, row on larger screens */}
@@ -32,7 +36,10 @@ export default function TopLandingSection({
             >
               چرا ما را انتخاب کنید؟
             </button>
-            <button onClick={ContactUsComponentScroll} className="w-full sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
+            <button
+              onClick={ContactUsComponentScroll}
+              className="w-full sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent"
+            >
               تست استعدادیابی و مشاوره رایگان
             </button>
           </div>

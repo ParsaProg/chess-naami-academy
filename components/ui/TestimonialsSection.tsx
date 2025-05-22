@@ -3,28 +3,62 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { FaStar } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import type { Swiper as SwiperType } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+interface Testimonial {
+  id: number;
+  initial: string;
+  name: string;
+  role: string;
+  text: string;
+}
+
+interface TestimonialCardProps {
+  testimonial: Testimonial;
+}
+
+const TestimonialCard = ({ testimonial }: TestimonialCardProps) => (
+  <div className="rounded-lg bg-[#3A434C] p-4 md:p-6 text-white h-full">
+    <div className="flex items-center gap-3">
+      <div className="w-12 h-12 md:w-14 md:h-14 font-bold text-lg md:text-xl rounded-full bg-[#F49E0B] text-white flex items-center justify-center">
+        {testimonial.initial}
+      </div>
+      <div>
+        <h1 className="text-lg md:text-xl font-bold">{testimonial.name}</h1>
+        <h2 className="text-base md:text-lg text-[#F49E0B]">{testimonial.role}</h2>
+      </div>
+    </div>
+    <p className="font-normal mt-4 md:mt-5 text-slate-300">{testimonial.text}</p>
+    <div className="flex gap-1 mt-3 md:mt-4">
+      {[1, 2, 3, 4, 5].map((val) => (
+        <FaStar key={val} size={20} color="#F4C52D" />
+      ))}
+    </div>
+  </div>
+);
+
 const TestimonialsSection = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+      setIsMobile(window.innerWidth < 1024);
     };
 
-    handleResize(); // Set initial value
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     {
       id: 1,
       initial: "م",
@@ -47,15 +81,16 @@ const TestimonialsSection = () => {
       text: "«من بدون هیچ پیش زمینه ای وارد آکادمی شدم و در مدت کوتاهی توانستم اصول اولیه شطرنج را یاد بگیرم. محیط آکادمی بسیار دوستانه و حرفه ای است.»",
     },
   ];
-  const swiperRef = useRef<any>(null);
 
-  const handleSwiperInit = (swiper: any) => {
+  const handleSwiperInit = (swiper: SwiperType) => {
     swiperRef.current = swiper;
 
-    // Safe navigation initialization
-    if (prevRef.current && nextRef.current) {
-      swiper.params.navigation.prevEl = prevRef.current;
-      swiper.params.navigation.nextEl = nextRef.current;
+    if (swiper.params.navigation && prevRef.current && nextRef.current) {
+      Object.assign(swiper.params.navigation, {
+        prevEl: prevRef.current,
+        nextEl: nextRef.current,
+        disabledClass: "swiper-button-disabled",
+      });
       swiper.navigation.init();
       swiper.navigation.update();
     }
@@ -69,10 +104,6 @@ const TestimonialsSection = () => {
             modules={[Navigation, Pagination]}
             spaceBetween={20}
             slidesPerView={1}
-            navigation={{
-              prevEl: prevRef.current,
-              nextEl: nextRef.current,
-            }}
             pagination={{
               clickable: true,
               dynamicBullets: true,
@@ -87,16 +118,17 @@ const TestimonialsSection = () => {
             ))}
           </Swiper>
 
-          {/* Custom Navigation Buttons */}
           <button
             ref={prevRef}
-            className="absolute left-0 b bottom-[-25px] z-10 -translate-y-1/2 transform bg-white/30 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white/50 transition-all duration-300"
+            className="absolute left-0 bottom-[-25px] z-10 transform bg-white/30 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white/50 transition-all duration-300"
+            aria-label="Previous testimonial"
           >
             <IoIosArrowBack className="text-2xl text-[#F49E0B]" />
           </button>
           <button
             ref={nextRef}
-            className="absolute right-0 bottom-[-25px] z-10 -translate-y-1/2 transform bg-white/30 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white/50 transition-all duration-300"
+            className="absolute right-0 bottom-[-25px] z-10 transform bg-white/30 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white/50 transition-all duration-300"
+            aria-label="Next testimonial"
           >
             <IoIosArrowForward className="text-2xl text-[#F49E0B]" />
           </button>
@@ -111,29 +143,5 @@ const TestimonialsSection = () => {
     </section>
   );
 };
-
-const TestimonialCard = ({ testimonial }: any) => (
-  <div className="rounded-lg bg-[#3A434C] p-4 md:p-6 text-white h-full">
-    <div className="flex items-center gap-3">
-      <div className="w-12 h-12 md:w-14 md:h-14 font-bold text-lg md:text-xl rounded-full bg-[#F49E0B] text-white flex items-center justify-center">
-        {testimonial.initial}
-      </div>
-      <div>
-        <h1 className="text-lg md:text-xl font-bold">{testimonial.name}</h1>
-        <h2 className="text-base md:text-lg text-[#F49E0B]">
-          {testimonial.role}
-        </h2>
-      </div>
-    </div>
-    <p className="font-normal mt-4 md:mt-5 text-slate-300">
-      {testimonial.text}
-    </p>
-    <div className="flex gap-1 mt-3 md:mt-4">
-      {[1, 2, 3, 4, 5].map((val) => (
-        <FaStar key={val} size={20} color="#F4C52D" />
-      ))}
-    </div>
-  </div>
-);
 
 export default TestimonialsSection;

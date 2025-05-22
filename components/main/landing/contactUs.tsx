@@ -8,7 +8,11 @@ import { IoLogoInstagram } from "react-icons/io";
 import { FaTelegramPlane } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 
-export default function ContactUs({ ContactUsComponentRef }: any) {
+interface ContactUsProps {
+  ContactUsComponentRef: React.RefObject<HTMLDivElement | null>;
+}
+
+export default function ContactUs({ ContactUsComponentRef }: ContactUsProps) {
   return (
     <div
       ref={ContactUsComponentRef}
