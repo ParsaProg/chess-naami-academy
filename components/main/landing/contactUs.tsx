@@ -66,7 +66,7 @@ export default function ContactUs() {
         <div className="flex flex-col items-start gap-y-1">
           <h1 className="font-bold text-black text-lg sm:text-xl">آدرس</h1>
           <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
-            تهران، پونک، خیابان بهشتی، پلاک ۱۲۳ باشگاه شطرنج نعامی
+            تهران پونک بلوار عدل خیابان کمالی آموزشگاه شطرنج استاد نعامی
           </h4>
         </div>
       </div>
@@ -78,10 +78,7 @@ export default function ContactUs() {
         <div className="flex flex-col items-start gap-y-1">
           <h1 className="font-bold text-black text-lg sm:text-xl">تلفن تماس</h1>
           <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
-            ۰۲۱-۸۸۷۷۶۶۵۵
-          </h4>
-          <h4 className="font-[400] text-slate-600 text-sm sm:text-lg">
-            ۰۹۱۷۱۸۰۶۷۲۵
+            ۰۹۳۳۴۰۱۳۰۰۶
           </h4>
         </div>
       </div>
