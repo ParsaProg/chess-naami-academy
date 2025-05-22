@@ -8,13 +8,13 @@ export default function NaamiAbout() {
       {/* Text Content - Comes first on mobile */}
       <div className="flex flex-col order-2 lg:order-1 w-full lg:w-1/2">
         <h1 className="font-[400] text-black text-xl text-justify">
-          آموزشگاه شطرنج استاد نعامی از سال ۸۶ فعالیت مستمر در زمینه شطرنج به
+          آموزشگاه شطرنج استاد نعامی از سال ۸۶ فعالیت مستمر در زمینه شطرنج را به
           صورت تخصص محور کودکان و نوجوانان داشته و بازیکنان زیادی به این رشته
-          علاقه مند کرده که باعث افتخار در این رشته تحصیلی شدند. با توجه به
-          شرایط بوجود آمده از زمان کرونا تصمیم گرفته سیستم آموزش آنلاين به صورت
+          علاقه مند کرده که باعث افتخار در این رشته ورزشی شدند. با توجه به شرایط
+          بوجود آمده از زمان کرونا تصمیم گرفته سیستم آموزش آنلاين را به صورت
           کاملاا حرفه ای فعال کند از سن ۵ سال به بالا بتوانند از سراسر کشور و
           حتی کشور های مختلف از آموزشی هدف مند و آکادمی استفاده کنند و این آموزش
-          در سه بخش مقدماتی و متوسطه و پیشرفته ارائه می‌شود.
+          در سه بخش مقدماتی ، متوسطه ، پیشرفته ارائه می‌ دهند.
         </h1>
 
         <div className="mt-4 sm:mt-5 space-y-3 sm:space-y-4">
@@ -31,14 +31,14 @@ export default function NaamiAbout() {
       </div>
 
       {/* Image - Comes first on desktop, but after text on mobile */}
-      <div className="order-1 lg:order-2 w-full lg:w-1/2 mb-6 lg:mb-0">
+      <div className="order-1 lg:order-2 w-full lg:w-[500px] mb-6 lg:mb-0">
         <Image
           src={NaamiImage.src}
-          width={600}
-          height={600}
+          width={500}
+          height={500}
           className="rounded-lg w-full h-auto object-cover"
           alt="نعامی, شطرنج نعامی, شطرنج پونک, درست اندیشیدن به فرزندانتان بیاموزید, تخصص ما کار با کودکان در کلاس های حضوری و آنلاین میباشد, آموزش ۵سال تا ۹۹ سال, (آموزش شطرنج مرزداران)"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+          sizes="(max-width: 768px) 30vw, (max-width: 1200px) 50vw, 500px"
         />
       </div>
     </div>
