@@ -36,7 +36,7 @@ export default function LinksContainers() {
               دوره‌های آموزشی به صورت آنلاین و حضوری، خصوصی، مقدماتی و پیشرفته و
               سطح متوسط
             </p>
-            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3">
+            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3 hover:bg-slate-200 transition-all duration-200">
               ورود کنید
               <IoArrowUpCircleOutline className="text-[18px] sm:text-[20px] rotate-[-45deg]" />
             </button>
@@ -56,7 +56,7 @@ export default function LinksContainers() {
               مقالات علمی برای سطوح مقدماتی ، متوسط و پیشرفته، بسیار غنی برای
               آموختن
             </p>
-            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3">
+            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3 hover:bg-slate-200 transition-all duration-200">
               ورود کنید
               <IoArrowUpCircleOutline className="text-[18px] sm:text-[20px] rotate-[-45deg]" />
             </button>
@@ -76,7 +76,7 @@ export default function LinksContainers() {
               ویدیو‌های آموزشی برای سطوح مقدماتی ، متوسط و پیشرفته، بسیار غنی
               برای آموختن
             </p>
-            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3">
+            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3 hover:bg-slate-200 transition-all duration-200">
               ورود کنید
               <IoArrowUpCircleOutline className="text-[18px] sm:text-[20px] rotate-[-45deg]" />
             </button>
@@ -96,7 +96,7 @@ export default function LinksContainers() {
               فروشگاه عوامل مختلف شطرنج از جمله کتاب و جزوات با مقرون به صرفه
               ترین هزینه
             </p>
-            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3">
+            <button className="cursor-pointer flex items-center gap-x-2 text-sm sm:text-base p-2 sm:p-3 rounded-lg border-[1px] border-slate-400 mt-2 sm:mt-3 hover:bg-slate-200 transition-all duration-200">
               ورود کنید
               <IoArrowUpCircleOutline className="text-[18px] sm:text-[20px] rotate-[-45deg]" />
             </button>
