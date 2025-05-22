@@ -69,6 +69,7 @@ export default function OnlineClassesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {onlineClassData.privateClass.linkList.map((_, index) => (
                   <a
+                    target="_blank"
                     key={`private-${index}`}
                     href={`${onlineClassData.privateClass.endpoint}${
                       index + 1
@@ -84,6 +85,7 @@ export default function OnlineClassesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {onlineClassData.seniorClass.linkList.map((_, index) => (
                   <a
+                    target="_blank"
                     key={`senior-${index}`}
                     href={`${onlineClassData.seniorClass.endpoint}${index + 1}`}
                     className="bg-[#00e1ff] text-center rounded-md border border-[#2A94E2] py-2 px-3 text-gray-800 hover:bg-[#00cce6] transition-colors"
@@ -115,6 +117,7 @@ export default function OnlineClassesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {onlineClassData.preliminaryClass.linkList.map((_, index) => (
                   <a
+                    target="_blank"
                     key={`preliminary-${index}`}
                     href={`${onlineClassData.preliminaryClass.endpoint}${
                       index + 1
@@ -148,6 +151,7 @@ export default function OnlineClassesPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {onlineClassData.midClass.linkList.map((_, index) => (
                 <a
+                  target="_blank"
                   key={`mid-${index}`}
                   href={`${onlineClassData.midClass.endpoint}${index + 1}`}
                   className="bg-[#7947ef] text-center rounded-md border border-[#F5F3FF] py-2 px-3 text-white hover:bg-[#6a3ed6] transition-colors"
@@ -177,6 +181,7 @@ export default function OnlineClassesPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {onlineClassData.advanceClass.linkList.map((_, index) => (
                 <a
+                  target="_blank"
                   key={`advance-${index}`}
                   href={`${onlineClassData.advanceClass.endpoint}${index + 1}`}
                   className="bg-[#ef09ff] text-center rounded-md border border-[#F5F3FF] py-2 px-3 text-white hover:bg-[#d808e6] transition-colors"
