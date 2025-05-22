@@ -48,7 +48,7 @@ export default function NavBar() {
             تماس با‌ ما
           </div>
         </section>
-        <div className="cursor-pointer menu rounded-lg border-[1.8px] border-slate-500 p-3">
+        <div className="cursor-pointer menu rounded-lg border-[1px] border-slate-300 p-3">
           <FiMenu size={20} />
         </div>
       </div>
