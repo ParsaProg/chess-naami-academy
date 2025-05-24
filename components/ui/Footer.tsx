@@ -14,8 +14,10 @@ export default function Footer() {
         <section className="flex flex-col">
           <h1 className="font-bold text-xl sm:text-2xl">دربارۀ آکادمی</h1>
           <p className="font-[400] text-sm sm:text-base text-slate-400 mt-3 leading-relaxed max-w-[300px]">
-            آکادمی شطرنج ما با هدف آموزش اصولی و حرفه‌ای شطرنج به علاقه‌مندان در
-            تمامی سنین و سطوح تاسیس شده است.
+            آکادمی شطرنج ما از سال ۸۶ با هدف آموزش اصولی و حرفه ای شطرنج به
+            علاقه مندان در تمامی سنین و سطوح تاسیس شده که به صورت تخصص محور کار
+            با کودکان در کلاس های حضوری و آنلاین هموار با شعر و
+            آموزش کودکانه دارد.
           </p>
           <div className="flex items-center gap-3 mt-4 text-slate-300">
             <a href="#" className="hover:text-[#EC971A] transition-colors">
@@ -46,9 +48,7 @@ export default function Footer() {
               "دربارۀ‌ما",
             ].map((item) => (
               <li key={item}>
-                <a
-                  className="font-[400] text-sm sm:text-base text-slate-400 hover:text-[#EC971A] transition-colors block"
-                >
+                <a className="font-[400] text-sm sm:text-base text-slate-400 hover:text-[#EC971A] transition-colors block">
                   {item}
                 </a>
               </li>
@@ -70,9 +70,7 @@ export default function Footer() {
               "کلاس‌های خصوصی",
             ].map((item) => (
               <li key={item}>
-                <a
-                  className="font-[400] text-sm sm:text-base text-slate-400 hover:text-[#EC971A] transition-colors block"
-                >
+                <a className="font-[400] text-sm sm:text-base text-slate-400 hover:text-[#EC971A] transition-colors block">
                   {item}
                 </a>
               </li>
@@ -95,9 +93,7 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <FaPhone size={16} className="text-[#EC971A] flex-shrink-0" />
-              <p className="text-slate-400 text-sm sm:text-base">
-                ۰۹۳۳۴۰۱۳۰۰۶
-              </p>
+              <p className="text-slate-400 text-sm sm:text-base">۰۹۳۳۴۰۱۳۰۰۶</p>
             </div>
             <div className="flex items-center gap-2">
               <MdEmail size={16} className="text-[#EC971A] flex-shrink-0" />
@@ -108,7 +104,6 @@ export default function Footer() {
           </div>
         </section>
       </div>
-      
     </div>
   );
 }
