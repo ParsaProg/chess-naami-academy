@@ -23,7 +23,7 @@ export default function OnlineClassesPage() {
     seniorClass: {
       title: "کلاس تخصصی",
       endpoint: "https://skyroom.online/ch/iamalisalehi/naami",
-      linkList: [1, 2, 3],
+      linkList: [1, 2, 3, 4],
     },
     preliminaryClass: {
       title: "کلاس مقدماتی",
@@ -69,11 +69,11 @@ export default function OnlineClassesPage() {
                 <a
                   target="_blank"
                   key={`senior-${index}`}
-                  href={`${onlineClassData.seniorClass.endpoint}${index + 1}`}
-                  className="bg-[#00e1ff] text-center rounded-md border border-[#2A94E2] py-2 px-3 text-gray-800 hover:bg-[#00cce6] transition-colors"
+                  href={`${index - 0 ? onlineClassData.seniorClass.endpoint + (index - 0).toString(): "https://skyroom.online/ch/iamalisalehi/chesst"}`}
+                  className={`${index !== 0? "hover:bg-[#00cce6] bg-[#00e1ff] border-[#2A94E2] text-gray-800": "bg-black text-white"} text-center rounded-md border  py-2 px-3 transition-colors`}
                 >
-                  {onlineClassData.seniorClass.title}{" "}
-                  {toPersianDigits(index + 1)}
+                  {index !== 0? onlineClassData.seniorClass.title +" "+ toPersianDigits(index).toString(): "کلاس سطح‌بندی"}
+                  {}
                 </a>
               ))}
             </div>

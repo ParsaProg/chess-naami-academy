@@ -7,9 +7,11 @@ import ReadyToStartLearning from "@/components/main/landing/readyToStartLearning
 import StudentComments from "@/components/main/landing/studentsComment";
 import TopLandingSection from "@/components/main/landing/topLanding";
 import WhyUs from "@/components/main/landing/whyUs";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
+  const searchParams = useSearchParams();
   const whyUsComponentRef = useRef<HTMLDivElement>(null);
 
   const ContactUsComponentRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,19 @@ export default function Home() {
       });
     }
   };
+ useEffect(() => {
+    const contactUs: string | null = searchParams?.get('contact-us') ?? null;
+    if (contactUs === 'true') {
+      const contactSection = document.querySelector('.contact-us');
+      if (contactSection) {
+        const rect = contactSection.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetPosition = rect.top + scrollTop - 100; // 100 پیکسل بالاتر
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      }
+    }
+  }, [searchParams]);
+
   const whyUsComponentScroll = () => {
     if (whyUsComponentRef.current) {
       const elementPosition =
@@ -47,7 +62,7 @@ export default function Home() {
       <WhyUs whyUsComponentRef={whyUsComponentRef} />
       <StudentComments />
       <ContactUs ContactUsComponentRef={ContactUsComponentRef} />
-      <ReadyToStartLearning />
+      {/* <ReadyToStartLearning /> */}
       <div className="pb-[20px]"></div>
     </div>
   );

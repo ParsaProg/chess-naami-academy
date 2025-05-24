@@ -8,6 +8,7 @@ import { FiMenu } from "react-icons/fi";
 import { FaChessKnight } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
+import { FaUser } from "react-icons/fa";
 
 export default function NavBar() {
   const navTextClass =
@@ -47,10 +48,18 @@ export default function NavBar() {
             <FaRegCommentDots size={20} />
             نظرات
           </div>
-          <div className={`${navTextClass}`}>
-            <GrContactInfo size={20} />
-            تماس با‌ ما
-          </div>
+          <Link href={"/?contact-us=true"}>
+            <div className={`${navTextClass}`}>
+              <GrContactInfo size={20} />
+              تماس با‌ ما
+            </div>
+          </Link>
+          <Link href={"/sign-up"}>
+            <div className={`${navTextClass}`}>
+              <FaUser size={20} />
+              ثبت‌نام
+            </div>
+          </Link>
         </section>
         <div className="cursor-pointer menu rounded-lg border-[1px] border-slate-300 p-3">
           <FiMenu size={20} />

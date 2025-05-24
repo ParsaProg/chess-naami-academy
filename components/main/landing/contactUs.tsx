@@ -13,11 +13,11 @@ export default function ContactUs({ ContactUsComponentRef }: ContactUsProps) {
   return (
     <div
       ref={ContactUsComponentRef}
-      className="links-containers w-[95%] max-w-[1400px] mt-[40px] md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col lg:flex-row items-start px-4 sm:px-6 lg:px-8 gap-6 lg:gap-[50px]"
+      className="contact-us links-containers w-[95%] max-w-[1400px] mt-[40px] md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col lg:flex-row items-start px-4 sm:px-6 lg:px-8 gap-6 lg:gap-[50px]"
     >
       {/* Contact Form - Now comes first on mobile */}
       <section className="container-counter border-[1px] border-slate-200 p-5 rounded-xl w-full">
-        <h1 className="text-black font-bold text-xl sm:text-2xl">فرم ثبت‌نام</h1>
+        <h1 className="text-black font-bold text-xl sm:text-2xl">فرم تماس با ما</h1>
         <div className="mt-4 sm:mt-6">
           <h3 className="text-black font-[400] text-base sm:text-lg">
             نام و نام خانوادگی

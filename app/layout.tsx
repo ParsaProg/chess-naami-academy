@@ -3,6 +3,7 @@ import "./globals.css";
 import SEO from "../components/SEO";
 import NavBar from "@/components/ui/NavBar";
 import Footer from "@/components/ui/Footer";
+import LetsSignUp from "@/components/ui/SignUp";
 
 export const metadata: Metadata = {
   title: "آکادمی شطرنج نعامی",
@@ -30,6 +31,7 @@ export default function RootLayout({
         <NavBar />
         <div className="h-[50px]"></div>
         {children}
+        <LetsSignUp />
         <Footer />
       </body>
     </html>
