@@ -64,8 +64,20 @@ export default function OnlineClassesPage() {
             <p className="text-gray-600 mb-4">
               کلاس‌های خصوصی و تخصصی با توجه به نیاز شما
             </p>
-
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {onlineClassData.seniorClass.linkList.map((_, index) => (
+                <a
+                  target="_blank"
+                  key={`senior-${index}`}
+                  href={`${onlineClassData.seniorClass.endpoint}${index + 1}`}
+                  className="bg-[#00e1ff] text-center rounded-md border border-[#2A94E2] py-2 px-3 text-gray-800 hover:bg-[#00cce6] transition-colors"
+                >
+                  {onlineClassData.seniorClass.title}{" "}
+                  {toPersianDigits(index + 1)}
+                </a>
+              ))}
+            </div>
+            <div className="space-t-4 mt-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {onlineClassData.privateClass.linkList.map((_, index) => (
                   <a
@@ -77,20 +89,6 @@ export default function OnlineClassesPage() {
                     className="bg-[#06ffb0] text-center rounded-md border border-[#26C49A] py-2 px-1 text-gray-800 hover:bg-[#05e6a0] transition-colors"
                   >
                     {onlineClassData.privateClass.title}{" "}
-                    {toPersianDigits(index + 1)}
-                  </a>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {onlineClassData.seniorClass.linkList.map((_, index) => (
-                  <a
-                    target="_blank"
-                    key={`senior-${index}`}
-                    href={`${onlineClassData.seniorClass.endpoint}${index + 1}`}
-                    className="bg-[#00e1ff] text-center rounded-md border border-[#2A94E2] py-2 px-3 text-gray-800 hover:bg-[#00cce6] transition-colors"
-                  >
-                    {onlineClassData.seniorClass.title}{" "}
                     {toPersianDigits(index + 1)}
                   </a>
                 ))}
@@ -122,7 +120,8 @@ export default function OnlineClassesPage() {
                     href={`${
                       index === 2
                         ? "https://www.skyroom.online/ch/iamalisalehi/chessbacic3"
-                        : onlineClassData.preliminaryClass.endpoint + (index + 1).toString()
+                        : onlineClassData.preliminaryClass.endpoint +
+                          (index + 1).toString()
                     }`}
                     className="bg-[#00c8ff] text-center rounded-md border border-[#26C49A] py-2 px-3 text-gray-800 hover:bg-[#00b4e6] transition-colors"
                   >
