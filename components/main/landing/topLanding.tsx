@@ -3,6 +3,7 @@ import ChessAcademyImage from "../../../public/assets/images/chess-academy.png";
 import Image from "next/image";
 import "../../../styles/top-containers.css";
 import PersianCountUp from "@/lib/persianCountUpDigit";
+import Link from "next/link";
 
 interface ScrollFunctions {
   ContactUsComponentScroll?: () => void;
@@ -30,17 +31,16 @@ export default function TopLandingSection({
           </p>
           <div className="mt-6 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 w-full sm:w-auto">
             <button
-              onClick={whyUsComponentScroll}
+            onClick={whyUsComponentScroll}
               className="w-full sm:w-[200px] lg:w-[250px] py-2 lg:py-3 rounded-lg bg-[#F39F08] text-white cursor-pointer text-lg lg:text-xl font-bold"
             >
               چرا ما را انتخاب کنید؟
             </button>
-            <button
-              onClick={ContactUsComponentScroll}
-              className="w-full sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent"
-            >
-              تست استعدادیابی و مشاوره رایگان
-            </button>
+            <Link href={"/sign-up"}>
+              <button className="w-full sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
+                تست استعدادیابی و مشاوره رایگان
+              </button>
+            </Link>
           </div>
         </div>
 
