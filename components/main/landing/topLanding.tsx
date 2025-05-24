@@ -24,7 +24,7 @@ export default function TopLandingSection({
           <p className="inline mt-3 lg:mt-5 text-4xl sm:text-5xl lg:text-6xl font-bold">
             را با ما بیاموزید
           </p>
-          <p className="mt-4 lg:mt-6 text-slate-900 text-lg sm:text-xl lg:text-2xl font-bold w-full lg:w-[500px] xl:w-[600px]">
+          <p className="textmt-4 lg:mt-6 text-slate-900 text-lg sm:text-xl lg:text-2xl font-bold w-full lg:w-[500px] xl:w-[600px]">
             در آکادمی شطرنج ما از مبتدی تا پیشرفته، با بهترین مربیان مهارت
             شطرنجی خود را توسعه دهید و به سطح قهرمانی برسید
           </p>

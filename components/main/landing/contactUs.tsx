@@ -50,7 +50,7 @@ export default function ContactUs({ ContactUsComponentRef }: ContactUsProps) {
           />
         </div>
         <div className="mt-3 flex items-center gap-x-5">
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <h3 className="text-black font-[400] text-base sm:text-lg">کشور</h3>
             <input
               type="text"
@@ -58,7 +58,7 @@ export default function ContactUs({ ContactUsComponentRef }: ContactUsProps) {
               placeholder="کشور را وارد کنید"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="w-full flex flex-col">
             <h3 className="text-black font-[400] text-base sm:text-lg">شهر</h3>
             <input
               type="text"
