@@ -7,10 +7,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io";
 import { FaTelegramPlane } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
-
-interface ContactUsProps {
-  ContactUsComponentRef: React.RefObject<HTMLDivElement | null>;
-}
+import ContactUsProps from "@/interfaces/contactUs";
 
 export default function ContactUs({ ContactUsComponentRef }: ContactUsProps) {
   return (
