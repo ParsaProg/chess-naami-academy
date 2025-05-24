@@ -119,8 +119,10 @@ export default function OnlineClassesPage() {
                   <a
                     target="_blank"
                     key={`preliminary-${index}`}
-                    href={`${onlineClassData.preliminaryClass.endpoint}${
-                      index + 1
+                    href={`${
+                      index === 2
+                        ? "https://www.skyroom.online/ch/iamalisalehi/chessbacic3"
+                        : onlineClassData.preliminaryClass.endpoint + (index + 1).toString()
                     }`}
                     className="bg-[#00c8ff] text-center rounded-md border border-[#26C49A] py-2 px-3 text-gray-800 hover:bg-[#00b4e6] transition-colors"
                   >
