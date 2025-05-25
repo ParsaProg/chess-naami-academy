@@ -52,26 +52,26 @@ export default function RootLayout({
         />
         <meta
           property="og:image"
-          content="https://github.com/ParsaProg/tecama_images/blob/main/IMG_20241227_163947.jpg?raw=true"
+          content="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true"
         />
-        <meta property="og:url" content="https://www.parsashaabani.ir/" />
+        <meta property="og:url" content="https://www.chessnaami.ir/" />
         <meta property="og:type" content="website" />
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Parsa Shaabani Portfolio" />
+        <meta name="twitter:title" content="آکادمی شطرنج ابراهیم نعامی" />
         <meta
           name="twitter:description"
-          content="Welcome to Parsa Shaabani's portfolio! 🚀 Explore creative projects, coding adventures, and a timeline of achievements. Connect and build something amazing together! 💡"
+          content="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
         />
         <meta
           name="twitter:image"
-          content="https://github.com/ParsaProg/tecama_images/blob/main/IMG_20241227_163947.jpg?raw=true"
+          content="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true"
         />
         {/* Favicon */}
-        <title>پارسا شعبانی | برنامه‌نویس حرفه‌ای و توسعه‌دهنده وب</title>
+        <title>آکادمی شطرنج نعامی</title>
         <meta
           name="description"
-          content="پارسا شعبانی - متخصص برنامه‌نویسی با سابقه درخشان در توسعه وب و نرم‌افزار. نمونه کارها و اطلاعات تماس."
+          content="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
         />
         <meta property="og:locale" content="fa_IR" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
