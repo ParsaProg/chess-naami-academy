@@ -35,8 +35,8 @@ export default function TopLandingSection({
             >
               چرا ما را انتخاب کنید؟
             </button>
-            <Link href={"/sign-up"}>
-              <button className="w-full sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
+            <Link href={"/sign-up"} className="w-full">
+              <button className="w-[100%] sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
                 تست استعدادیابی و مشاوره رایگان
               </button>
             </Link>
