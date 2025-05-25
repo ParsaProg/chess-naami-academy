@@ -3,15 +3,14 @@
 import ContactUs from "@/components/main/landing/contactUs";
 import LinksContainers from "@/components/main/landing/linksContainers";
 import NaamiAbout from "@/components/main/landing/NaamiAbout";
-import ReadyToStartLearning from "@/components/main/landing/readyToStartLearning";
 import StudentComments from "@/components/main/landing/studentsComment";
 import TopLandingSection from "@/components/main/landing/topLanding";
 import WhyUs from "@/components/main/landing/whyUs";
-import { useRef, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRef } from "react";
+import ScrollToContact from "@/lib/ScrollToContact";
+import { Suspense } from "react";
 
 export default function Home() {
-  const searchParams = useSearchParams();
   const whyUsComponentRef = useRef<HTMLDivElement>(null);
 
   const ContactUsComponentRef = useRef<HTMLDivElement>(null);
@@ -26,18 +25,6 @@ export default function Home() {
       });
     }
   };
- useEffect(() => {
-    const contactUs: string | null = searchParams?.get('contact-us') ?? null;
-    if (contactUs === 'true') {
-      const contactSection = document.querySelector('.contact-us');
-      if (contactSection) {
-        const rect = contactSection.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const targetPosition = rect.top + scrollTop - 100; // 100 پیکسل بالاتر
-        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-      }
-    }
-  }, [searchParams]);
 
   const whyUsComponentScroll = () => {
     if (whyUsComponentRef.current) {
@@ -61,7 +48,19 @@ export default function Home() {
       <LinksContainers />
       <WhyUs whyUsComponentRef={whyUsComponentRef} />
       <StudentComments />
-      <ContactUs ContactUsComponentRef={ContactUsComponentRef} />
+      <Suspense
+        fallback={
+          <div className="text-center text-black font-bold">
+            در حال انتقال به تماس با ما
+          </div>
+        }
+      >
+        <ContactUs ContactUsComponentRef={ContactUsComponentRef} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ScrollToContact />
+      </Suspense>
+
       {/* <ReadyToStartLearning /> */}
       <div className="pb-[20px]"></div>
     </div>

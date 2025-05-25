@@ -1,17 +1,63 @@
-import { FaFacebookF, FaPhone, FaTelegramPlane, FaYoutube } from "react-icons/fa";
+"use client";
+
+import {
+  FaFacebookF,
+  FaPhone,
+  FaTelegramPlane,
+  FaYoutube,
+} from "react-icons/fa";
 import "../../styles/top-containers.css";
 import { IoLogoInstagram } from "react-icons/io";
 import { BsStopwatch } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+import emailjs from "emailjs-com";
+import { useState } from "react";
 
 export default function SignUp() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [info, setInfo] = useState("");
+  const [message, setMessage] = useState("");
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    emailjs
+      .send(
+        "service_nlwn8p9",
+        "template_fjushj8",
+        {
+          name: name,
+          time: `
+          شماره تماس: ${phoneNumber}
+          کشور + شهر: ${country} + ${city} 
+          توضیحات دربارۀ سطح شطرنجی: ${info}
+          `,
+          message: message,
+          email: email,
+        },
+        "XrY58odnGPh0YXCFL" // اینو دقیق از داشبورد کپی کن
+      )
+      .then(
+        (result) => {
+          console.log("Email sent!", result.text);
+        },
+        (error) => {
+          console.error("Send error:", error);
+        }
+      );
+  };
+
   return (
-    <div
-      className="contact-us links-containers w-[95%] max-w-[1400px] mt-[40px] md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col lg:flex-row items-start px-4 sm:px-6 lg:px-8 gap-6 lg:gap-[50px]"
-    >
+    <div className="contact-us links-containers w-[95%] max-w-[1400px] mt-[40px] md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col lg:flex-row items-start px-4 sm:px-6 lg:px-8 gap-6 lg:gap-[50px]">
       {/* Contact Form - Now comes first on mobile */}
-      <section className="container-counter border-[1px] border-slate-200 p-5 rounded-xl w-full">
+      <form
+        onSubmit={sendEmail}
+        className="container-counter border-[1px] border-slate-200 p-5 rounded-xl w-full"
+      >
         <h1 className="text-black font-bold text-xl sm:text-2xl">
           فرم تماس با ما
         </h1>
@@ -20,6 +66,10 @@ export default function SignUp() {
             نام و نام خانوادگی
           </h3>
           <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            autoComplete="name"
+            name="name"
             type="text"
             className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none"
             placeholder="نام و نام خانوادگی خود را وارد کنید"
@@ -28,7 +78,11 @@ export default function SignUp() {
         <div className="mt-5">
           <h3 className="text-black font-[400] text-base sm:text-lg">ایمیل</h3>
           <input
-            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            type="email"
+            name="email"
             className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none"
             placeholder="ایمیل خود را وارد کنید"
           />
@@ -38,6 +92,9 @@ export default function SignUp() {
             شماره تماس
           </h3>
           <input
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            autoComplete="phoneNumber"
             type="text"
             className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none"
             placeholder="شماره تماس خود را وارد کنید"
@@ -47,6 +104,9 @@ export default function SignUp() {
           <div className="flex flex-col w-full">
             <h3 className="text-black font-[400] text-base sm:text-lg">کشور</h3>
             <input
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              autoComplete="country"
               type="text"
               className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none"
               placeholder="کشور را وارد کنید"
@@ -55,6 +115,9 @@ export default function SignUp() {
           <div className="w-full flex flex-col">
             <h3 className="text-black font-[400] text-base sm:text-lg">شهر</h3>
             <input
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              autoComplete="city"
               type="text"
               className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none"
               placeholder="شهر را وارد کنید"
@@ -67,6 +130,9 @@ export default function SignUp() {
             دربارۀ سطح شطرنجتون
           </h3>
           <textarea
+            value={info}
+            onChange={(e) => setInfo(e.target.value)}
+            autoComplete="info"
             style={{ resize: "none" }}
             maxLength={100}
             className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none h-[80px]"
@@ -76,6 +142,10 @@ export default function SignUp() {
         <div className="mt-5">
           <h3 className="text-black font-[400] text-base sm:text-lg">پیام</h3>
           <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            autoComplete="message"
+            name="message"
             maxLength={500}
             className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none h-[150px] sm:h-[200px]"
             placeholder="پیام خود را بنویسید"
@@ -88,7 +158,7 @@ export default function SignUp() {
         >
           ارسال پیام
         </button>
-      </section>
+      </form>
 
       {/* Contact Info - Now stacks below form on mobile */}
       <div className="flex flex-col w-full gap-6">

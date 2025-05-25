@@ -10,7 +10,6 @@ interface ScrollFunctions {
   whyUsComponentScroll?: () => void;
 }
 export default function TopLandingSection({
-  ContactUsComponentScroll,
   whyUsComponentScroll,
 }: ScrollFunctions) {
   return (
