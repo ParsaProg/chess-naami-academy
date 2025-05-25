@@ -38,7 +38,7 @@ export default function NaamiAbout() {
           height={500}
           className="rounded-lg w-full h-auto object-cover"
           alt="نعامی, شطرنج نعامی, شطرنج پونک, درست اندیشیدن به فرزندانتان بیاموزید, تخصص ما کار با کودکان در کلاس های حضوری و آنلاین میباشد, آموزش ۵سال تا ۹۹ سال, (آموزش شطرنج مرزداران)"
-          sizes="(max-width: 768px) 30vw, (max-width: 1200px) 50vw, 500px"
+          sizes="(max-width: 768px) 500vw, (max-width: 1200px) 50vw, 500px"
         />
       </div>
     </div>
