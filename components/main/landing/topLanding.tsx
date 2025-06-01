@@ -31,12 +31,12 @@ export default function TopLandingSection({
           <div className="mt-6 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 w-full sm:w-auto">
             <button
             onClick={whyUsComponentScroll}
-              className="w-full sm:w-[200px] lg:w-[250px] py-2 lg:py-3 rounded-lg bg-[#F39F08] text-white cursor-pointer text-lg lg:text-xl font-bold"
+              className="w-full sm:w-[200px] lg:w-[320px] py-2 lg:py-3 rounded-lg bg-[#F39F08] text-white cursor-pointer text-lg lg:text-xl font-bold"
             >
               چرا ما را انتخاب کنید؟
             </button>
-            <Link href={"/sign-up"} className="w-full">
-              <button className="w-[100%] sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
+            <Link href={"/sign-up"} className="w-full sm:w-[320px]">
+              <button className="w-full sm:w-[280px] lg:w-[320px] py-2 lg:py-3 rounded-lg border-[1px] border-slate-300 container-counter cursor-pointer text-lg lg:text-xl font-bold transition-all duration-200 hover:bg-[#F39F08] hover:text-white hover:border-transparent">
                 تست استعدادیابی و مشاوره رایگان
               </button>
             </Link>
