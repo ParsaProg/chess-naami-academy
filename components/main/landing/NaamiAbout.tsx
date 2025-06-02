@@ -7,7 +7,7 @@ export default function NaamiAbout() {
     <div className="w-[95%] border-b-[1px] border-b-slate-300 pb-[20px] flex flex-col lg:flex-row items-center justify-center gap-x-4 lg:gap-x-[50px] max-w-[1400px] mt-8 md:mt-12 lg:mt-16 mx-auto px-4 sm:px-6 lg:px-8">
       {/* Text Content - Comes first on mobile */}
       <div className="flex flex-col order-2 lg:order-1 w-full lg:w-1/2">
-        <h1 className="font-[400] text-black text-xl text-justify">
+        <h1 className="font-[400] text-black text-xl text-start">
           آموزشگاه شطرنج استاد نعامی از سال ۸۶ فعالیت مستمر در زمینه شطرنج را به
           صورت تخصص محور کودکان و نوجوانان داشته و بازیکنان زیادی به این رشته
           علاقه مند کرده که باعث افتخار در این رشته ورزشی شدند. با توجه به شرایط

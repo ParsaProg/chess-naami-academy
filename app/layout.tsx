@@ -5,6 +5,7 @@ import NavBar from "@/components/ui/NavBar";
 import Footer from "@/components/ui/Footer";
 import LetsSignUp from "@/components/ui/SignUp";
 import favicon from "./favicon.ico"
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "آکادمی شطرنج نعامی",
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="rtl">
-      <head>
+      <Head>
         <link rel="icon" href={`${favicon.src}/?v=2`} type="image/x-icon" />
         <link rel="icon" href={favicon.src} sizes="any" />
         <link rel="icon" href={favicon.src} type="image/svg+xml" />
@@ -78,7 +79,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" type="image/ico" sizes="16x16" />
         <link rel="icon" href="/favicon.ico" type="image/ico" sizes="32x32" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
-      </head>
+      </Head>
       <body className="select-none w-full">
         <SEO
           title="آکادمی شطرنج نعامی"
