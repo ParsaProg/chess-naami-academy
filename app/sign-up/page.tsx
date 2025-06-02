@@ -1,5 +1,6 @@
 "use client";
 
+import Swal from "sweetalert2";
 import {
   FaFacebookF,
   FaPhone,
@@ -42,8 +43,22 @@ export default function SignUp() {
         "XrY58odnGPh0YXCFL" // اینو دقیق از داشبورد کپی کن
       )
       .then(
-        (result) => {
-          console.log("Email sent!", result.text);
+        () => {
+          setName("");
+          setEmail("");
+          setCity("");
+          setCountry("");
+          setPhoneNumber("");
+          setInfo("");
+          setMessage("");
+          Swal.fire({
+            position: "top-start",
+            icon: "success",
+            title: "ثبت‌نام شما با موفقیت انجام شد",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          });
         },
         (error) => {
           console.error("Send error:", error);

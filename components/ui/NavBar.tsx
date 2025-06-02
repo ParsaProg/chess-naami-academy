@@ -18,7 +18,7 @@ export default function NavBar() {
       style={{
         backdropFilter: "blur(20px)",
       }}
-      className="fixed top-0 w-full z-[9999] bg-[#ffffffb5] transition-all duration-200 border-b-[1px] border-b-slate-300 pt-3 mx-auto"
+      className="fixed right-[0] top-0 w-full z-[99] bg-[#ffffffb5] transition-all duration-200 border-b-[1px] border-b-slate-300 pt-3 mx-auto"
     >
       <div className="main-container w-[95%] mx-auto flex items-center gap-x-[30px] h-[50px] mb-3 justify-between">
         <Link href={"/"}>

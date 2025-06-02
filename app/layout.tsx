@@ -4,12 +4,13 @@ import SEO from "../components/SEO";
 import NavBar from "@/components/ui/NavBar";
 import Footer from "@/components/ui/Footer";
 import LetsSignUp from "@/components/ui/SignUp";
-import favicon from "./favicon.ico"
+import favicon from "./favicon.ico";
 import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "آکادمی شطرنج نعامی",
-  description: "آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
+  description:
+    "آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین",
 };
 
 export default function RootLayout({
@@ -23,18 +24,8 @@ export default function RootLayout({
         <link rel="icon" href={`${favicon.src}/?v=2`} type="image/x-icon" />
         <link rel="icon" href={favicon.src} sizes="any" />
         <link rel="icon" href={favicon.src} type="image/svg+xml" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href={favicon.src}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href={favicon.src}
-        />
+        <link rel="icon" type="image/png" sizes="32x32" href={favicon.src} />
+        <link rel="icon" type="image/png" sizes="16x16" href={favicon.src} />
         ّ
         <meta
           name="description"
