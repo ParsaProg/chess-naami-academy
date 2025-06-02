@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useEffect, useState } from 'react';
+import Image from "next/image"
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -67,7 +68,7 @@ export default function SwiperSlideShow() {
       >
         {images.map((src, idx) => (
           <SwiperSlide key={idx}>
-            <img
+            <Image
               src={src}
               alt={`slide-${idx}`}
               style={{ 

@@ -1,6 +1,4 @@
 "use client";
-import ChessAcademyImage from "../../../public/assets/images/chess-academy.png";
-import Image from "next/image";
 import "../../../styles/top-containers.css";
 import PersianCountUp from "@/lib/persianCountUpDigit";
 import Link from "next/link";
