@@ -157,7 +157,6 @@ export default function ContactUs({ ContactUsComponentRef }: ContactUsProps) {
         <section className="container-counter border-[1px] bg-[#F9FAFC] border-slate-200 p-5 rounded-xl w-full">
           <h1 className="text-black font-bold text-xl sm:text-2xl">
             شبکه‌های اجتماعی
-            git forgit fdfdfdfdfdfsdfsdfsdfdsfdsfsssasssssssdd
           </h1>
           <section className="flex items-center justify-center sm:justify-start gap-3 mt-4 sm:mt-5">
             <a

@@ -41,21 +41,8 @@ export default function TopLandingSection({
             </Link>
           </div>
         </div>
+
         <AutoSlideShow />
-        {/* Image - responsive sizing */}
-        <div className="m-0 w-full sm:w-[80%] md:w-[70%] lg:w-auto h-auto z-20 px-4 lg:px-0 relative">
-          {/* <Image
-            className="rounded-lg w-full h-auto"
-            width={700}
-            height={700}
-            src={ChessAcademyImage.src}
-            alt={"شطرنج نعامی, ابراهیم نعامی, chessnaami.ir, شطرنج پونک"}
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-            }}
-          /> */}
-        </div>
       </div>
 
       {/* Stats section - responsive grid */}
