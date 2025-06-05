@@ -2,9 +2,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import NaamiImage1 from "../../public/assets/images/naami/naami-1.jpg";
-import NaamiImage2 from "../../public/assets/images/naami/naami-2.jpg";
-import NaamiImage3 from "../../public/assets/images/naami/naami-3.jpg";
+import NaamiImage1 from "../../public/assets/images/naami/naami-1.png";
+import NaamiImage2 from "../../public/assets/images/naami/naami-2.png";
+import NaamiImage3 from "../../public/assets/images/naami/naami-3.png";
 
 import "swiper/css";
 import "swiper/css/pagination";

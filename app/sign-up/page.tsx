@@ -1,5 +1,6 @@
 "use client";
 
+import "../../styles/loaderSpinner.css";
 import Swal from "sweetalert2";
 import {
   FaFacebookF,
@@ -16,6 +17,7 @@ import emailjs from "emailjs-com";
 import { useState } from "react";
 
 export default function SignUp() {
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
@@ -25,7 +27,7 @@ export default function SignUp() {
   const [message, setMessage] = useState("");
   const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
     emailjs
       .send(
         "service_nlwn8p9",
@@ -59,9 +61,19 @@ export default function SignUp() {
             timer: 2000,
             timerProgressBar: true,
           });
+          setIsLoading(false);
         },
         (error) => {
-          console.error("Send error:", error);
+          Swal.fire({
+            position: "top-start",
+            icon: "error",
+            title: "ثبت‌نام شما با مشکل مواجه شد",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          });
+          setIsLoading(false);
+          console.log(error)
         }
       );
   };
@@ -168,10 +180,11 @@ export default function SignUp() {
         </div>
 
         <button
+          disabled={isLoading}
           type="submit"
-          className="text-center w-full p-2 sm:p-3 rounded-lg outline-none cursor-pointer transition-all duration-200 hover:bg-[#f37209] mt-3 bg-[#F39F09] text-white text-base sm:text-lg"
+          className="flex items-center justify-center h-[50px] disabled:bg-slate-500 disabled:cursor-not-allowed disabled:border-slate-400 text-center w-full p-2 sm:p-3 rounded-lg outline-none cursor-pointer transition-all duration-200 hover:bg-[#f37209] mt-3 bg-[#F39F09] text-white text-base sm:text-lg"
         >
-          ارسال پیام
+          {isLoading ? <span className="loader"></span> : "ارسال پیام"}
         </button>
       </form>
 
