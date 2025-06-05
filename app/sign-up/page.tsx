@@ -105,6 +105,7 @@ export default function SignUp() {
         <div className="mt-5">
           <h3 className="text-black font-[400] text-base sm:text-lg">ایمیل</h3>
           <input
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
@@ -119,6 +120,7 @@ export default function SignUp() {
             شماره تماس
           </h3>
           <input
+            required
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             autoComplete="phoneNumber"
@@ -131,6 +133,7 @@ export default function SignUp() {
           <div className="flex flex-col w-full">
             <h3 className="text-black font-[400] text-base sm:text-lg">کشور</h3>
             <input
+              required
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               autoComplete="country"
@@ -142,6 +145,7 @@ export default function SignUp() {
           <div className="w-full flex flex-col">
             <h3 className="text-black font-[400] text-base sm:text-lg">شهر</h3>
             <input
+              required
               value={city}
               onChange={(e) => setCity(e.target.value)}
               autoComplete="city"
@@ -157,6 +161,7 @@ export default function SignUp() {
             دربارۀ سطح شطرنجتون
           </h3>
           <textarea
+            required
             value={info}
             onChange={(e) => setInfo(e.target.value)}
             autoComplete="info"
@@ -169,6 +174,7 @@ export default function SignUp() {
         <div className="mt-5">
           <h3 className="text-black font-[400] text-base sm:text-lg">پیام</h3>
           <textarea
+            required
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             autoComplete="message"
