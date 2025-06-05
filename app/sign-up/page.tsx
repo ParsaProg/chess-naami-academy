@@ -73,7 +73,7 @@ export default function SignUp() {
             timerProgressBar: true,
           });
           setIsLoading(false);
-          console.log(error)
+          console.log(error);
         }
       );
   };
@@ -178,7 +178,6 @@ export default function SignUp() {
             placeholder="پیام خود را بنویسید"
           />
         </div>
-
         <button
           disabled={isLoading}
           type="submit"
