@@ -70,6 +70,25 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" type="image/ico" sizes="16x16" />
         <link rel="icon" href="/favicon.ico" type="image/ico" sizes="32x32" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://chessnaami.ir",
+              "@type": "LocalBusiness",
+              "name": "آموزش شطرنج مرزداران",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "تهران",
+                "streetAddress": "شطرنج جنت‌آباد، شطرنج مرزداران"
+              },
+              "description": "آموزش تخصصی شطرنج کودکان و نوجوانان. آموزش شطرنج سن 5 تا 99 سال",
+              "url": "https://chessnaami.ir",
+              "telephone": "‪+98-21-12345678‬"
+            }),
+          }}
+        />
+
       </Head>
       <body className="select-none w-full">
         <SEO
