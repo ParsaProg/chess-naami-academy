@@ -36,7 +36,7 @@ export default function NavBar() {
           <Link href={"/"}>
             <div className="flex items-center gap-x-3 font-bold text-lg md:text-2xl text-[#F69B0D]">
               <FaChessKnight size={30} />
-             شطرنج نعامی
+              شطرنج نعامی
             </div>
           </Link>
           <section className="flex items-center gap-x-2 links">
@@ -50,14 +50,16 @@ export default function NavBar() {
                 صفحه اصلی
               </div>
             </Link>
-            <div
-              className={`${navTextClass} ${
-                foundRoute("/online-classes") ? "text-black" : "text-gray-700"
-              }`}
-            >
-              <LiaChalkboardTeacherSolid size={16} />
-              دوره‌ها
-            </div>
+            <Link href={"/online-classes"}>
+              <div
+                className={`${navTextClass} ${
+                  foundRoute("/online-classes") ? "text-black" : "text-gray-700"
+                }`}
+              >
+                <LiaChalkboardTeacherSolid size={16} />
+                دوره‌ها
+              </div>
+            </Link>a
             <div
               className={`${navTextClass} ${
                 foundRoute("/shop") ? "text-black" : "text-gray-700"
