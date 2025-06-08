@@ -59,7 +59,7 @@ export default function NavBar() {
                 <LiaChalkboardTeacherSolid size={16} />
                 دوره‌ها
               </div>
-            </Link>a
+            </Link>
             <div
               className={`${navTextClass} ${
                 foundRoute("/shop") ? "text-black" : "text-gray-700"
