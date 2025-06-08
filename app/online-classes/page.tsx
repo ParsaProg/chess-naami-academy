@@ -1,5 +1,8 @@
 "use client";
 import { IoPersonAddOutline, IoBookOutline } from "react-icons/io5";
+import { BsFire } from "react-icons/bs";
+import { GrFireball } from "react-icons/gr";
+
 type ClassData = {
   title: string;
   endpoint: string;
@@ -44,7 +47,7 @@ export default function OnlineClassesPage() {
 
   return (
     <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mt-5 mb-8">
         کلاس‌های آنلاین آکادمی نعامی
       </h1>
 
@@ -138,7 +141,7 @@ export default function OnlineClassesPage() {
         <div className="border border-gray-200 rounded-lg shadow-lg overflow-hidden">
           <div className="flex justify-between items-center p-4 bg-[#F5F3FF] cursor-pointer">
             <div className="flex items-center gap-3 text-[#8655F6]">
-              <IoBookOutline className="text-2xl" />
+              <GrFireball className="text-2xl" />
               <h2 className="text-lg md:text-xl font-bold">کلاس متوسط</h2>
             </div>
           </div>
@@ -168,7 +171,7 @@ export default function OnlineClassesPage() {
         <div className="border border-gray-200 rounded-lg shadow-lg overflow-hidden">
           <div className="flex justify-between items-center p-4 bg-[#ea1df51f] cursor-pointer">
             <div className="flex items-center gap-3 text-[#ef09ff]">
-              <IoBookOutline className="text-2xl" />
+              <BsFire className="text-2xl" />
               <h2 className="text-lg md:text-xl font-bold">کلاس پیشرفته</h2>
             </div>
           </div>
