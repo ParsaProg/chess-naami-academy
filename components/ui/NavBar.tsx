@@ -113,7 +113,7 @@ export default function NavBar() {
           <Link href={"/sign-up"}>
             <div
               className={
-                "hover:bg-slate-300 transition-all duration-200 flex items-center justify-center gap-x-2 border-[1.8px] border-slate-300 rounded-lg bg-transparent text-black px-3 py-2"
+                "hover:bg-slate-300 transition-all duration-200 flex items-center justify-center gap-x-2 border-[1px] border-slate-300 rounded-lg bg-transparent text-black px-3 py-2"
               }
             >
               <FaUser size={15} />
