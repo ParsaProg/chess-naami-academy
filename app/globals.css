@@ -35,3 +35,16 @@ body {
     transform: translateY(-20px);
   }
 }
+
+@keyframes loadingBar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-loadingBar {
+  animation: loadingBar 1.2s linear infinite;
+}

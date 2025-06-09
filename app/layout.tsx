@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" dir="rtl">
       <Head>
@@ -76,19 +76,19 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://chessnaami.ir",
               "@type": "LocalBusiness",
-              "name": "آموزش شطرنج مرزداران",
-              "address": {
+              name: "آموزش شطرنج مرزداران",
+              address: {
                 "@type": "PostalAddress",
-                "addressLocality": "تهران",
-                "streetAddress": "شطرنج جنت‌آباد، شطرنج مرزداران"
+                addressLocality: "تهران",
+                streetAddress: "شطرنج جنت‌آباد، شطرنج مرزداران",
               },
-              "description": "آموزش تخصصی شطرنج کودکان و نوجوانان. آموزش شطرنج سن 5 تا 99 سال",
-              "url": "https://chessnaami.ir",
-              "telephone": "‪+98-21-12345678‬"
+              description:
+                "آموزش تخصصی شطرنج کودکان و نوجوانان. آموزش شطرنج سن 5 تا 99 سال",
+              url: "https://chessnaami.ir",
+              telephone: "‪+98-21-12345678‬",
             }),
           }}
         />
-
       </Head>
       <body className="select-none w-full">
         <SEO
@@ -96,6 +96,7 @@ export default function RootLayout({
           description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
           ogImage="https://raw.githubusercontent.com/ParsaProg/chess-naami-academy/refs/heads/main/app/favicon.ico"
         />
+
         <NavBar />
         <div className="h-[50px]"></div>
         {children}
