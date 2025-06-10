@@ -6,6 +6,7 @@ import Footer from "@/components/ui/Footer";
 import LetsSignUp from "@/components/ui/SignUp";
 import favicon from "./favicon.ico";
 import Head from "next/head";
+import NProgressProvider from "@/components/transition/NProgressProvider";
 
 export const metadata: Metadata = {
   title: "آکادمی شطرنج نعامی",
@@ -99,6 +100,7 @@ export default function RootLayout({
 
         <NavBar />
         <div className="h-[50px]"></div>
+        <NProgressProvider />
         {children}
         <LetsSignUp />
         <Footer />
