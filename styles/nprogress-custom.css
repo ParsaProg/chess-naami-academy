@@ -5,7 +5,7 @@
 #nprogress .bar {
   background: #F69B0D; /* Indigo 500 or change as needed */
   position: fixed;
-  z-index: 1031;
+  z-index: 99999;
   top: 0;
   left: 0;
   width: 100%;

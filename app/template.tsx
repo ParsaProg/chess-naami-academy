@@ -22,6 +22,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     setDisplayedChildren(children);
     setPrevPath(pathname);
     setIsAnimating(false);
+    return isAnimating;
   };
 
   return (
