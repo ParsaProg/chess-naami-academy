@@ -7,7 +7,6 @@
 
 <div align="center">
   <img src="https://placehold.co/1200x600/22272e/white?text=Chess+Naami+Academy" alt="Dashboard Preview" width="800"/>  
-  *Interactive Learning Dashboard (replace with actual screenshot)*
 </div>
 
 ---
