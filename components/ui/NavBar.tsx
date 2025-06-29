@@ -12,8 +12,18 @@ import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
+import Drawer from "./Drawer";
+import { useEffect, useState } from "react";
 
 export default function NavBar() {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  useEffect(() => {
+    setIsMobile(window?.innerWidth <= 1370 ? true : false);
+    window.addEventListener("resize", () => {
+      setIsMobile(window?.innerWidth <= 1370 ? true : false);
+    });
+  }, [isMobile, setIsMobile]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const pathName = usePathname();
   function foundRoute(route: string) {
     if (route === pathName) {
@@ -31,6 +41,10 @@ export default function NavBar() {
       }}
       className="fixed right-[0] top-0 w-full z-[9999] bg-[#ffffffb5] transition-all duration-200 border-b-[1px] border-b-slate-300 pt-3 mx-auto"
     >
+      <Drawer setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
+      {drawerOpen && isMobile && (
+        <div className="z-[99999] fixed top-0 right-[0] w-full h-screen bg-[#00000076]"></div>
+      )}
       <div className="main-container w-[95%] mx-auto flex items-center gap-x-[30px] h-[50px] mb-3 justify-between">
         <section className="flex items-center gap-x-5">
           <Link href={"/"}>
@@ -122,7 +136,10 @@ export default function NavBar() {
               ثبت‌نام
             </div>
           </Link>
-          <div className="cursor-pointer menu rounded-lg border-[1px] border-slate-300 p-3">
+          <div
+            onClick={() => setDrawerOpen(true)}
+            className="cursor-pointer menu rounded-lg border-[1px] border-slate-300 p-3"
+          >
             <FiMenu size={16} />
           </div>
         </section>

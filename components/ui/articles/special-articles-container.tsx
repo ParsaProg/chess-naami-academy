@@ -29,7 +29,7 @@ export default function SpecialArticleContainer({
   const [isLoad, setIsLoad] = useState<boolean>();
   return (
     <Link className="w-full" href={`/articles/${title}`}>
-      <div className="cursor-pointer relative w-full h-[600px] rounded-lg bg-white border-[1px] border-slate-200 container-counter">
+      <div className="cursor-pointer relative w-full h-auto rounded-lg bg-white border-[1px] border-slate-200 container-counter">
         <div className="rounded-tl-lg rounded-tr-lg absolute z-[50] bg-gradient-to-b from-[#3e3e3e24] to-[#5a5959b6] top-0 right-0 h-[500px] w-full"></div>
         <div className="flex flex-col items-start justify-between relative rounded-tl-lg rounded-tr-lg h-[500px] overflow-hidden">
           <Image
@@ -69,7 +69,7 @@ export default function SpecialArticleContainer({
         </div>
         <div className="m-5 z-[999]">
           <h1 className="font-[500] text-lg text-slate-900 z-[999]">{desc}</h1>
-          <section className="flex items-center justify-between mt-3">
+          <section className="flex flex-row [@media(max-width:940px)]:items-start gap-y-3 [@media(max-width:940px)]:flex-col items-center justify-between mt-3">
             <div className="flex items-center gap-x-5">
               <div className="flex gap-x-1 items-center">
                 <CiCalendar size={18} />

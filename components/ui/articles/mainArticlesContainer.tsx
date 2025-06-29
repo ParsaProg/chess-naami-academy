@@ -20,8 +20,8 @@ export default function MainArticlesContainer({
   const [isLoad, setIsLoad] = useState<boolean>(false);
   return (
     <Link className="w-full" href={`/articles/${titleText}`}>
-      <div className="h-[250px] rounded-lg hover:shadow-xl transition-all duration-200 hover:shadow-slate-200 w-full mt-8 border-[1px] border-slate-300 flex items-center gap-x-10">
-        <section className="overflow-hidden w-[300px] h-[250px] rounded-tl-lg rounded-tr-lg">
+      <div className="[@media(max-width:860px)]:pb-5 h-auto rounded-lg hover:shadow-xl transition-all duration-200 hover:shadow-slate-200 w-full mt-8 border-[1px] border-slate-300 flex [@media(max-width:860px)]:flex-col flex-row items-center gap-x-10">
+        <section className="overflow-hidden [@media(max-width:860px)]:w-full w-[300px] [@media(max-width:860px)]:h-[50vw] h-[250px] rounded-tl-lg rounded-tr-lg [@media(max-width:860px)]:mb-5">
           <Image
           width={800}
           height={800}
@@ -52,8 +52,8 @@ export default function MainArticlesContainer({
           </div>
           <h1 className="font-bold text-black text-xl mt-5">{titleText}</h1>
           <p className="font-[500] text-black text-lg mt-3">{desc}</p>
-          <div className="flex justify-between mt-5 w-[95%]">
-            <div className="flex items-center gap-x-3">
+          <div className="flex [@media(max-width:860px)]:flex-col flex-row justify-between mt-5 w-[95%]">
+            <div className="flex items-center gap-x-3 [@media(max-width:860px)]:mb-5">
               <div
                 style={{
                   backgroundImage: `url(${publisherImage})`,
@@ -65,7 +65,7 @@ export default function MainArticlesContainer({
               ></div>
               <h2 className="font-[500] text-black text-lg">{publisherName}</h2>
             </div>
-            <section className="flex items-center">
+            <section className="flex items-center ">
               <div className="flex items-center gap-x-5">
                 <div className="flex gap-x-1 items-center">
                   <CiCalendar size={18} />

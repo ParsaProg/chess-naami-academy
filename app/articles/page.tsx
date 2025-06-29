@@ -11,7 +11,7 @@ export default function ArticlesPage() {
     <div className="w-[85%] mt-[50px] mx-auto">
       <div className="special-container">
         <h1 className="flex font-bold text-3xl text-black">مقالات ویژه</h1>
-        <div className="w-full flex mt-8 gap-x-5">
+        <div className="w-full flex [@media(max-width:940px)]:flex-col gap-y-3 mt-8 gap-x-5">
           <SpecialArticleContainer
             imageTitle="https://images.squarespace-cdn.com/content/v1/653fb5d32fff802e836e2b03/1698826828450-M5MJEVGULQBV5W8LVGIH/boy-in-thinking-on-the-next-move-in-the-chess-game.jpg"
             title="آموزش کامل گشایش‌های شطرنج از مبتدی یا پیشرفته"
@@ -34,7 +34,7 @@ export default function ArticlesPage() {
           />
         </div>
       </div>
-      <section className="flex items-center justify-start gap-x-3 mt-[50px]">
+      <section className="overflow-x-scroll flex items-center justify-start gap-x-3 mt-[50px]">
         {ArticlesCategorysTitle.map((val, index) => (
           <div
             onClick={() => setSelectedCat(index)}
@@ -85,7 +85,6 @@ export default function ArticlesPage() {
           publisherName="احمد محمدی"
           desc="یادگیری اصول بنیادی گشایش‌های شطرنج و تکنیک‌های پیشرفته برای بهبود بازی"
         />
-        
       </div>
     </div>
   );
