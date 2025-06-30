@@ -1,8 +1,17 @@
 import TestimonialsSection from "@/components/ui/TestimonialsSection";
 
-export default function StudentComments() {
+interface CommentsComponent {
+  CommentsComponentRef?: React.RefObject<HTMLDivElement | null>;
+}
+
+export default function StudentComments({
+  CommentsComponentRef,
+}: CommentsComponent) {
   return (
-    <div className="py-12 md:py-[80px] text-white w-full mt-10 md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1A1B1D] to-[#2C3D4F]">
+    <div
+      ref={CommentsComponentRef}
+      className="comments-section py-12 md:py-[80px] text-white w-full mt-10 md:mt-[60px] lg:mt-[80px] mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1A1B1D] to-[#2C3D4F]"
+    >
       <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-center">
         نظرات <strong className="text-[#F39F08]">دانش آموزان</strong> ما
       </h1>

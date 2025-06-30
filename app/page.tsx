@@ -13,6 +13,18 @@ import { Suspense } from "react";
 export default function Home() {
   const whyUsComponentRef = useRef<HTMLDivElement>(null);
 
+  const CommentsComponentRef = useRef<HTMLDivElement>(null);
+  const CommentsComponentScroll = () => {
+    if (CommentsComponentRef.current) {
+      const elementPosition =
+        CommentsComponentRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - 100; // 50 پیکسل بالاتر
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
   const ContactUsComponentRef = useRef<HTMLDivElement>(null);
   const ContactUsComponentScroll = () => {
     if (ContactUsComponentRef.current) {
@@ -43,11 +55,21 @@ export default function Home() {
       <TopLandingSection
         ContactUsComponentScroll={ContactUsComponentScroll}
         whyUsComponentScroll={whyUsComponentScroll}
+        CommentsComponentScroll={CommentsComponentScroll}
       />
       <NaamiAbout />
       <LinksContainers />
       <WhyUs whyUsComponentRef={whyUsComponentRef} />
-      <StudentComments />
+      <Suspense
+        fallback={
+          <div className="text-center text-black font-bold">
+            در حال انتقال به تماس با ما
+          </div>
+        }
+      >
+        {" "}
+        <StudentComments CommentsComponentRef={CommentsComponentRef}/>
+      </Suspense>
       <Suspense
         fallback={
           <div className="text-center text-black font-bold">

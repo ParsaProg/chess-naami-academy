@@ -109,10 +109,18 @@ export default function Drawer({
                 مقالات
               </div>
             </Link>
-            <div className={`${navTextClass}`}>
-              <FaRegCommentDots size={20} />
-              نظرات
-            </div>
+            <Link
+              onClick={() => {
+                setDrawerOpen(false);
+              }}
+              href={"/?comments=true"}
+            >
+              <div className={`${navTextClass}`}>
+                <FaRegCommentDots size={20} />
+                نظرات
+              </div>
+            </Link>
+
             <Link
               onClick={() => {
                 setDrawerOpen(false);

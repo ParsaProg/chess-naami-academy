@@ -7,6 +7,7 @@ import AutoSlideShow from "@/components/ui/slideShowImage";
 interface ScrollFunctions {
   ContactUsComponentScroll?: () => void;
   whyUsComponentScroll?: () => void;
+  CommentsComponentScroll: () => void;
 }
 export default function TopLandingSection({
   whyUsComponentScroll,

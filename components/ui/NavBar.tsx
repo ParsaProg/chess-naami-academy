@@ -92,14 +92,16 @@ export default function NavBar() {
                 مقالات
               </div>
             </Link>
-            <div
-              className={`${navTextClass} ${
-                foundRoute("/comments") ? "text-black" : "text-gray-700"
-              }`}
-            >
-              <FaRegCommentDots size={16} />
-              نظرات
-            </div>
+            <Link href={"/?comments=true"}>
+              <div
+                className={`${navTextClass} ${
+                  foundRoute("/comments") ? "text-black" : "text-gray-700"
+                }`}
+              >
+                <FaRegCommentDots size={16} />
+                نظرات
+              </div>
+            </Link>
             <Link href={"/?contact-us=true"}>
               <div
                 className={`${navTextClass} ${
