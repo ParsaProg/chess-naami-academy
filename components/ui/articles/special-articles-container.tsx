@@ -16,6 +16,7 @@ export default function SpecialArticleContainer({
   time,
   views,
   likes,
+  isSpecial,
 }: {
   imageTitle: string;
   title: string;
@@ -25,6 +26,7 @@ export default function SpecialArticleContainer({
   time: string;
   views: string;
   likes: string;
+  isSpecial?: boolean;
 }) {
   const [isLoad, setIsLoad] = useState<boolean>();
   return (
@@ -48,9 +50,13 @@ export default function SpecialArticleContainer({
           }
         `}
           />
-          <div className="z-[99] m-5 flex flex-col w-auto items-start rounded-full text-white bg-orange-600 font-bold py-2 px-5 right-5 top-5">
-            ویژه
-          </div>
+          {isSpecial ? (
+            <div className="z-[99] m-5 flex flex-col w-auto items-start rounded-full text-white bg-orange-600 font-bold py-2 px-5 right-5 top-5">
+              ویژه
+            </div>
+          ) : (
+            <div></div>
+          )}
           <section className="m-5 flex flex-col gap-y-3 z-[99]">
             <section className="flex items-center gap-x-3">
               {cats.map((val, _i) => {

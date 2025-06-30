@@ -7,8 +7,6 @@ import LetsSignUp from "@/components/ui/SignUp";
 import favicon from "./favicon.ico";
 import Head from "next/head";
 import NProgressProvider from "@/components/transition/NProgressProvider";
-import Drawer from "@/components/ui/Drawer";
-import { useState } from "react";
 
 export const metadata: Metadata = {
   title: "آکادمی شطرنج نعامی",
