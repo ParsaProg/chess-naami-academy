@@ -59,7 +59,7 @@ export default function MainArticlesDetailsPage() {
           </div>
           <div className="flex items-center gap-x-5">
             <div className="flex gap-x-1 items-center">
-              <LuEye size={18} />
+              <LuEye size={18} /> 
               {"1054"}
             </div>
             <div className="flex gap-x-1 items-center">
