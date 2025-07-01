@@ -13,6 +13,7 @@
     "clsx": "^2.1.1",
     "emailjs-com": "^3.2.0",
     "framer-motion": "^12.12.1",
+    "mongoose": "^8.16.1",
     "motion": "^12.12.1",
     "next": "^15.3.2",
     "nprogress": "^0.2.0",
