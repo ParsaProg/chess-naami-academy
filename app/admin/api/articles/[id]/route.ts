@@ -6,14 +6,14 @@ import { checkAuth } from "@/lib/auth";
 // GET: دریافت یک مقاله خاص
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse> {
+  context: { params: { id: string } }
+) {
   const authError = await checkAuth(req);
   if (authError) return authError;
 
   try {
     await connectToDatabase();
-    const article = await Article.findById(params.id);
+    const article = await Article.findById(context.params.id);
     if (!article) {
       return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
@@ -30,15 +30,15 @@ export async function GET(
 // PUT: ویرایش مقاله
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse> {
+  context: { params: { id: string } }
+) {
   const authError = await checkAuth(req);
   if (authError) return authError;
 
   try {
     await connectToDatabase();
     const data = await req.json();
-    const updated = await Article.findByIdAndUpdate(params.id, data, {
+    const updated = await Article.findByIdAndUpdate(context.params.id, data, {
       new: true,
     });
     if (!updated) {
@@ -57,14 +57,14 @@ export async function PUT(
 // DELETE: حذف مقاله
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse> {
+  context: { params: { id: string } }
+) {
   const authError = await checkAuth(req);
   if (authError) return authError;
 
   try {
     await connectToDatabase();
-    const deleted = await Article.findByIdAndDelete(params.id);
+    const deleted = await Article.findByIdAndDelete(context.params.id);
     if (!deleted) {
       return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
