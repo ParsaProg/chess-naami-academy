@@ -1,12 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import SpecialArticleContainer from "@/components/ui/articles/special-articles-container";
 import "../../../styles/loaderSpinner.css";
 import { LuHeart } from "react-icons/lu";
-import { FaRegComments } from "react-icons/fa";
+import { FaRegComments, FaUser } from "react-icons/fa";
 import { IoShareSocialOutline } from "react-icons/io5";
-import { FaUser } from "react-icons/fa";
-import { useEffect, useState } from "react";
 
 interface Article {
   _id: string;
@@ -29,15 +28,13 @@ interface Article {
 }
 
 export default function MainArticlesDetailsPage() {
-  let pathParts = null;
-  let id = "";
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [article, setArticle] = useState<Article>();
 
-  // when the page loads, fetch the articl data
   useEffect(() => {
-    pathParts = window.location.pathname.split("/");
-    id = decodeURIComponent(pathParts[pathParts.length - 1]);
+    const pathParts = window.location.pathname.split("/");
+    const id = decodeURIComponent(pathParts[pathParts.length - 1]);
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -47,18 +44,37 @@ export default function MainArticlesDetailsPage() {
           },
         });
         if (!response.ok) throw new Error("Unauthorized or server error");
+
         const data = await response.json();
-        const mainArticle = data.filter((article: Article) => article.title === id);
-        setArticle(mainArticle[0]);
+        const mainArticle = data.find((article: Article) => article.title === id);
+        setArticle(mainArticle);
       } catch (error) {
         console.error("Error fetching article data:", error);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchData();
   }, []);
-  return !isLoading && article ? (
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full mx-auto">
+        <span className="loader mt-[50px] mx-auto"></span>
+      </div>
+    );
+  }
+
+  if (!article) {
+    return (
+      <h1 className="text-black mt-[50px] w-full text-center font-bold text-3xl">
+        مقاله‌ای با این نام یافت نشد
+      </h1>
+    );
+  }
+
+  return (
     <div className="flex flex-col items-start w-[90%] mx-auto">
       <div className="mt-10 w-full">
         <SpecialArticleContainer
@@ -73,82 +89,66 @@ export default function MainArticlesDetailsPage() {
           isSpecial={article.isSpecial}
         />
       </div>
-      <div className="flex [@media(max-width:940px)]:flex-col [@media(max-width:940px)]:gap-y-5 [@media(max-width:940px)]:items-start items-center justify-between mt-8 w-full rounded-lg shadow-xl border-[1px] border-slate-300 p-[20px]">
+
+      <div className="flex flex-col sm:flex-row items-center justify-between mt-8 w-full rounded-lg shadow-xl border border-slate-300 p-5 gap-5 sm:gap-0">
         <section className="flex flex-row items-center gap-x-2">
           <div
             style={{
               backgroundImage: `url(${article.publisherImage})`,
               backgroundSize: "cover",
-              backgroundPosition: "cenetr",
+              backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
-            className="rounded-full border-[1px] border-slate-400 w-14 h-14 "
+            className="rounded-full border border-slate-400 w-14 h-14"
           ></div>
           <div className="flex flex-col">
-            <span className="text-lg font-[600] text-slate-900">
+            <span className="text-lg font-semibold text-slate-900">
               {article.publisherName}
             </span>
-            <span className="text-md text-slate-600">
-              {article.publisherTag}
-            </span>
+            <span className="text-md text-slate-600">{article.publisherTag}</span>
           </div>
         </section>
       </div>
-      <div className="items-start mt-8 w-full rounded-lg shadow-xl border-[1px] border-slate-300 p-[20px]">
-        <p className="text-justify text-lg leading-[40px]">{article.desc}</p>
-        <div className="mt-5 border-r-4 border-r-[#FBBF24] rounded-lg bg-[#FFFBEB] px-8 py-[50px]">
+
+      <div className="items-start mt-8 w-full rounded-lg shadow-xl border border-slate-300 p-5">
+        <p className="text-justify text-lg leading-10">{article.desc}</p>
+        <div className="mt-5 border-r-4 border-amber-400 rounded-lg bg-amber-50 px-8 py-12">
           <h1 className="font-bold text-xl text-amber-950">نکته مهم:</h1>
-          <h5 className="font-[400] text-amber-700 mt-3">
+          <h5 className="font-normal text-amber-700 mt-3">
             {article.importantText}
           </h5>
         </div>
       </div>
-      <div className="[@media(max-width:792px)]:justify-center text-center flex items-center gap-5 mt-8 w-full rounded-lg shadow-xl border-[1px] border-slate-300 p-[20px] justify-between">
-        <section className="flex items-center gap-x-5 [@media(max-width:792px)]:hidden">
-          <button className="justify-center hover:bg-slate-100 transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
-            <LuHeart size={20} />
-            پسندیدن (153)
-          </button>
-          <button className="justify-center hover:bg-slate-100 transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
-            <FaRegComments size={20} />
-            نظرات (50)
-          </button>
-          <button className="justify-center hover:bg-slate-100 transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
-            <IoShareSocialOutline size={20} />
-            اشتراک گذاری
-          </button>
+
+      <div className="flex flex-col md:flex-row items-center gap-5 mt-8 w-full rounded-lg shadow-xl border border-slate-300 p-5 justify-between text-center">
+        <section className="hidden md:flex items-center gap-x-5">
+          <ActionButton icon={<LuHeart size={20} />} text="پسندیدن (153)" />
+          <ActionButton icon={<FaRegComments size={20} />} text="نظرات (50)" />
+          <ActionButton icon={<IoShareSocialOutline size={20} />} text="اشتراک گذاری" />
         </section>
-        <button className="[@media(max-width:792px)]:hidden justify-center hover:bg-white hover:text-black text-white bg-black transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
+
+        <button className="hidden md:flex items-center gap-x-2 text-white bg-black hover:bg-white hover:text-black transition-colors duration-150 rounded-lg border border-slate-300 p-3">
           <FaUser size={20} />
           دنبال کردن نویسنده
         </button>
-        <section className="w-full m-auto justify-center grid grid-cols-2 gap-5 items-center gap-x-5 [@media(min-width:792px)]:hidden">
-          <button className="justify-center hover:bg-slate-100 transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
-            <LuHeart size={20} />
-            پسندیدن (153)
-          </button>
-          <button className="justify-center hover:bg-slate-100 transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
-            <FaRegComments size={20} />
-            نظرات (50)
-          </button>
-          <button className="justify-center hover:bg-slate-100 transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
-            <IoShareSocialOutline size={20} />
-            اشتراک گذاری
-          </button>
-          <button className="justify-center hover:bg-white hover:text-black text-white bg-black transition-colors duration-150 cursor-pointer rounded-lg border-[1px] border-slate-300 p-3 flex items-center gap-x-2">
+
+        <section className="grid grid-cols-2 gap-5 md:hidden w-full">
+          <ActionButton icon={<LuHeart size={20} />} text="پسندیدن (153)" />
+          <ActionButton icon={<FaRegComments size={20} />} text="نظرات (50)" />
+          <ActionButton icon={<IoShareSocialOutline size={20} />} text="اشتراک گذاری" />
+          <button className="flex items-center justify-center gap-x-2 text-white bg-black hover:bg-white hover:text-black transition-colors duration-150 rounded-lg border border-slate-300 p-3">
             <FaUser size={20} />
             دنبال کردن نویسنده
           </button>
         </section>
       </div>
     </div>
-  ) : !isLoading ? (
-    <h1 className="text-black mt-[50px] w-full text-center font-bold text-3xl ">
-      مقاله‌ای با این نام یافت نشد
-    </h1>
-  ) : (
-    <div className="flex items-center justify-center w-[100%] mx-auto">
-      <span className="loader mt-[50px] mx-auto"></span>
-    </div>
   );
 }
+
+const ActionButton = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
+  <button className="flex items-center gap-x-2 justify-center hover:bg-slate-100 transition-colors duration-150 rounded-lg border border-slate-300 p-3 cursor-pointer">
+    {icon}
+    {text}
+  </button>
+);
