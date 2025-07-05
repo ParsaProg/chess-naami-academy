@@ -3,16 +3,10 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Article from "@/models/Article";
 import { checkAuth } from "@/lib/auth";
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
 // GET: دریافت یک مقاله خاص
 export async function GET(
   req: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { id: string } }
 ): Promise<NextResponse> {
   const authError = await checkAuth(req);
   if (authError) return authError;
@@ -36,7 +30,7 @@ export async function GET(
 // PUT: ویرایش مقاله
 export async function PUT(
   req: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { id: string } }
 ): Promise<NextResponse> {
   const authError = await checkAuth(req);
   if (authError) return authError;
@@ -63,7 +57,7 @@ export async function PUT(
 // DELETE: حذف مقاله
 export async function DELETE(
   req: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { id: string } }
 ): Promise<NextResponse> {
   const authError = await checkAuth(req);
   if (authError) return authError;
