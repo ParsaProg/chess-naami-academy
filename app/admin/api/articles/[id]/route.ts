@@ -4,47 +4,80 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Article from "@/models/Article";
 import { checkAuth } from "@/lib/auth";
 
+interface RouteParams {
+  params: {
+    id: string;
+  };
+}
+
 // GET: دریافت یک مقاله خاص
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const authError = checkAuth(req);
+  { params }: RouteParams
+): Promise<NextResponse> {
+  const authError = await checkAuth(req);
   if (authError) return authError;
-  await connectToDatabase();
-  const article = await Article.findById(params.id);
-  if (!article)
-    return NextResponse.json({ message: "Not found" }, { status: 404 });
-  return NextResponse.json(article);
+  
+  try {
+    await connectToDatabase();
+    const article = await Article.findById(params.id);
+    if (!article) {
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    }
+    return NextResponse.json(article);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 // PUT: ویرایش مقاله
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const authError = checkAuth(req);
+  { params }: RouteParams
+): Promise<NextResponse> {
+  const authError = await checkAuth(req);
   if (authError) return authError;
-  await connectToDatabase();
-  const data = await req.json();
-  const updated = await Article.findByIdAndUpdate(params.id, data, {
-    new: true,
-  });
-  if (!updated)
-    return NextResponse.json({ message: "Not found" }, { status: 404 });
-  return NextResponse.json(updated);
+  
+  try {
+    await connectToDatabase();
+    const data = await req.json();
+    const updated = await Article.findByIdAndUpdate(params.id, data, {
+      new: true,
+    });
+    if (!updated) {
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    }
+    return NextResponse.json(updated);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 // DELETE: حذف مقاله
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const authError = checkAuth(req);
+  { params }: RouteParams
+): Promise<NextResponse> {
+  const authError = await checkAuth(req);
   if (authError) return authError;
-  await connectToDatabase();
-  const deleted = await Article.findByIdAndDelete(params.id);
-  if (!deleted)
-    return NextResponse.json({ message: "Not found" }, { status: 404 });
-  return NextResponse.json({ message: "Deleted successfully" });
+  
+  try {
+    await connectToDatabase();
+    const deleted = await Article.findByIdAndDelete(params.id);
+    if (!deleted) {
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    }
+    return NextResponse.json({ message: "Deleted successfully" });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
