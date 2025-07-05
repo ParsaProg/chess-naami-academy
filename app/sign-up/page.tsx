@@ -60,6 +60,9 @@ export default function SignUp() {
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
+            customClass: {
+              container: "!z-[9999999999999]"
+            }
           });
           setIsLoading(false);
         },

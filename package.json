@@ -12,9 +12,11 @@
     "@types/nprogress": "^0.2.3",
     "clsx": "^2.1.1",
     "emailjs-com": "^3.2.0",
+    "formik": "^2.4.6",
     "framer-motion": "^12.12.1",
     "mongoose": "^8.16.1",
     "motion": "^12.12.1",
+    "multer": "^2.0.1",
     "next": "^15.3.2",
     "nprogress": "^0.2.0",
     "react": "^19.0.0",
@@ -22,9 +24,11 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
+    "sharp": "^0.34.2",
     "sweetalert2": "^11.22.0",
     "swiper": "^11.2.7",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
