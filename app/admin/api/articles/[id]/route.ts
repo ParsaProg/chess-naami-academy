@@ -1,4 +1,3 @@
-// app/admin/api/articles/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Article from "@/models/Article";
@@ -17,7 +16,7 @@ export async function GET(
 ): Promise<NextResponse> {
   const authError = await checkAuth(req);
   if (authError) return authError;
-  
+
   try {
     await connectToDatabase();
     const article = await Article.findById(params.id);
@@ -26,6 +25,7 @@ export async function GET(
     }
     return NextResponse.json(article);
   } catch (error) {
+    console.error("GET Article Error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -40,7 +40,7 @@ export async function PUT(
 ): Promise<NextResponse> {
   const authError = await checkAuth(req);
   if (authError) return authError;
-  
+
   try {
     await connectToDatabase();
     const data = await req.json();
@@ -52,6 +52,7 @@ export async function PUT(
     }
     return NextResponse.json(updated);
   } catch (error) {
+    console.error("PUT Article Error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -66,7 +67,7 @@ export async function DELETE(
 ): Promise<NextResponse> {
   const authError = await checkAuth(req);
   if (authError) return authError;
-  
+
   try {
     await connectToDatabase();
     const deleted = await Article.findByIdAndDelete(params.id);
@@ -75,6 +76,7 @@ export async function DELETE(
     }
     return NextResponse.json({ message: "Deleted successfully" });
   } catch (error) {
+    console.error("DELETE Article Error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
