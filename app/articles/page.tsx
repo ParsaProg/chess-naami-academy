@@ -50,7 +50,7 @@ export default function ArticlesPage() {
     fetchArticles();
   }, []);
   return (
-    <div className="w-[85%] mt-[50px] mx-auto">
+    !loading? <div className="w-[85%] mt-[50px] mx-auto">
       <div className="special-container">
         <h1 className="flex font-bold text-3xl text-black">مقالات ویژه</h1>
         <div className="w-full flex [@media(max-width:940px)]:flex-col gap-y-3 mt-8 gap-x-5">
@@ -93,7 +93,7 @@ export default function ArticlesPage() {
         <h3 className="font-[500] text-black text-lg">6 مقاله</h3>
       </section>
       <div className="flex flex-col items-start w-full">
-        {articles.map((article, _index) => (
+        {articles.map((article) => (
           <MainArticlesContainer
             key={article._id}
             cats={article.cats}
@@ -108,6 +108,6 @@ export default function ArticlesPage() {
           />
         ))}
       </div>
-    </div>
+    </div>: <div></div>
   );
 }

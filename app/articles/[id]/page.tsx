@@ -3,17 +3,36 @@
 import SpecialArticleContainer from "@/components/ui/articles/special-articles-container";
 import "../../../styles/loaderSpinner.css";
 import { LuHeart } from "react-icons/lu";
-import { TiStopwatch } from "react-icons/ti";
 import { FaRegComments } from "react-icons/fa";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
+interface Article {
+  _id: string;
+  title: string;
+  content: string;
+  cats: string[];
+  titleImage: string;
+  views: string;
+  likes: string;
+  importantText: string;
+  desc: string;
+  time: string;
+  publishDate: string;
+  publisherName: string;
+  publisherImage: string;
+  publisherTag: string;
+  comments: string;
+  createdAt: string;
+  isSpecial: boolean;
+}
+
 export default function MainArticlesDetailsPage() {
   let pathParts = null;
   let id = "";
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [article, setArticle] = useState<any>([]);
+  const [article, setArticle] = useState<Article>();
 
   // when the page loads, fetch the articl data
   useEffect(() => {
@@ -29,7 +48,7 @@ export default function MainArticlesDetailsPage() {
         });
         if (!response.ok) throw new Error("Unauthorized or server error");
         const data = await response.json();
-        const mainArticle = data.filter((article: any) => article.title === id);
+        const mainArticle = data.filter((article: Article) => article.title === id);
         setArticle(mainArticle[0]);
       } catch (error) {
         console.error("Error fetching article data:", error);
@@ -124,7 +143,9 @@ export default function MainArticlesDetailsPage() {
       </div>
     </div>
   ) : !isLoading ? (
-    <h1 className="text-black mt-[50px] w-full text-center font-bold text-3xl ">مقاله‌ای با این نام یافت نشد</h1>
+    <h1 className="text-black mt-[50px] w-full text-center font-bold text-3xl ">
+      مقاله‌ای با این نام یافت نشد
+    </h1>
   ) : (
     <div className="flex items-center justify-center w-[100%] mx-auto">
       <span className="loader mt-[50px] mx-auto"></span>
