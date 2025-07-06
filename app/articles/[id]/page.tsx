@@ -81,7 +81,7 @@ export default function MainArticlesDetailsPage() {
           imageTitle={article.titleImage}
           title={article.title}
           cats={article.cats}
-          desc={article.content}
+          desc={article.desc}
           publishDate={article.publishDate}
           time={article.time}
           views={article.views}
@@ -111,7 +111,7 @@ export default function MainArticlesDetailsPage() {
       </div>
 
       <div className="items-start mt-8 w-full rounded-lg shadow-xl border border-slate-300 p-5">
-        <p className="text-justify text-lg leading-10">{article.desc}</p>
+        <p className="text-justify text-lg leading-10">{article.content}</p>
         <div className="mt-5 border-r-4 border-amber-400 rounded-lg bg-amber-50 px-8 py-12">
           <h1 className="font-bold text-xl text-amber-950">نکته مهم:</h1>
           <h5 className="font-normal text-amber-700 mt-3">
@@ -121,8 +121,8 @@ export default function MainArticlesDetailsPage() {
       </div>
 
       <div className="flex flex-col md:flex-row items-center gap-5 mt-8 w-full rounded-lg shadow-xl border border-slate-300 p-5 justify-between text-center">
-        <section className="hidden md:flex items-center gap-x-5">
-          <ActionButton icon={<LuHeart size={20} />} text="پسندیدن (153)" />
+        <section className="hidden md:flex items-center gap-x-2">
+          <ActionButton icon={<LuHeart size={20} />} text="پسندیدن ()" />
           <ActionButton icon={<FaRegComments size={20} />} text="نظرات (50)" />
           <ActionButton icon={<IoShareSocialOutline size={20} />} text="اشتراک گذاری" />
         </section>
@@ -132,13 +132,13 @@ export default function MainArticlesDetailsPage() {
           دنبال کردن نویسنده
         </button>
 
-        <section className="grid grid-cols-2 gap-5 md:hidden w-full">
+        <section className="grid grid-cols-2 gap-2 md:hidden w-full">
           <ActionButton icon={<LuHeart size={20} />} text="پسندیدن (153)" />
           <ActionButton icon={<FaRegComments size={20} />} text="نظرات (50)" />
           <ActionButton icon={<IoShareSocialOutline size={20} />} text="اشتراک گذاری" />
-          <button className="flex items-center justify-center gap-x-2 text-white bg-black hover:bg-white hover:text-black transition-colors duration-150 rounded-lg border border-slate-300 p-3">
+          <button className="flex items-center justify-center gap-x-2 text-white bg-black hover:bg-white hover:text-black transition-colors duration-150 rounded-lg border border-slate-300 p-3 text-sm">
             <FaUser size={20} />
-            دنبال کردن نویسنده
+            دنبال کردن 
           </button>
         </section>
       </div>
@@ -147,7 +147,7 @@ export default function MainArticlesDetailsPage() {
 }
 
 const ActionButton = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
-  <button className="flex items-center gap-x-2 justify-center hover:bg-slate-100 transition-colors duration-150 rounded-lg border border-slate-300 p-3 cursor-pointer">
+  <button className="flex items-center gap-x-2 justify-center hover:bg-slate-100 transition-colors duration-150 rounded-lg border border-slate-300 p-3 cursor-pointer text-sm">
     {icon}
     {text}
   </button>

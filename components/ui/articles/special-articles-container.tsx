@@ -58,7 +58,7 @@ export default function SpecialArticleContainer({
             <div></div>
           )}
           <section className="m-5 flex flex-col gap-y-3 z-[99]">
-            <section className="flex items-center gap-x-3">
+            <section className="flex items-center gap-3 flex-wrap">
               {cats.map((val, _i) => {
                 return (
                   <div
