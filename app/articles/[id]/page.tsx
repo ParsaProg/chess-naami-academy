@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import SpecialArticleContainer from "@/components/ui/articles/special-articles-container";
 import "../../../styles/loaderSpinner.css";
-import { LuHeart } from "react-icons/lu";
-import { FaRegComments, FaUser } from "react-icons/fa";
-import { IoShareSocialOutline } from "react-icons/io5";
 
 interface Article {
   _id: string;
