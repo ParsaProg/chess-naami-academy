@@ -46,7 +46,9 @@ export default function MainArticlesDetailsPage() {
         if (!response.ok) throw new Error("Unauthorized or server error");
 
         const data = await response.json();
-        const mainArticle = data.find((article: Article) => article.title === id);
+        const mainArticle = data.find(
+          (article: Article) => article.title === id
+        );
         setArticle(mainArticle);
       } catch (error) {
         console.error("Error fetching article data:", error);
@@ -105,7 +107,9 @@ export default function MainArticlesDetailsPage() {
             <span className="text-lg font-semibold text-slate-900">
               {article.publisherName}
             </span>
-            <span className="text-md text-slate-600">{article.publisherTag}</span>
+            <span className="text-md text-slate-600">
+              {article.publisherTag}
+            </span>
           </div>
         </section>
       </div>
@@ -119,36 +123,6 @@ export default function MainArticlesDetailsPage() {
           </h5>
         </div>
       </div>
-
-      <div className="flex flex-col md:flex-row items-center gap-5 mt-8 w-full rounded-lg shadow-xl border border-slate-300 p-5 justify-between text-center">
-        <section className="hidden md:flex items-center gap-x-2">
-          <ActionButton icon={<LuHeart size={20} />} text="پسندیدن ()" />
-          <ActionButton icon={<FaRegComments size={20} />} text="نظرات (50)" />
-          <ActionButton icon={<IoShareSocialOutline size={20} />} text="اشتراک گذاری" />
-        </section>
-
-        <button className="hidden md:flex items-center gap-x-2 text-white bg-black hover:bg-white hover:text-black transition-colors duration-150 rounded-lg border border-slate-300 p-3">
-          <FaUser size={20} />
-          دنبال کردن نویسنده
-        </button>
-
-        <section className="grid grid-cols-2 gap-2 md:hidden w-full">
-          <ActionButton icon={<LuHeart size={20} />} text="پسندیدن (153)" />
-          <ActionButton icon={<FaRegComments size={20} />} text="نظرات (50)" />
-          <ActionButton icon={<IoShareSocialOutline size={20} />} text="اشتراک گذاری" />
-          <button className="flex items-center justify-center gap-x-2 text-white bg-black hover:bg-white hover:text-black transition-colors duration-150 rounded-lg border border-slate-300 p-3 text-sm">
-            <FaUser size={20} />
-            دنبال کردن 
-          </button>
-        </section>
-      </div>
     </div>
   );
 }
-
-const ActionButton = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
-  <button className="flex items-center gap-x-2 justify-center hover:bg-slate-100 transition-colors duration-150 rounded-lg border border-slate-300 p-3 cursor-pointer text-sm">
-    {icon}
-    {text}
-  </button>
-);
