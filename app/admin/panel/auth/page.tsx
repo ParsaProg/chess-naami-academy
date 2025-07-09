@@ -23,8 +23,8 @@ export default function AdminPanelLogin() {
     setError("");
 
     if (
-      values.username === process.env.ADMIN_USERNAME &&
-      values.password === process.env.ADMIN_PASSWORD
+      values.username === process.env.NEXT_PUBLIC_ADMIN_USERNAME &&
+      values.password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD
     ) {
       
       router.push("/admin/panel");
