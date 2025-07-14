@@ -1,0 +1,15 @@
+.live-in{
+    font-size: 15px;
+    animation: toggle infinite 2s alternate;
+}
+
+@keyframes toggle{
+    from{
+        color: rgb(63, 62, 62);
+        background-color: rgba(255, 0, 0, 0.13);
+    }
+    to{
+        color: white;
+        background-color: rgba(255, 0, 0, 0.744);
+    }
+}

@@ -10,10 +10,12 @@ import { FaChessKnight } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
 import Drawer from "./Drawer";
 import { useEffect, useState } from "react";
+import { MdCastForEducation } from "react-icons/md";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function NavBar() {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -23,6 +25,7 @@ export default function NavBar() {
       setIsMobile(window?.innerWidth <= 1370 ? true : false);
     });
   }, [isMobile, setIsMobile]);
+  const router = useRouter();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathName = usePathname();
   function foundRoute(route: string) {
@@ -32,6 +35,7 @@ export default function NavBar() {
       return false;
     }
   }
+  const [isHoverMenuShow, setIsHoverMenuShow] = useState<boolean>(false);
   const navTextClass =
     "hover:text-black font-bold text-lg cursor-pointer rounded-md gap-x-1 flex items-center transition-all duration-200 px-3 py-2 font-medium";
   return (
@@ -92,16 +96,19 @@ export default function NavBar() {
                 مقالات
               </div>
             </Link>
-            <Link href={"/?comments=true"}>
-              <div
-                className={`${navTextClass} ${
-                  foundRoute("/comments") ? "text-black" : "text-gray-700"
-                }`}
-              >
-                <FaRegCommentDots size={16} />
-                نظرات
-              </div>
-            </Link>
+
+            <div onMouseEnter={() => setIsHoverMenuShow(true)} onMouseLeave={() => setIsHoverMenuShow(false)} className={`${navTextClass} text-gray-700 relative`}>
+              <MdCastForEducation size={16} />
+              آموزش‌ها
+              <AnimatePresence>
+                {isHoverMenuShow && (
+                  <motion.div initial={{opacity: 0, top: "30px"}} animate={{opacity: 1, top: "40px"}} exit={{opacity: 0, top: "30px"}} transition={{duration: 0.1}} className="absolute top-[40px] p-1 w-[170px] text-center text-md flex flex-col right-0 bg-white shadow-lg border-[1px] border-slate-200 rounded-lg">
+                    <h1 onClick={() => router.push("/online-touroments")} className="p-2 rounded-lg transition-colors hover:bg-slate-200">مسابقات آنلاین</h1>
+                    <h1 onClick={() => router.push("/educations")} className="p-2 rounded-lg transition-colors hover:bg-slate-200">پازل‌ها و مطالب</h1>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             <Link href={"/?contact-us=true"}>
               <div
                 className={`${navTextClass} ${

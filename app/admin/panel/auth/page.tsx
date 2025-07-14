@@ -1,5 +1,6 @@
 "use client";
 
+import { NextResponse } from "next/server";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
@@ -26,7 +27,9 @@ export default function AdminPanelLogin() {
       values.username === process.env.NEXT_PUBLIC_ADMIN_USERNAME &&
       values.password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD
     ) {
-      
+      document.cookie = `admin_token=${
+        process.env.NEXT_PUBLIC_ADMIN_PANEL_AUTH_TOKEN
+      }; max-age=${60 * 60 * 24 * 7}; path=/; secure; sameSite=strict`;
       router.push("/admin/panel");
     } else {
       setIsLoading(false);

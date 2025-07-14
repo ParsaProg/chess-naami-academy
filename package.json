@@ -14,6 +14,7 @@
     "emailjs-com": "^3.2.0",
     "formik": "^2.4.6",
     "framer-motion": "^12.12.1",
+    "js-cookie": "^3.0.5",
     "mongoose": "^8.16.1",
     "motion": "^12.12.1",
     "multer": "^2.0.1",
