@@ -8,6 +8,8 @@ import Link from "next/link";
 import { GrArticle, GrContactInfo } from "react-icons/gr";
 import { CiShoppingBasket } from "react-icons/ci";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { TfiCup } from "react-icons/tfi";
 
 export default function Drawer({
   setDrawerOpen,
@@ -107,6 +109,28 @@ export default function Drawer({
               <div className={`${navTextClass}`}>
                 <GrArticle size={20} />
                 مقالات
+              </div>
+            </Link>
+            <Link
+              onClick={() => {
+                setDrawerOpen(false);
+              }}
+              href={"/educations"}
+            >
+              <div className={`${navTextClass}`}>
+                <IoDocumentTextOutline size={20} />
+                پازل‌ها و مطالب
+              </div>
+            </Link>
+            <Link
+              onClick={() => {
+                setDrawerOpen(false);
+              }}
+              href={"/online-touroments"}
+            >
+              <div className={`${navTextClass}`}>
+                <TfiCup size={20} />
+                مسابقات آنلاین
               </div>
             </Link>
             <Link

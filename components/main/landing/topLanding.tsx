@@ -47,7 +47,7 @@ export default function TopLandingSection({
       </div>
 
       {/* Stats section - responsive grid */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 lg:gap-[50px] mt-[10px] md:mt-[50px] px-4 lg:px-0">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 lg:gap-[50px] mt-[30px] md:mt-[50px] px-4 lg:px-0">
         <div className=" container-counter text-center bg-white rounded-xl p-3 ">
           <h1 className="text-[#ea7908] font-bold text-2xl md:text-3xl">
             <PersianCountUp num={12} duration={2} />+
