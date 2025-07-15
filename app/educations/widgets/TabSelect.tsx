@@ -13,7 +13,7 @@ export default function TabSelect({
   setSelectedTapIndex,
 }: TabSelectType) {
   return (
-    <div className="w-full flex shadow-lg bg-slate-100 items-center justify-between rounded-lg p-2 font-bold text-black text-xl gap-x-5 text-center">
+    <div className=" flex flex-row [@media(max-width:730px)]:flex-col w-full shadow-lg bg-slate-100 items-center justify-between rounded-lg p-2 font-bold text-black text-xl gap-x-5 text-center">
       <div
         onClick={() => {
           setSelectedTapIndex(0);

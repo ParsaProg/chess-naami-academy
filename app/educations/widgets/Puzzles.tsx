@@ -1,3 +1,3 @@
 export default function Puzzles(){
-    return <div></div>
+    return <div className="w-full mt-8"></div>
 }
