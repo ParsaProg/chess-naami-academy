@@ -5,7 +5,10 @@ import { FiHeart } from "react-icons/fi";
 
 export default function Videos() {
   return (
-    <div className="w-full mt-8">
+    <div
+      
+      className="w-full mt-8"
+    >
       <h1 className="font-bold text-black text-2xl">ویدیو‌های آموزشی</h1>
       <h3 className="mt-2 text-slate-600 text-lg font-[400]">
         آموزش‌های تصویری از اساتید برجسته شطرنج
@@ -45,13 +48,13 @@ function VideoContainer() {
           <p className="font-[400]">مدرس: استاد نعامی</p>
         </div>
         <div className="w-[100%] mt-2 flex items-center gap-x-3">
-          <button className="gap-x-2 cursor-pointer w-[100%] py-3 text-white bg-slate-950 rounded-lg flex items-center justify-center">
+          <button className="transition-colors duration-100 hover:bg-slate-800 gap-x-2 cursor-pointer w-[100%] py-3 text-white bg-slate-950 rounded-lg flex items-center justify-center">
             <IoPlayOutline size={20} />
             مشاهدۀ ویدیو
           </button>
-          <div className="p-3 rounded-lg border-[1px] border-slate-200 text-center text-black">
+          <button className="cursor-pointer transition-colors duration-100 hover:bg-slate-200 p-3 rounded-lg border-[1px] border-slate-200 text-center text-black">
             <FiHeart size={20} />
-          </div>
+          </button>
         </div>
       </div>
     </div>
