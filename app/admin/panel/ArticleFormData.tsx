@@ -1,4 +1,4 @@
-// components/ArticleUploadForm.tsx
+// components/ArticleFormData.tsx
 "use client";
 
 import { useState, useRef, ChangeEvent } from "react";
@@ -13,7 +13,7 @@ export default function ArticleUploadForm() {
     importantText: "",
     desc: "",
     time: "",
-    publishDate: "",
+    publishDate: new Date().toISOString().split('T')[0],
     publisherName: "",
     publisherTag: "",
     isSpecial: false,
@@ -41,19 +41,18 @@ export default function ArticleUploadForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // مدیریت تغییر دسته‌بندی‌ها
   const handleCatsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
-    setFormData((prev) => {
-      if (checked) {
-        return { ...prev, cats: [...prev.cats, value] };
-      } else {
-        return { ...prev, cats: prev.cats.filter((cat) => cat !== value) };
-      }
-    });
+    setFormData(prev => ({
+      ...prev,
+      cats: checked 
+        ? [...prev.cats, value] 
+        : prev.cats.filter(cat => cat !== value)
+    }));
   };
 
   // مدیریت تغییر فایل‌ها
@@ -62,37 +61,25 @@ export default function ArticleUploadForm() {
     e: ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (type === "titleImage") setTitleImage(file);
-      else setPublisherImage(file);
+    if (!file) return;
 
-      // ایجاد پیش نمایش
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview((prev) => ({ ...prev, [type]: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
-    }
+    if (type === "titleImage") setTitleImage(file);
+    else setPublisherImage(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(prev => ({ ...prev, [type]: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
   };
 
   // ارسال فرم
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // اعتبارسنجی فیلدهای اجباری
-    if (
-      !formData.title ||
-      !formData.content ||
-      !formData.cats.length ||
-      !formData.importantText ||
-      !formData.desc ||
-      !formData.time ||
-      !formData.publishDate ||
-      !formData.publisherName ||
-      !formData.publisherTag ||
-      !titleImage
-    ) {
-      setMessage({ text: "تمام فیلدهای اجباری باید پر شوند", type: "error" });
+    // اعتبارسنجی
+    if (!titleImage || !publisherImage) {
+      setMessage({ text: "هر دو تصویر الزامی هستند", type: "error" });
       return;
     }
 
@@ -107,32 +94,31 @@ export default function ArticleUploadForm() {
       if (key === "cats") {
         formDataToSend.append(key, JSON.stringify(value));
       } else {
-        formDataToSend.append(key, value as string | Blob);
+        formDataToSend.append(key, value as string);
       }
     });
 
     // افزودن فایل‌ها
-    if (titleImage) formDataToSend.append("titleImage", titleImage);
-    if (publisherImage) formDataToSend.append("publisherImage", publisherImage);
+    formDataToSend.append("titleImage", titleImage);
+    formDataToSend.append("publisherImage", publisherImage);
 
     try {
       const response = await axios.post("/admin/api/articles", formDataToSend, {
         headers: {
-          Authorization: "Bearer mysecrettoken123",
           "Content-Type": "multipart/form-data",
+          "Authorization": "Bearer mysecrettoken123"
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
-            const progress = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
+            setUploadProgress(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
             );
-            setUploadProgress(progress);
           }
         },
       });
 
       setMessage({ text: "مقاله با موفقیت ذخیره شد!", type: "success" });
-
+      
       // ریست فرم
       setFormData({
         title: "",
@@ -141,7 +127,7 @@ export default function ArticleUploadForm() {
         importantText: "",
         desc: "",
         time: "",
-        publishDate: "",
+        publishDate: new Date().toISOString().split('T')[0],
         publisherName: "",
         publisherTag: "",
         isSpecial: false,
@@ -151,15 +137,19 @@ export default function ArticleUploadForm() {
       setPreview({ titleImage: "", publisherImage: "" });
       if (titleImageRef.current) titleImageRef.current.value = "";
       if (publisherImageRef.current) publisherImageRef.current.value = "";
-    } catch (error) {
-      console.error("Error uploading article:", error);
-      setMessage({ text: "خطا در آپلود مقاله", type: "error" });
+
+    } catch (error: any) {
+      console.error("خطا در ارسال مقاله:", error.response?.data || error.message);
+      setMessage({
+        text: error.response?.data?.message || "خطا در ارسال مقاله",
+        type: "error"
+      });
     } finally {
       setIsUploading(false);
     }
   };
 
-  // لیست دسته‌بندی‌های نمونه
+  // لیست دسته‌بندی‌ها
   const categories = [
     "تکنولوژی",
     "سلامتی",
