@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import ArticleUploadForm from "./ArticleFormData";
 
 export default function AdminPanelPage() {
   const router = useRouter();
@@ -21,5 +22,5 @@ export default function AdminPanelPage() {
       router.push("/admin/panel/auth"); // یا از replace استفاده کنید برای جلوگیری از برگشت
     }
   }, [router]);
-  return <div className="mt-[50px] w-full">\پنل ادمین</div>;
+  return <div className="mt-[50px] w-full"><ArticleUploadForm /></div>;
 }
