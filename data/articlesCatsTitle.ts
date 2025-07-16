@@ -1,9 +1,8 @@
-export const ArticlesCategorysTitle = [
-    "همه",
-    "آموزشی",,
-    "پیشرفته",
-    "تاکتیک‌ها",
-    "روانشناسی",
-    "تاریخ",
-    "فناوری"
-]
+export const ArticlesCategorysTitle: string[] = [
+  "تکنولوژی",
+  "سلامتی",
+  "ورزش",
+  "سیاست",
+  "اقتصاد",
+  "فرهنگ و هنر"
+];
