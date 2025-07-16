@@ -1,8 +1,7 @@
-// app/api/articles/route.ts
+// app/admin/api/articles/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Article from "@/models/Article";
-import { checkAuth } from "@/lib/auth";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { existsSync } from "fs";
@@ -10,7 +9,7 @@ import { existsSync } from "fs";
 export const config = {
   api: {
     bodyParser: false,
-    sizeLimit: '100mb' // افزایش محدودیت حجم برای آپلود فایل
+    sizeLimit: '10mb'
   },
 };
 
@@ -20,7 +19,6 @@ async function saveUploadedFile(file: File, subfolder: string): Promise<string> 
   const filename = `${subfolder}_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
   const uploadDir = path.join(process.cwd(), 'public/uploads');
 
-  // ایجاد دایرکتوری اگر وجود نداشته باشد
   if (!existsSync(uploadDir)) {
     await mkdir(uploadDir, { recursive: true });
   }
@@ -32,53 +30,50 @@ async function saveUploadedFile(file: File, subfolder: string): Promise<string> 
 
 // GET: دریافت همه مقالات
 export async function GET(req: NextRequest) {
-  const authError = checkAuth(req);
-  if (authError) return authError;
+  // احراز هویت
+  const token = req.headers.get('Authorization')?.split(' ')[1];
+  if (token !== 'mysecrettoken123') {
+    return NextResponse.json(
+      { success: false, message: "دسترسی غیرمجاز" },
+      { status: 401 }
+    );
+  }
 
   try {
     await connectToDatabase();
-    const articles = await Article.find().sort({ createdAt: -1 });
+    
+    // دریافت تمام مقالات به صورت مستقیم (بدون ساختار data تودرتو)
+    const articles = await Article.find({})
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // پاسخ به همان شکل مورد انتظار صفحه مقالات
     return NextResponse.json(articles);
+
   } catch (error: any) {
-    console.error("Error fetching articles:", error);
+    console.error("خطا در دریافت مقالات:", error);
     return NextResponse.json(
-      { 
-        message: "Internal server error",
-        error: process.env.NODE_ENV === 'development' ? error.message : null
-      },
+      [], // بازگرداندن آرایه خالی در صورت خطا
       { status: 500 }
     );
   }
 }
-
 // POST: ساخت مقاله جدید
 export async function POST(req: NextRequest) {
-  const authError = checkAuth(req);
-  if (authError) return authError;
+  // احراز هویت
+  const token = req.headers.get('Authorization')?.split(' ')[1];
+  if (token !== 'mysecrettoken123') {
+    return NextResponse.json(
+      { success: false, message: "دسترسی غیرمجاز" },
+      { status: 401 }
+    );
+  }
 
   try {
     await connectToDatabase();
     const formData = await req.formData();
 
-    // اعتبارسنجی فیلدهای اجباری
-    const requiredFields = [
-      'title', 'content', 'cats', 'importantText', 
-      'desc', 'time', 'publishDate', 'publisherName',
-      'publisherTag', 'titleImage'
-    ];
-    
-    const missingFields = requiredFields.filter(field => !formData.get(field));
-    if (missingFields.length > 0) {
-      return NextResponse.json(
-        { 
-          message: "تمام فیلدهای اجباری باید پر شوند",
-          missingFields
-        },
-        { status: 400 }
-      );
-    }
-
-    // پردازش فیلدها
+    // دریافت فیلدهای متنی
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const cats = JSON.parse(formData.get("cats") as string) as string[];
@@ -89,21 +84,24 @@ export async function POST(req: NextRequest) {
     const publisherName = formData.get("publisherName") as string;
     const publisherTag = formData.get("publisherTag") as string;
     const isSpecial = formData.get("isSpecial") === "true";
-    const titleImageFile = formData.get("titleImage") as File;
-    const publisherImageFile = formData.get("publisherImage") as File | null;
 
-    // اعتبارسنجی نوع فایل
-    if (!titleImageFile.type.startsWith('image/')) {
+    // دریافت فایل‌ها
+    const titleImageFile = formData.get("titleImage") as File;
+    const publisherImageFile = formData.get("publisherImage") as File;
+
+    // اعتبارسنجی فیلدهای اجباری
+    if (!title || !content || !cats || !importantText || !desc || !time || 
+        !publishDate || !publisherName || !publisherTag || !titleImageFile || !publisherImageFile) {
       return NextResponse.json(
-        { message: "فایل تصویر عنوان باید یک تصویر معتبر باشد" },
+        { success: false, message: "تمام فیلدهای اجباری باید پر شوند" },
         { status: 400 }
       );
     }
 
-    // آپلود فایل‌ها
+    // آپلود همزمان دو تصویر
     const [titleImagePath, publisherImagePath] = await Promise.all([
       saveUploadedFile(titleImageFile, 'title'),
-      publisherImageFile ? saveUploadedFile(publisherImageFile, 'publisher') : Promise.resolve('')
+      saveUploadedFile(publisherImageFile, 'publisher')
     ]);
 
     // ایجاد مقاله جدید
@@ -119,40 +117,26 @@ export async function POST(req: NextRequest) {
       time,
       publishDate,
       publisherName,
-      publisherImage: publisherImagePath || undefined,
+      publisherImage: publisherImagePath,
       publisherTag,
       comments: "0",
       isSpecial,
     });
 
-    return NextResponse.json(newArticle, { status: 201 });
+    return NextResponse.json(
+      { success: true, data: newArticle },
+      { status: 201 }
+    );
 
   } catch (error: any) {
-    console.error("Error in POST /api/articles:", error);
-    
-    let errorMessage = "خطای سرور داخلی";
-    let statusCode = 500;
-    
-    if (error instanceof SyntaxError) {
-      errorMessage = "فرمت داده ارسالی نامعتبر است";
-      statusCode = 400;
-    } else if (error.name === 'ValidationError') {
-      errorMessage = "داده‌های ارسالی معتبر نیستند";
-      statusCode = 400;
-    } else if (error.code === 'LIMIT_FILE_SIZE') {
-      errorMessage = "حجم فایل ارسالی بیش از حد مجاز است";
-      statusCode = 413;
-    }
-
+    console.error("خطا در ایجاد مقاله:", error);
     return NextResponse.json(
       { 
-        message: errorMessage,
-        ...(process.env.NODE_ENV === 'development' && { 
-          error: error.message,
-          stack: error.stack 
-        })
+        success: false,
+        message: error.message || "خطای سرور داخلی",
+        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
       },
-      { status: statusCode }
+      { status: 500 }
     );
   }
 }
