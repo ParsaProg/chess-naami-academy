@@ -1,45 +1,60 @@
-# ♛ Chess Naami Academy ♛  
-### **Persian Chess Excellence Platform**  
+# ♟ ChessNaami – Premier Chess Learning Platform  
 
-[![AGPL-3.0 License](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js&logoColor=white)](https://nextjs.org) 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-ChessNaami.ir-2ea44f)](https://chessnaami.ir)  
+**📍 Tehran, Iran** | **🌐 [chessnaami.ir](https://chessnaami.ir)**  
+
+*Empowering Iran's chess community through structured learning and cutting-edge analysis*  
+
+---
 
 <div align="center">
-  <img src="https://chessnaami.ir/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmr-naami.e37d5607.png&w=640&q=75" alt="Dashboard Preview" width="800"/>  
-  *Interactive Learning Dashboard (replace with actual screenshot)*
+  <img src="https://img.shields.io/badge/Players-5k%2B-blue?style=flat-square" alt="Players">
+  <img src="https://img.shields.io/badge/Courses-100%2B-success?style=flat-square" alt="Courses">
+  <img src="https://img.shields.io/badge/Active_Coaches-50%2B-important?style=flat-square" alt="Coaches">
+  <img src="https://img.shields.io/badge/Language-Persian/Farsi-informational?style=flat-square" alt="Language">
 </div>
 
 ---
 
-## ✨ **Key Features**  
+## ✨ Key Features  
 
-| Feature | Description | Preview |
-|---------|------------|---------|
-| **AI Game Analysis** | Get instant feedback on your moves | <img src="https://placehold.co/300x200/22272e/white?text=AI+Analysis" width="150"> |
-| **Interactive Courses** | Step-by-step grandmaster lessons | <img src="https://placehold.co/300x200/22272e/white?text=Lessons" width="150"> |
-| **Tournament Mode** | Compete with ELO rankings | <img src="https://placehold.co/300x200/22272e/white?text=Tournaments" width="150"> |
+- **📚 Progressive Curriculum**  
+  Beginner to master-level courses with Persian-language support  
+
+- **🧠 Intelligent Analysis**  
+  Integrated Stockfish engine with Persian commentary  
+
+- **🏆 Tournament Ready**  
+  Supports Iran's chess federation standards and FIDE rules  
+
+- **👨‍🏫 Expert Network**  
+  Verified coaches with ranking system  
+
+- **📱 Responsive Design**  
+  Fully functional on mobile and desktop  
 
 ---
 
-## 🛠️ **Tech Stack**  
+## 🛠 Technology Stack  
 
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=nextjs,ts,tailwind,nodejs,postgres,redis,docker,nginx" alt="Tech Stack" />
-</div>
+**Frontend**  
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+**Backend**  
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+
+**Database**  
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+**Chess Engine**  
+![Stockfish](https://img.shields.io/badge/Stockfish-000000?style=for-the-badge&logo=chess&logoColor=white)
 
 ---
 
-## 🚀 **Quick Start**  
+## 🚀 Getting Started (Development)
 
+1. Clone the repository:
 ```bash
-# Clone & Setup
-git clone https://github.com/ParsaProg/chess-naami-academy.git
-cd chess-naami-academy
-npm install
-
-# Configure Environment
-cp .env.example .env.local  # Fill with your keys
-
-# Run Dev Server
-npm run dev
+git clone https://github.com/chessnaami/core.git
+cd chessnaami
