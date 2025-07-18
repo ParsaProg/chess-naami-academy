@@ -4,6 +4,7 @@ import MainArticlesContainer from "@/components/ui/articles/mainArticlesContaine
 import SpecialArticleContainer from "@/components/ui/articles/special-articles-container";
 import { ArticlesCategorysTitle } from "@/data/articlesCatsTitle";
 import { useEffect, useState } from "react";
+import "../../styles/loaderSpinner.css";
 
 type Article = {
   _id: string;
@@ -40,6 +41,7 @@ export default function ArticlesPage() {
         if (!res.ok) throw new Error("Unauthorized or server error");
         const data = await res.json();
         setArticles(data);
+        setLoading(false);
       } catch (error) {
         console.error("❌ Error loading articles:", error);
       } finally {
@@ -49,8 +51,8 @@ export default function ArticlesPage() {
 
     fetchArticles();
   }, []);
-  return (
-    !loading? <div className="w-[85%] mt-[50px] mx-auto">
+  return !loading ? (
+    <div className="w-[85%] mt-[50px] mx-auto">
       <div className="special-container">
         <h1 className="flex font-bold text-3xl text-black">مقالات ویژه</h1>
         <div className="w-full flex [@media(max-width:940px)]:flex-col gap-y-3 mt-8 gap-x-5">
@@ -108,6 +110,13 @@ export default function ArticlesPage() {
           />
         ))}
       </div>
-    </div>: <div></div>
+    </div>
+  ) : (
+    <section className="overflow-hidden w-full">
+      <div className="mx-auto mt-[50px] justify-center w-full flex items-center gap-x-2 scale-[1.2]">
+        در حال بارگیری...
+        <span className="loader"></span>
+      </div>
+    </section>
   );
 }
