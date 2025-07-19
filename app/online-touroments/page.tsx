@@ -25,7 +25,7 @@ export default function OnlineTouroments() {
 
     try {
       getData();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
     }
   }, []);
