@@ -4,7 +4,6 @@ import { IoCube } from "react-icons/io5";
 import { FaChess } from "react-icons/fa";
 import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { FaBagShopping } from "react-icons/fa6";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function LinksContainers() {
