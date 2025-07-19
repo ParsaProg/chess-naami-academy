@@ -11,7 +11,6 @@ export default function Container({
   title,
   status,
   startTime,
-  endTime,
   description,
   participants,
   ratingCategory,
@@ -19,15 +18,6 @@ export default function Container({
   maxRating,
   lichessUrl,
 }: OnlineTournoments) {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
