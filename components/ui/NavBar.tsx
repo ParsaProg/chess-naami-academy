@@ -2,7 +2,6 @@
 
 import { FiHome } from "react-icons/fi";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
-import { FaRegCommentDots } from "react-icons/fa";
 import { GrArticle, GrContactInfo } from "react-icons/gr";
 import "../../styles/navbar-res.css";
 import { FiMenu } from "react-icons/fi";
