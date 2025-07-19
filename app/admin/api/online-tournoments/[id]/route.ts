@@ -4,13 +4,11 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Tournament from "@/models/OnlineT";
 import { isValidObjectId } from "mongoose";
 
-interface RequestContext {
-  params: { id: string };
-}
-
-export async function GET(req: NextRequest, context: RequestContext) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   // Authentication
-  const { params } = context;
   const token = req.headers.get("Authorization")?.split(" ")[1];
   if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
@@ -50,9 +48,11 @@ export async function GET(req: NextRequest, context: RequestContext) {
   }
 }
 
-export async function PUT(req: NextRequest, context: RequestContext) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   // Authentication
-  const { params } = context;
   const token = req.headers.get("Authorization")?.split(" ")[1];
   if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
@@ -103,17 +103,17 @@ export async function PUT(req: NextRequest, context: RequestContext) {
   } catch (error: unknown) {
     console.error("Error updating tournament:", error);
     return NextResponse.json(
-      {
-        success: false,
-      },
+      { success: false, message: "Internal server error" },
       { status: 500 }
     );
   }
 }
 
-export async function DELETE(req: NextRequest, context: RequestContext) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   // Authentication
-  const { params } = context;
   const token = req.headers.get("Authorization")?.split(" ")[1];
   if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
@@ -150,9 +150,7 @@ export async function DELETE(req: NextRequest, context: RequestContext) {
   } catch (error: unknown) {
     console.error("Error deleting tournament:", error);
     return NextResponse.json(
-      {
-        success: false,
-      },
+      { success: false, message: "Internal server error" },
       { status: 500 }
     );
   }
