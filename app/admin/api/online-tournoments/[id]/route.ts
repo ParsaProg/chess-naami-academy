@@ -2,39 +2,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Tournament from "@/models/OnlineT";
-import { isValidObjectId } from "mongoose";
+import { checkAuth } from "@/lib/auth";
+import mongoose from "mongoose";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// تابع استخراج ID از URL
+function getIdFromUrl(request: NextRequest): string | null {
   try {
-    // Authentication
-    const token = request.headers.get("Authorization")?.split(" ")[1];
-    if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized access" },
-        { status: 401 }
-      );
-    }
+    const url = new URL(request.url);
+    const parts = url.pathname.split("/");
+    return parts[parts.length - 1] || null;
+  } catch {
+    return null;
+  }
+}
 
+export async function GET(request: NextRequest) {
+  const authError = await checkAuth(request);
+  if (authError) return authError;
+
+  const id = getIdFromUrl(request);
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json(
+      { success: false, message: "Invalid tournament ID format" },
+      { status: 400 }
+    );
+  }
+
+  try {
     await connectToDatabase();
-
-    if (!isValidObjectId(params.id)) {
-      return NextResponse.json(
-        { success: false, message: "Invalid tournament ID format" },
-        { status: 400 }
-      );
-    }
-
-    const tournament = await Tournament.findById(params.id).lean();
+    const tournament = await Tournament.findById(id).lean();
     if (!tournament) {
       return NextResponse.json(
         { success: false, message: "Tournament not found" },
         { status: 404 }
       );
     }
-
     return NextResponse.json(tournament);
   } catch (error) {
     console.error("Error fetching tournament:", error);
@@ -45,32 +47,24 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    // Authentication
-    const token = request.headers.get("Authorization")?.split(" ")[1];
-    if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized access" },
-        { status: 401 }
-      );
-    }
+export async function PUT(request: NextRequest) {
+  const authError = await checkAuth(request);
+  if (authError) return authError;
 
+  const id = getIdFromUrl(request);
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json(
+      { success: false, message: "Invalid tournament ID format" },
+      { status: 400 }
+    );
+  }
+
+  try {
     await connectToDatabase();
     const body = await request.json();
 
-    if (!isValidObjectId(params.id)) {
-      return NextResponse.json(
-        { success: false, message: "Invalid tournament ID format" },
-        { status: 400 }
-      );
-    }
-
     const updatedTournament = await Tournament.findByIdAndUpdate(
-      params.id,
+      id,
       {
         $set: {
           ...body,
@@ -104,30 +98,21 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest) {
+  const authError = await checkAuth(request);
+  if (authError) return authError;
+
+  const id = getIdFromUrl(request);
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json(
+      { success: false, message: "Invalid tournament ID format" },
+      { status: 400 }
+    );
+  }
+
   try {
-    // Authentication
-    const token = request.headers.get("Authorization")?.split(" ")[1];
-    if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized access" },
-        { status: 401 }
-      );
-    }
-
     await connectToDatabase();
-
-    if (!isValidObjectId(params.id)) {
-      return NextResponse.json(
-        { success: false, message: "Invalid tournament ID format" },
-        { status: 400 }
-      );
-    }
-
-    const deletedTournament = await Tournament.findByIdAndDelete(params.id);
+    const deletedTournament = await Tournament.findByIdAndDelete(id);
     if (!deletedTournament) {
       return NextResponse.json(
         { success: false, message: "Tournament not found" },
