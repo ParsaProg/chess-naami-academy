@@ -3,6 +3,7 @@
 
 import { useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 export default function ArticleUploadForm() {
   // State برای فیلدهای متنی
@@ -103,7 +104,7 @@ export default function ArticleUploadForm() {
     formDataToSend.append("publisherImage", publisherImage);
 
     try {
-      const response = await axios.post("/admin/api/articles", formDataToSend, {
+      await axios.post("/admin/api/articles", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": "Bearer mysecrettoken123"
@@ -138,10 +139,10 @@ export default function ArticleUploadForm() {
       if (titleImageRef.current) titleImageRef.current.value = "";
       if (publisherImageRef.current) publisherImageRef.current.value = "";
 
-    } catch (error: any) {
-      console.error("خطا در ارسال مقاله:", error.response?.data || error.message);
+    } catch (error: unknown) {
+      console.error("خطا در ارسال مقاله:");
       setMessage({
-        text: error.response?.data?.message || "خطا در ارسال مقاله",
+        text: "خطا در ارسال مقاله",
         type: "error"
       });
     } finally {
@@ -384,7 +385,7 @@ export default function ArticleUploadForm() {
               <p className="text-sm text-gray-600 mb-1">
                 پیش نمایش تصویر عنوان:
               </p>
-              <img
+              <Image
                 src={preview.titleImage}
                 alt="Preview Title"
                 className="max-w-full h-auto max-h-48 rounded-md border border-gray-200"
@@ -414,7 +415,7 @@ export default function ArticleUploadForm() {
               <p className="text-sm text-gray-600 mb-1">
                 پیش نمایش تصویر ناشر:
               </p>
-              <img
+              <Image
                 src={preview.publisherImage}
                 alt="Preview Publisher"
                 className="max-w-full h-auto max-h-48 rounded-md border border-gray-200"
