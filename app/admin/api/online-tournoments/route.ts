@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(tournaments);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching tournaments:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
@@ -82,13 +82,11 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating tournament:", error);
     return NextResponse.json(
       { 
         success: false,
-        message: error.message || "Internal server error",
-        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
       },
       { status: 500 }
     );
