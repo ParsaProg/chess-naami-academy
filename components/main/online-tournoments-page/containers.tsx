@@ -21,19 +21,6 @@ export default function Container({
 }: OnlineTournoments) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  const getTimeUntilStart = (startTime: Date) => {
-    const diff = startTime.getTime() - currentTime.getTime();
-    if (diff <= 0) return null;
-
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-    if (hours > 0) {
-      return `${hours} ساعت و ${minutes} دقیقه`;
-    }
-    return `${minutes} دقیقه`;
-  };
-
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -42,7 +29,8 @@ export default function Container({
     return () => clearInterval(timer);
   }, []);
 
-  const formatTime = (date: Date) => {
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
     return new Intl.DateTimeFormat("fa-IR", {
       year: "numeric",
       month: "long",
@@ -53,7 +41,7 @@ export default function Container({
   };
   return (
     <div className="w-full p-5 flex flex-col gap-y-3 rounded-lg border-[1px] border-slate-300">
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center flex-wrap gap-y-2 justify-between w-full">
         <h1 className="font-[600] text-lg">{title}</h1>
         <div
           className={`${
