@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
     // پاسخ به همان شکل مورد انتظار صفحه مقالات
     return NextResponse.json(articles);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("خطا در دریافت مقالات:", error);
     return NextResponse.json(
       [], // بازگرداندن آرایه خالی در صورت خطا
@@ -128,13 +128,11 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("خطا در ایجاد مقاله:", error);
     return NextResponse.json(
       { 
         success: false,
-        message: error.message || "خطای سرور داخلی",
-        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
       },
       { status: 500 }
     );
