@@ -4,9 +4,14 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Tournament from "@/models/OnlineT";
 import { isValidObjectId } from "mongoose";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+interface RequestContext {
+  params: { id: string };
+}
+
+export async function GET(req: NextRequest, context: RequestContext) {
   // Authentication
-  const token = req.headers.get('Authorization')?.split(' ')[1];
+  const { params } = context;
+  const token = req.headers.get("Authorization")?.split(" ")[1];
   if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "Unauthorized access" },
@@ -16,7 +21,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
   try {
     await connectToDatabase();
-    
+
     // Validate ID format
     if (!isValidObjectId(params.id)) {
       return NextResponse.json(
@@ -36,7 +41,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 
     return NextResponse.json(tournament);
-
   } catch (error: unknown) {
     console.error("Error fetching tournament:", error);
     return NextResponse.json(
@@ -46,9 +50,10 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: RequestContext) {
   // Authentication
-  const token = req.headers.get('Authorization')?.split(' ')[1];
+  const { params } = context;
+  const token = req.headers.get("Authorization")?.split(" ")[1];
   if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "Unauthorized access" },
@@ -78,8 +83,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
           ...(body.endTime && { endTime: new Date(body.endTime) }),
           ...(body.participants && { participants: Number(body.participants) }),
           ...(body.minRating && { minRating: Number(body.minRating) }),
-          ...(body.maxRating && { maxRating: Number(body.maxRating) })
-        }
+          ...(body.maxRating && { maxRating: Number(body.maxRating) }),
+        },
       },
       { new: true, runValidators: true }
     );
@@ -95,11 +100,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       { success: true, data: updatedTournament },
       { status: 200 }
     );
-
   } catch (error: unknown) {
     console.error("Error updating tournament:", error);
     return NextResponse.json(
-      { 
+      {
         success: false,
       },
       { status: 500 }
@@ -107,9 +111,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: RequestContext) {
   // Authentication
-  const token = req.headers.get('Authorization')?.split(' ')[1];
+  const { params } = context;
+  const token = req.headers.get("Authorization")?.split(" ")[1];
   if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "Unauthorized access" },
@@ -142,11 +147,10 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       { success: true, message: "Tournament deleted successfully" },
       { status: 200 }
     );
-
   } catch (error: unknown) {
     console.error("Error deleting tournament:", error);
     return NextResponse.json(
-      { 
+      {
         success: false,
       },
       { status: 500 }
