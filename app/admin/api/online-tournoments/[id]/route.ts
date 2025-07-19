@@ -1,92 +1,158 @@
-// app/admin/api/articles/[id]/route.ts
+// app/api/online-tournaments/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
-import Article from "@/models/Article";
-import { checkAuth } from "@/lib/auth";
-import mongoose from "mongoose";
+import Tournament from "@/models/OnlineT";
+import { isValidObjectId } from "mongoose";
 
-// استخراج id از URL
-function getIdFromUrl(request: NextRequest): string | null {
-  try {
-    const url = new URL(request.url);
-    const parts = url.pathname.split("/");
-    return parts[parts.length - 1] || null;
-  } catch {
-    return null;
-  }
-}
-
-export async function GET(request: NextRequest) {
-  const authError = await checkAuth(request);
-  if (authError) return authError;
-
-  const id = getIdFromUrl(request);
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  // Authentication
+  const token = req.headers.get('Authorization')?.split(' ')[1];
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+    return NextResponse.json(
+      { success: false, message: "Unauthorized access" },
+      { status: 401 }
+    );
   }
 
   try {
     await connectToDatabase();
-    const article = await Article.findById(id);
-    if (!article) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    
+    // Validate ID format
+    if (!isValidObjectId(params.id)) {
+      return NextResponse.json(
+        { success: false, message: "Invalid tournament ID format" },
+        { status: 400 }
+      );
     }
-    return NextResponse.json(article);
-  } catch (error) {
-    console.error("GET Article Error:", error);
+
+    // Find tournament by ID
+    const tournament = await Tournament.findById(params.id).lean();
+
+    if (!tournament) {
+      return NextResponse.json(
+        { success: false, message: "Tournament not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(tournament);
+
+  } catch (error: any) {
+    console.error("Error fetching tournament:", error);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { success: false, message: "Internal server error" },
       { status: 500 }
     );
   }
 }
 
-export async function PUT(request: NextRequest) {
-  const authError = await checkAuth(request);
-  if (authError) return authError;
-
-  const id = getIdFromUrl(request);
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  // Authentication
+  const token = req.headers.get('Authorization')?.split(' ')[1];
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+    return NextResponse.json(
+      { success: false, message: "Unauthorized access" },
+      { status: 401 }
+    );
   }
 
   try {
     await connectToDatabase();
-    const data = await request.json();
-    const updated = await Article.findByIdAndUpdate(id, data, { new: true });
-    if (!updated) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    const body = await req.json();
+
+    // Validate ID format
+    if (!isValidObjectId(params.id)) {
+      return NextResponse.json(
+        { success: false, message: "Invalid tournament ID format" },
+        { status: 400 }
+      );
     }
-    return NextResponse.json(updated);
-  } catch (error) {
-    console.error("PUT Article Error:", error);
+
+    // Find and update tournament
+    const updatedTournament = await Tournament.findByIdAndUpdate(
+      params.id,
+      {
+        $set: {
+          ...body,
+          ...(body.startTime && { startTime: new Date(body.startTime) }),
+          ...(body.endTime && { endTime: new Date(body.endTime) }),
+          ...(body.participants && { participants: Number(body.participants) }),
+          ...(body.minRating && { minRating: Number(body.minRating) }),
+          ...(body.maxRating && { maxRating: Number(body.maxRating) })
+        }
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedTournament) {
+      return NextResponse.json(
+        { success: false, message: "Tournament not found" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { message: "Internal server error" },
+      { success: true, data: updatedTournament },
+      { status: 200 }
+    );
+
+  } catch (error: any) {
+    console.error("Error updating tournament:", error);
+    return NextResponse.json(
+      { 
+        success: false,
+        message: error.message || "Internal server error",
+        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
+      },
       { status: 500 }
     );
   }
 }
 
-export async function DELETE(request: NextRequest) {
-  const authError = await checkAuth(request);
-  if (authError) return authError;
-
-  const id = getIdFromUrl(request);
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  // Authentication
+  const token = req.headers.get('Authorization')?.split(' ')[1];
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+    return NextResponse.json(
+      { success: false, message: "Unauthorized access" },
+      { status: 401 }
+    );
   }
 
   try {
     await connectToDatabase();
-    const deleted = await Article.findByIdAndDelete(id);
-    if (!deleted) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
+
+    // Validate ID format
+    if (!isValidObjectId(params.id)) {
+      return NextResponse.json(
+        { success: false, message: "Invalid tournament ID format" },
+        { status: 400 }
+      );
     }
-    return NextResponse.json({ message: "Deleted successfully" });
-  } catch (error) {
-    console.error("DELETE Article Error:", error);
+
+    // Delete tournament
+    const deletedTournament = await Tournament.findByIdAndDelete(params.id);
+
+    if (!deletedTournament) {
+      return NextResponse.json(
+        { success: false, message: "Tournament not found" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { message: "Internal server error" },
+      { success: true, message: "Tournament deleted successfully" },
+      { status: 200 }
+    );
+
+  } catch (error: any) {
+    console.error("Error deleting tournament:", error);
+    return NextResponse.json(
+      { 
+        success: false,
+        message: error.message || "Internal server error",
+        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
+      },
       { status: 500 }
     );
   }
