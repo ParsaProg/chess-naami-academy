@@ -4,13 +4,10 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Tournament from "@/models/OnlineT";
 import { isValidObjectId } from "mongoose";
 
-type RouteParams = {
-  params: {
-    id: string;
-  };
-};
-
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     // Authentication
     const token = request.headers.get("Authorization")?.split(" ")[1];
@@ -48,7 +45,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PUT(request: NextRequest, { params }: RouteParams) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     // Authentication
     const token = request.headers.get("Authorization")?.split(" ")[1];
@@ -104,7 +104,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     // Authentication
     const token = request.headers.get("Authorization")?.split(" ")[1];
