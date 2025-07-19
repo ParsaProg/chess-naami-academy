@@ -1,8 +1,8 @@
 export default interface OnlineTournoments{
     title: string,
     status: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: string,
+    endTime: string,
     description: string,
     participants: number,
     ratingCategory: string,
