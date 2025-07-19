@@ -37,7 +37,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     return NextResponse.json(tournament);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching tournament:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
@@ -96,13 +96,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       { status: 200 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating tournament:", error);
     return NextResponse.json(
       { 
         success: false,
-        message: error.message || "Internal server error",
-        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
       },
       { status: 500 }
     );
@@ -145,13 +143,11 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       { status: 200 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting tournament:", error);
     return NextResponse.json(
       { 
         success: false,
-        message: error.message || "Internal server error",
-        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
       },
       { status: 500 }
     );
