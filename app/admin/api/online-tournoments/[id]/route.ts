@@ -1,26 +1,28 @@
-// app/api/online-tournaments/[id]/route.ts
+// app/admin/api/online-tournaments/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Tournament from "@/models/OnlineT";
 import { isValidObjectId } from "mongoose";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  // Authentication
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-    return NextResponse.json(
-      { success: false, message: "Unauthorized access" },
-      { status: 401 }
-    );
-  }
+type RouteParams = {
+  params: {
+    id: string;
+  };
+};
 
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
+    // Authentication
+    const token = request.headers.get("Authorization")?.split(" ")[1];
+    if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     await connectToDatabase();
 
-    // Validate ID format
     if (!isValidObjectId(params.id)) {
       return NextResponse.json(
         { success: false, message: "Invalid tournament ID format" },
@@ -28,9 +30,7 @@ export async function GET(
       );
     }
 
-    // Find tournament by ID
     const tournament = await Tournament.findById(params.id).lean();
-
     if (!tournament) {
       return NextResponse.json(
         { success: false, message: "Tournament not found" },
@@ -39,7 +39,7 @@ export async function GET(
     }
 
     return NextResponse.json(tournament);
-  } catch (error: unknown) {
+  } catch (error) {
     console.error("Error fetching tournament:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
@@ -48,24 +48,20 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  // Authentication
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-    return NextResponse.json(
-      { success: false, message: "Unauthorized access" },
-      { status: 401 }
-    );
-  }
-
+export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    await connectToDatabase();
-    const body = await req.json();
+    // Authentication
+    const token = request.headers.get("Authorization")?.split(" ")[1];
+    if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
 
-    // Validate ID format
+    await connectToDatabase();
+    const body = await request.json();
+
     if (!isValidObjectId(params.id)) {
       return NextResponse.json(
         { success: false, message: "Invalid tournament ID format" },
@@ -73,7 +69,6 @@ export async function PUT(
       );
     }
 
-    // Find and update tournament
     const updatedTournament = await Tournament.findByIdAndUpdate(
       params.id,
       {
@@ -100,7 +95,7 @@ export async function PUT(
       { success: true, data: updatedTournament },
       { status: 200 }
     );
-  } catch (error: unknown) {
+  } catch (error) {
     console.error("Error updating tournament:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
@@ -109,23 +104,19 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  // Authentication
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-    return NextResponse.json(
-      { success: false, message: "Unauthorized access" },
-      { status: 401 }
-    );
-  }
-
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
+    // Authentication
+    const token = request.headers.get("Authorization")?.split(" ")[1];
+    if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     await connectToDatabase();
 
-    // Validate ID format
     if (!isValidObjectId(params.id)) {
       return NextResponse.json(
         { success: false, message: "Invalid tournament ID format" },
@@ -133,9 +124,7 @@ export async function DELETE(
       );
     }
 
-    // Delete tournament
     const deletedTournament = await Tournament.findByIdAndDelete(params.id);
-
     if (!deletedTournament) {
       return NextResponse.json(
         { success: false, message: "Tournament not found" },
@@ -147,7 +136,7 @@ export async function DELETE(
       { success: true, message: "Tournament deleted successfully" },
       { status: 200 }
     );
-  } catch (error: unknown) {
+  } catch (error) {
     console.error("Error deleting tournament:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
