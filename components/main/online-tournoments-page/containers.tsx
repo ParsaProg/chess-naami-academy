@@ -5,7 +5,6 @@ import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { LuUsers } from "react-icons/lu";
 import { MdOpenInNew } from "react-icons/md";
 import "./live-button.css";
-import { useEffect, useState } from "react";
 
 export default function Container({
   title,

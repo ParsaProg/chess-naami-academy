@@ -140,7 +140,7 @@ export default function ArticleUploadForm() {
       if (publisherImageRef.current) publisherImageRef.current.value = "";
 
     } catch (error: unknown) {
-      console.error("خطا در ارسال مقاله:");
+      console.error("خطا در ارسال مقاله:", error);
       setMessage({
         text: "خطا در ارسال مقاله",
         type: "error"
