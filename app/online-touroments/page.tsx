@@ -103,7 +103,7 @@ export default function OnlineTouroments() {
           </div>
         </section>
       ) : (
-        <h1 className="text-center font-bold text-3xl">هیچ مسابقه‌ای اضافه نشده</h1>
+        <h1 className="text-center font-bold text-3xl mt-5">هیچ مسابقه‌ای اضافه نشده</h1>
       )}
     </div>
   );
