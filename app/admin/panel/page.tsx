@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import ArticleUploadForm from "./ArticleFormData";
+import ArticleUploadForm from "./widget/ArticleFormData";
 
 export default function AdminPanelPage() {
   const router = useRouter();
