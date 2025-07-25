@@ -1,4 +1,4 @@
-// app/admin/api/videos/route.ts
+// app/api/admin/videos/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Video from "@/models/Videos";
@@ -13,7 +13,6 @@ export const config = {
   },
 };
 
-// تابع کمکی برای ذخیره عکس پوستر
 async function savePosterImage(file: File): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
   const filename = `video_poster_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
@@ -28,9 +27,8 @@ async function savePosterImage(file: File): Promise<string> {
   return `/uploads/videos/${filename}`;
 }
 
-// GET: دریافت همه ویدیوها
 export async function GET(req: NextRequest) {
-  // احراز هویت
+  // Authorzation with admin token
   const token = req.headers.get('Authorization')?.split(' ')[1];
   if (token !== 'mysecrettoken123') {
     return NextResponse.json(
@@ -41,60 +39,56 @@ export async function GET(req: NextRequest) {
 
   try {
     await connectToDatabase();
-    
-    const videos = await Video.find({})
-      .sort({ createdAt: -1 })
-      .lean();
-
+    const videos = await Video.find({}).sort({ createdAt: -1 });
     return NextResponse.json(videos);
-
   } catch (error: unknown) {
     console.error("خطا در دریافت ویدیوها:", error);
     return NextResponse.json(
-      [],
+      { success: false, message: "خطای سرور" },
       { status: 500 }
     );
   }
 }
 
-// POST: ایجاد ویدیو جدید
 export async function POST(req: NextRequest) {
-  // احراز هویت
-  const token = req.headers.get('Authorization')?.split(' ')[1];
-  if (token !== 'mysecrettoken123') {
-    return NextResponse.json(
-      { success: false, message: "دسترسی غیرمجاز" },
-      { status: 401 }
-    );
-  }
-
   try {
+    // احراز هویت ساده
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { success: false, message: "دسترسی غیرمجاز" },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.split(' ')[1];
+    if (token !== 'mysecrettoken123') {
+      return NextResponse.json(
+        { success: false, message: "توکن نامعتبر" },
+        { status: 401 }
+      );
+    }
+
     await connectToDatabase();
     const formData = await req.formData();
 
-    // دریافت فیلدهای متنی
     const title = formData.get("title") as string;
     const level = formData.get("level") as string;
     const time = formData.get("time") as string;
-    const views = formData.get("views") as string;
+    const views = formData.get("views") as string || "0";
     const publisher = formData.get("publisher") as string;
     const videoLink = formData.get("videoLink") as string;
-
-    // دریافت فایل پوستر
     const posterImageFile = formData.get("posterImage") as File;
 
-    // اعتبارسنجی فیلدهای اجباری
-    if (!title || !level || !time || !views || !publisher || !videoLink || !posterImageFile) {
+    if (!title || !level || !time || !publisher || !videoLink || !posterImageFile) {
       return NextResponse.json(
-        { success: false, message: "تمام فیلدهای اجباری باید پر شوند" },
+        { success: false, message: "تمامی فیلدهای ضروری را پر کنید" },
         { status: 400 }
       );
     }
 
-    // آپلود عکس پوستر
     const posterImagePath = await savePosterImage(posterImageFile);
 
-    // ایجاد ویدیو جدید
     const newVideo = await Video.create({
       title,
       level,
@@ -110,13 +104,10 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
 
-  } catch (error: unknown) {
-    console.error("خطا در ایجاد ویدیو:", error);
+  } catch (error) {
+    console.error("خطا در سمت سرور:", error);
     return NextResponse.json(
-      { 
-        success: false,
-        message: "خطای سرور در ایجاد ویدیو"
-      },
+      { success: false, message: "خطای سرور" },
       { status: 500 }
     );
   }
