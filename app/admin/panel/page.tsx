@@ -1,10 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ArticleUploadForm from "./widget/ArticleFormData";
+import VideoForm from "./widget/VideosFormData";
 
 export default function AdminPanelPage() {
+  const [selectedTap, setSelectedTap] = useState(1);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,5 +24,9 @@ export default function AdminPanelPage() {
       router.push("/admin/panel/auth"); // یا از replace استفاده کنید برای جلوگیری از برگشت
     }
   }, [router]);
-  return <div className="mt-[50px] w-full"><ArticleUploadForm /></div>;
+  return (
+    <div className="mt-[50px] w-full flex items-start justify-center">
+      {selectedTap === 0? <ArticleUploadForm />: <VideoForm />}
+    </div>
+  );
 }
