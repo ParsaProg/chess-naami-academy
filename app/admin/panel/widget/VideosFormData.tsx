@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Image from "next/image";
 
 type VideoFormData = {
   title: string;
@@ -254,7 +255,7 @@ export default function VideoForm() {
           {/* پیش‌نمایش عکس */}
           {previewImage && (
             <div className="mt-2">
-              <img
+              <Image
                 src={previewImage}
                 alt="پیش‌نمایش عکس پوستر"
                 className="h-40 object-cover rounded-md"

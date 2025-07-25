@@ -17,9 +17,9 @@ export default function Videos() {
             Authorization: `Bearer mysecrettoken123`,
           },
         });
-        const videosData = await response.json();
-        setVideosData(videosData);
-        console.log(videosData)
+        const videoData = await response.json();
+        setVideosData(videoData);
+        return videosData;
       } catch (error: unknown) {
         console.log(error);
       }
