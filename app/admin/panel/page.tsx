@@ -6,7 +6,7 @@ import ArticleUploadForm from "./widget/ArticleFormData";
 import VideoForm from "./widget/VideosFormData";
 
 export default function AdminPanelPage() {
-  const [selectedTap, setSelectedTap] = useState(1);
+  // const [selectedTap, setSelectedTap] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,7 +26,8 @@ export default function AdminPanelPage() {
   }, [router]);
   return (
     <div className="mt-[50px] w-full flex items-start justify-center">
-      {selectedTap === 0? <ArticleUploadForm />: <VideoForm />}
+      <ArticleUploadForm />
+      <VideoForm />
     </div>
   );
 }
