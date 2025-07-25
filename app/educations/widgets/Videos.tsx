@@ -1,14 +1,33 @@
+"use client";
+
 import { IoPlayOutline } from "react-icons/io5";
 import { CiStopwatch } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
 import { FiHeart } from "react-icons/fi";
+import { useEffect, useState } from "react";
 
 export default function Videos() {
+  const [videosData, setVideosData] = useState([]);
+  useEffect(() => {
+    const getVideosData = async () => {
+      try {
+        const response = await fetch("/admin/api/videos", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer mysecrettoken123`,
+          },
+        });
+        const videosData = await response.json();
+        setVideosData(videosData);
+        console.log(videosData)
+      } catch (error: unknown) {
+        console.log(error);
+      }
+    };
+    getVideosData();
+  }, []);
   return (
-    <div
-      
-      className="w-full mt-8"
-    >
+    <div className="w-full mt-8">
       <h1 className="font-bold text-black text-2xl">ویدیو‌های آموزشی</h1>
       <h3 className="mt-2 text-slate-600 text-lg font-[400]">
         آموزش‌های تصویری از اساتید برجسته شطرنج

@@ -17,15 +17,19 @@ export const config = {
 async function saveUploadedFile(file: File, subfolder: string): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
   const filename = `${subfolder}_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
+  
+  // مسیر ذخیره‌سازی در هاست
   const uploadDir = path.join(process.cwd(), 'public/uploads');
-
+  
   if (!existsSync(uploadDir)) {
     await mkdir(uploadDir, { recursive: true });
   }
 
   const filePath = path.join(uploadDir, filename);
   await writeFile(filePath, buffer);
-  return `/uploads/${filename}`;
+  
+  // بازگشت آدرس کامل برای محیط تولید
+  return `https://chessnaami.ir/uploads/${filename}`;
 }
 
 // GET: دریافت همه مقالات
