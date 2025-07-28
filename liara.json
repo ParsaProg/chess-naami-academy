@@ -4,5 +4,7 @@
   "build": {
     "location": "iran"
   },
+  "platform": "next",
+  "outputDirectory": ".next",
   "disks": []
 }
