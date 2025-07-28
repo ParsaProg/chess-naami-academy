@@ -385,7 +385,7 @@ export default function ArticleUploadForm() {
               <p className="text-sm text-gray-600 mb-1">
                 پیش نمایش تصویر عنوان:
               </p>
-              <img
+              <Image
                 src={preview.titleImage}
                 alt="Preview Title"
                 className="max-w-full h-auto max-h-48 rounded-md border border-gray-200"
@@ -415,7 +415,7 @@ export default function ArticleUploadForm() {
               <p className="text-sm text-gray-600 mb-1">
                 پیش نمایش تصویر ناشر:
               </p>
-              <img
+              <Image
                 src={preview.publisherImage}
                 alt="Preview Publisher"
                 className="max-w-full h-auto max-h-48 rounded-md border border-gray-200"
