@@ -19,6 +19,7 @@ export default function Videos() {
         });
         const videoData = await response.json();
         setVideosData(videoData);
+        console.log(videosData)
       } catch (error: unknown) {
         console.log(error);
       }
