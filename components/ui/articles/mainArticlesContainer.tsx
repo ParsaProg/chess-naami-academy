@@ -30,6 +30,7 @@ export default function MainArticlesContainer({
             onLoad={() => setIsLoad(true)}
             draggable={false}
             alt="special-article-image"
+            unoptimized
             className={`z-10 rounded-tl-lg rounded-tr-lg size-full object-cover rounded-[inherit] border bg-muted/40 transition-all duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-[opacity,filter,transform]
           ${
             isLoad
