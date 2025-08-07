@@ -6,6 +6,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { FiHeart } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import DialogTrigger from "@/components/ui/dialogs/Dialog";
 
 interface VideoContainerSchema {
   level: string;
@@ -15,11 +16,16 @@ interface VideoContainerSchema {
   publisher: string;
   videoLink: string;
   posterImage: string;
+  setIsShowDialog: (value: boolean) => void;
+  setDialogValue: (value: string) => void; 
 }
 
 export default function Videos() {
+  const [isShowDialog, setIsShowDialog] = useState<boolean>(false);
+  const [dialogValue, setDialogValue] = useState<string>("")
   const [videosData, setVideosData] = useState<VideoContainerSchema[]>([]);
   useEffect(() => {
+    
     const getVideosData = async () => {
       try {
         const response = await fetch("/admin/api/videos", {
@@ -38,28 +44,33 @@ export default function Videos() {
     getVideosData();
   }, []);
   return (
-    <div className="w-full mt-8">
-      <h1 className="font-bold text-black text-2xl">ویدیو‌های آموزشی</h1>
-      <h3 className="mt-2 text-slate-600 text-lg font-[400]">
-        آموزش‌های تصویری از اساتید برجسته شطرنج
-      </h3>
-      <div className="flex items-start justify-start grow-[2] flex-wrap gap-8 mt-5">
-        {videosData.map((val, _i) => {
-          return (
-            <VideoContainer
-              key={_i}
-              level={val.level}
-              time={val.time}
-              title={val.title}
-              views={val.views}
-              publisher={val.publisher}
-              videoLink={val.videoLink}
-              posterImage={val.posterImage}
-            />
-          );
-        })}
+    <>
+      <div className="w-full mt-8">
+        <h1 className="font-bold text-black text-2xl">ویدیو‌های آموزشی</h1>
+        <h3 className="mt-2 text-slate-600 text-lg font-[400]">
+          آموزش‌های تصویری از اساتید برجسته شطرنج
+        </h3>
+        <div className="flex items-start justify-start grow-[2] flex-wrap gap-8 mt-5">
+          {videosData.map((val, _i) => {
+            return (
+              <VideoContainer
+                key={_i}
+                level={val.level}
+                time={val.time}
+                title={val.title}
+                views={val.views}
+                publisher={val.publisher}
+                videoLink={val.videoLink}
+                posterImage={val.posterImage}
+                setIsShowDialog={setIsShowDialog}
+                setDialogValue={setDialogValue}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
+      <DialogTrigger show={isShowDialog} value={dialogValue} />
+    </>
   );
 }
 
@@ -71,11 +82,17 @@ function VideoContainer({
   publisher,
   videoLink,
   posterImage,
+  setIsShowDialog,
+  setDialogValue
 }: VideoContainerSchema) {
   return (
-    <div className="shadow-xl rounded-lg border-[1px] border-slate-200 w-[550px]">
-      <div className="overflow-hidden p-3 relative flex flex-col items-start justify-between w-full h-[180px] transition-colors hover:bg-[#00000091] bg-[#0000004a] rounded-tl-lg rounded-tr-lg">
+    <div onClick={() => {
+      setIsShowDialog(true);
+      setDialogValue(videoLink)
+    }} className="shadow-xl rounded-lg border-[1px] border-slate-200 w-[550px]">
+      <div className="overflow-hidden relative flex flex-col items-start justify-between w-full h-[180px] transition-colors hover:bg-[#00000091] bg-[#0000004a] rounded-tl-lg rounded-tr-lg">
         <Image
+          className="w-full z-[10]"
           alt="bg-video-images"
           width={800}
           height={800}
@@ -84,13 +101,13 @@ function VideoContainer({
           decoding="async"
           draggable={false}
         />
-        <div className="bg-blue-600 rounded-full text-white py-1 px-3 text-sm">
+        <div className="absolute right-3 top-3 z-[20] bg-blue-600 rounded-full text-white py-1 px-3 text-sm">
           {level}
         </div>
-        <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] p-4 rounded-full bg-white text-black cursor-pointer">
+        <div className="z-[20] absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] p-4 rounded-full bg-white text-black cursor-pointer">
           <IoPlayOutline size={25} />
         </div>
-        <div className="bg-slate-900 rounded-sm py-2 px-3 text-white flex items-center gap-x-2">
+        <div className="absolute bottom-3 right-3 z-[20] bg-slate-900 rounded-sm py-2 px-3 text-white flex items-center gap-x-2">
           <CiStopwatch size={20} />
           {time}
         </div>
