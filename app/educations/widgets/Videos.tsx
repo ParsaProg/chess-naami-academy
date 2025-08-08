@@ -49,7 +49,7 @@ export default function Videos() {
       }
     };
     getVideosData();
-  }, [videosData]);
+  }, []);
   return (
     <>
       <div className="w-full mt-8">
