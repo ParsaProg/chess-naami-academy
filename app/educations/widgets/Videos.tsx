@@ -33,7 +33,6 @@ export default function Videos() {
   })
   const [videosData, setVideosData] = useState<VideoContainerSchema[]>([]);
   useEffect(() => {
-    
     const getVideosData = async () => {
       try {
         const response = await fetch("/admin/api/videos", {
@@ -50,7 +49,7 @@ export default function Videos() {
       }
     };
     getVideosData();
-  }, []);
+  }, [videosData]);
   return (
     <>
       <div className="w-full mt-8">

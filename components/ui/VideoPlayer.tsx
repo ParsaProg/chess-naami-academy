@@ -104,7 +104,7 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying, isMuted, isFullscreen]);
+  }, [isPlaying, isMuted, isFullscreen, toggleFullscreen, toggleMute, togglePlay]);
 
   useEffect(() => {
     if (!isPlaying) {
