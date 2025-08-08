@@ -8,6 +8,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import DialogTrigger from "@/components/ui/dialogs/Dialog";
 
+interface videoContainerData{
+  title: string,
+  videoLink: string
+}
+
 interface VideoContainerSchema {
   level: string;
   time: string;
@@ -17,12 +22,15 @@ interface VideoContainerSchema {
   videoLink: string;
   posterImage: string;
   setIsShowDialog: (value: boolean) => void;
-  setDialogValue: (value: string) => void; 
+  setDialogValue: (value: videoContainerData) => void; 
 }
 
 export default function Videos() {
   const [isShowDialog, setIsShowDialog] = useState<boolean>(false);
-  const [dialogValue, setDialogValue] = useState<string>("")
+  const [dialogValue, setDialogValue] = useState<videoContainerData>({
+    title: "",
+    videoLink: ""
+  })
   const [videosData, setVideosData] = useState<VideoContainerSchema[]>([]);
   useEffect(() => {
     
@@ -69,7 +77,7 @@ export default function Videos() {
           })}
         </div>
       </div>
-      <DialogTrigger show={isShowDialog} value={dialogValue} />
+      <DialogTrigger setIsShowDialog={setIsShowDialog} show={isShowDialog} value={{videoLink: dialogValue.videoLink, title: dialogValue.title}} />
     </>
   );
 }
@@ -88,7 +96,10 @@ function VideoContainer({
   return (
     <div onClick={() => {
       setIsShowDialog(true);
-      setDialogValue(videoLink)
+      setDialogValue({
+        title: title,
+        videoLink: videoLink
+      })
     }} className="shadow-xl rounded-lg border-[1px] border-slate-200 w-[550px]">
       <div className="overflow-hidden relative flex flex-col items-start justify-between w-full h-[180px] transition-colors hover:bg-[#00000091] bg-[#0000004a] rounded-tl-lg rounded-tr-lg">
         <Image
