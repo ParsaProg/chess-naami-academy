@@ -24,7 +24,7 @@ export default function Books() {
 function BookContainer() {
   return (
     <div className="shadow-xl rounded-lg border-[1px] border-slate-200 w-[550px] p-5">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-x-3">
         <section className="flex flex-col items-start">
           <h1 className="font-bold text-xl text-black">
             مبانی شطرنج برای مبتدیان
@@ -37,7 +37,7 @@ function BookContainer() {
           <FaBookOpen size={60} className="size-6" />
         </div>
       </div>
-      <div className="flex items-center gap-x-2 text-slate-600">
+      <div className="flex-wrap flex items-center gap-x-3 text-slate-600">
         <h5 className="">نوسینده: استاد نعامی</h5>
         <h5 className="">۱۲۰ صفحه</h5>
         <h5 className="">۲.۵ مگابایت</h5>
@@ -62,12 +62,11 @@ function BookContainer() {
         </section>
       </div>
       <div className="w-[100%] mt-5 flex items-center gap-x-3">
-        <button className="transition-colors duration-100 hover:bg-slate-800 gap-x-2 cursor-pointer w-[80%] py-3 text-white bg-slate-950 rounded-lg flex items-center justify-center">
+        <button className="transition-colors duration-100 hover:bg-slate-800 gap-x-2 cursor-pointer w-[100%] py-3 text-white bg-slate-950 rounded-lg flex items-center justify-center">
           <MdOutlineFileDownload size={20} />
           دانلود رایگان
         </button>
-        <button className="cursor-pointer transition-colors duration-100 hover:bg-slate-200 w-[40%] p-3 rounded-lg border-[1px] border-slate-200 flex items-center text-center text-black gap-x-2 justify-center">
-          پیش نمایش
+        <button className="cursor-pointer transition-colors duration-100 hover:bg-slate-200 p-3 rounded-lg border-[1px] border-slate-200 flex items-center text-center text-black gap-x-2 justify-center">
           <IoEyeOutline size={20} />
         </button>
       </div>

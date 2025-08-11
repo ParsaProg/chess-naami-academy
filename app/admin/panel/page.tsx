@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ArticleUploadForm from "./widget/ArticleFormData";
 import VideoForm from "./widget/VideosFormData";
 
 export default function AdminPanelPage() {
   // const [selectedTap, setSelectedTap] = useState(0);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,13 +22,19 @@ export default function AdminPanelPage() {
       !adminToken ||
       adminToken !== process.env.NEXT_PUBLIC_ADMIN_PANEL_AUTH_TOKEN
     ) {
+      setIsLogin(false);
       router.push("/admin/panel/auth"); // یا از replace استفاده کنید برای جلوگیری از برگشت
+    } else {
+      setIsLogin(true);
     }
   }, [router]);
   return (
-    <div className="mt-[50px] w-full flex items-start justify-center">
-      <ArticleUploadForm />
-      <VideoForm />
-    </div>
+    !isLogin === null ||
+    (!isLogin === false && (
+      <div className="mt-[50px] w-full flex items-start justify-center">
+        <ArticleUploadForm />
+        <VideoForm />
+      </div>
+    ))
   );
 }
