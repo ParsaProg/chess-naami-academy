@@ -32,7 +32,7 @@ async function saveUploadedFile(file: File, subfolder: string): Promise<string> 
 export async function GET(req: NextRequest) {
   // احراز هویت
   const token = req.headers.get('Authorization')?.split(' ')[1];
-  if (token !== 'mysecrettoken123') {
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "دسترسی غیرمجاز" },
       { status: 401 }
@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   // احراز هویت
   const token = req.headers.get('Authorization')?.split(' ')[1];
-  if (token !== 'mysecrettoken123') {
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "دسترسی غیرمجاز" },
       { status: 401 }
