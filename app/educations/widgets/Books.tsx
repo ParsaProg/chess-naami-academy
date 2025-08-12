@@ -57,7 +57,7 @@ export default function Books() {
       }
     };
     getVideosData();
-  }, []);
+  }, [booksData.length]);
   const handleDownload = (pdfLink: string) => {
     const link = document.createElement("a");
     link.href = pdfLink;

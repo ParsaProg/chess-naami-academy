@@ -1,6 +1,5 @@
 import { IoPlayOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
-import { FiHeart } from "react-icons/fi";
 import { IoShareSocialOutline } from "react-icons/io5";
 
 export default function Puzzles() {

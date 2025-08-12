@@ -3,7 +3,6 @@
 import { IoPlayOutline } from "react-icons/io5";
 import { CiStopwatch } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
-import { FiHeart } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import DialogTrigger from "@/components/ui/dialogs/Dialog";
@@ -61,7 +60,7 @@ export default function Videos() {
       }
     };
     getVideosData();
-  }, []);
+  }, [videosData.length]);
   return (
     <>
       <div className="w-full mt-8">

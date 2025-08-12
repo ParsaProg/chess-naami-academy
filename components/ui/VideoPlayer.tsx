@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaExpand, FaCompress } from 'react-icons/fa';
 import { MdForward10, MdReplay10 } from 'react-icons/md';
@@ -18,46 +18,46 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
   const playerRef = useRef<HTMLDivElement>(null);
   const controlsTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (isPlaying) {
       videoRef.current?.pause();
     } else {
       videoRef.current?.play();
     }
     setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
-  const handleTimeUpdate = () => {
+  const handleTimeUpdate = useCallback(() => {
     if (videoRef.current) {
       const currentProgress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
       setProgress(currentProgress);
       setCurrentTime(videoRef.current.currentTime);
     }
-  };
+  }, []);
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSeek = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!videoRef.current) return;
     const seekTime = (Number(e.target.value) / 100) * videoRef.current.duration;
     videoRef.current.currentTime = seekTime;
-  };
+  }, []);
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVolumeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = Number(e.target.value);
     setVolume(newVolume);
     if (videoRef.current) {
       videoRef.current.volume = newVolume;
       setIsMuted(newVolume === 0);
     }
-  };
+  }, []);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
     }
-  };
+  }, [isMuted]);
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = useCallback(() => {
     if (!playerRef.current) return;
     
     if (!isFullscreen) {
@@ -69,7 +69,7 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
     }
     
     setIsFullscreen(!isFullscreen);
-  };
+  }, [isFullscreen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -86,10 +86,10 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
           toggleFullscreen();
           break;
         case 'ArrowRight':
-          videoRef.current.currentTime -= 10;
+          videoRef.current.currentTime += 10;
           break;
         case 'ArrowLeft':
-          videoRef.current.currentTime += 10;
+          videoRef.current.currentTime -= 10;
           break;
         case 'ArrowUp':
           setVolume(prev => Math.min(prev + 0.1, 1));
@@ -104,7 +104,7 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying, isMuted, isFullscreen, toggleFullscreen, toggleMute, togglePlay]);
+  }, [togglePlay, toggleMute, toggleFullscreen]);
 
   useEffect(() => {
     if (!isPlaying) {
@@ -123,11 +123,11 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
     };
   }, [isPlaying, isHovered, currentTime]);
 
-  const formatTime = (time: number) => {
+  const formatTime = useCallback((time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
+  }, []);
 
   return (
     <motion.div
@@ -171,7 +171,6 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
           >
-            {/* Progress Bar با استایل RTL */}
             <div className="mb-3 w-full relative">
               <input
                 type="range"
@@ -283,7 +282,6 @@ export default function ModernVideoPlayer({ src }: { src: string }) {
         </motion.button>
       )}
 
-      {/* استایل های سفارشی برای RTL */}
       <style jsx global>{`
         .rtl-range {
           direction: rtl;
