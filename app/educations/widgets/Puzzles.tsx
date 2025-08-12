@@ -61,9 +61,6 @@ function PuzzlesContainer() {
             حل پازل
           </button>
           <button className="cursor-pointer transition-colors duration-100 hover:bg-slate-200 p-3 rounded-lg border-[1px] border-slate-200 text-center text-black">
-            <FiHeart size={20} />
-          </button>
-          <button className="cursor-pointer transition-colors duration-100 hover:bg-slate-200 p-3 rounded-lg border-[1px] border-slate-200 text-center text-black">
             <IoShareSocialOutline size={20} />
           </button>
         </div>

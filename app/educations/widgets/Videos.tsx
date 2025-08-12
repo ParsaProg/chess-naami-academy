@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import DialogTrigger from "@/components/ui/dialogs/Dialog";
 
-interface videoContainerData{
-  title: string,
-  videoLink: string
+interface videoContainerData {
+  title: string;
+  videoLink: string;
 }
 
 interface VideoContainerSchema {
@@ -22,28 +22,40 @@ interface VideoContainerSchema {
   videoLink: string;
   posterImage: string;
   setIsShowDialog: (value: boolean) => void;
-  setDialogValue: (value: videoContainerData) => void; 
+  setDialogValue: (value: videoContainerData) => void;
 }
 
 export default function Videos() {
   const [isShowDialog, setIsShowDialog] = useState<boolean>(false);
   const [dialogValue, setDialogValue] = useState<videoContainerData>({
     title: "",
-    videoLink: ""
-  })
+    videoLink: "",
+  });
   const [videosData, setVideosData] = useState<VideoContainerSchema[]>([]);
+  
   useEffect(() => {
+    const videosDataItems = localStorage.getItem("videosDataEducation");
+    const parsedVideos = videosDataItems ? JSON.parse(videosDataItems): []
+    setVideosData(parsedVideos);
     const getVideosData = async () => {
+      
       try {
-        const response = await fetch("/admin/api/videos", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer mysecrettoken123`,
-          },
-        });
-        const videoData = await response.json();
-        setVideosData(videoData);
-        console.log(videosData);
+        if (videosData.length === 0) {
+          const response = await fetch("/admin/api/videos", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer mysecrettoken123`,
+            },
+          });
+          const videoData = await response.json();
+          if (videosDataItems !== videoData) {
+            setVideosData(videoData);
+            localStorage.setItem(
+              "videosDataEducation",
+              JSON.stringify(videoData)
+            );
+          }
+        }
       } catch (error: unknown) {
         console.log(error);
       }
@@ -76,7 +88,11 @@ export default function Videos() {
           })}
         </div>
       </div>
-      <DialogTrigger setIsShowDialog={setIsShowDialog} show={isShowDialog} value={{videoLink: dialogValue.videoLink, title: dialogValue.title}} />
+      <DialogTrigger
+        setIsShowDialog={setIsShowDialog}
+        show={isShowDialog}
+        value={{ videoLink: dialogValue.videoLink, title: dialogValue.title }}
+      />
     </>
   );
 }
@@ -90,16 +106,19 @@ function VideoContainer({
   videoLink,
   posterImage,
   setIsShowDialog,
-  setDialogValue
+  setDialogValue,
 }: VideoContainerSchema) {
   return (
-    <div onClick={() => {
-      setIsShowDialog(true);
-      setDialogValue({
-        title: title,
-        videoLink: videoLink
-      })
-    }} className="shadow-xl rounded-lg border-[1px] border-slate-200 w-[550px]">
+    <div
+      onClick={() => {
+        setIsShowDialog(true);
+        setDialogValue({
+          title: title,
+          videoLink: videoLink,
+        });
+      }}
+      className="shadow-xl rounded-lg border-[1px] border-slate-200 w-[550px]"
+    >
       <div className="overflow-hidden relative flex flex-col items-start justify-between w-full h-[180px] transition-colors hover:bg-[#00000091] bg-[#0000004a] rounded-tl-lg rounded-tr-lg">
         <Image
           className="w-full z-[10]"
@@ -135,9 +154,6 @@ function VideoContainer({
           <button className="transition-colors duration-100 hover:bg-slate-800 gap-x-2 cursor-pointer w-[100%] py-3 text-white bg-slate-950 rounded-lg flex items-center justify-center">
             <IoPlayOutline size={20} />
             مشاهدۀ ویدیو
-          </button>
-          <button className="cursor-pointer transition-colors duration-100 hover:bg-slate-200 p-3 rounded-lg border-[1px] border-slate-200 text-center text-black">
-            <FiHeart size={20} />
           </button>
         </div>
       </div>

@@ -34,7 +34,7 @@ export default function TabSelect({
         } rounded-md flex items-center gap-x-2 p-3 justify-center cursor-pointer`}
       >
         <IoBookOutline size={20} />
-        کتاب‌های رایگان
+        کتابخانه
       </div>
       <div
         onClick={() => {
