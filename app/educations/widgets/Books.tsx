@@ -117,7 +117,7 @@ function BookContainer({
           <FaBookOpen size={60} className="size-6" />
         </div>
       </div>
-      <div className="flex-wrap flex items-center gap-x-3 text-slate-600">
+      <div className="mt-3 flex-wrap flex items-center gap-x-3 text-slate-600">
         <h5 className="">نوسینده: {author}</h5>
         <h5 className="">{pages} صفحه</h5>
         <h5 className="">{size} مگابایت</h5>
