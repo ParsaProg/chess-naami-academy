@@ -1,10 +1,16 @@
+"use client";
+
+import DialogTrigger from "@/components/ui/dialogs/PuzzleDialog";
+import { useState } from "react";
 import { IoPlayOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoShareSocialOutline } from "react-icons/io5";
 
 export default function Puzzles() {
+  const [isShowDialog, setIsShowDialog] = useState<boolean>(true);
   return (
     <div className="w-full mt-8">
+      <DialogTrigger show={isShowDialog}/>
       <div className="w-full mt-8">
         <h1 className="font-bold text-black text-2xl">پازل‌های شطرنج</h1>
         <h3 className="mt-2 text-slate-600 text-lg font-[400]">
