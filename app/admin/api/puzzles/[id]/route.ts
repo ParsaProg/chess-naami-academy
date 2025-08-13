@@ -78,7 +78,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Prepare update data
-    const updateData: any = {
+    const updateData: Record<string, unknown> = {
       title: formData.get("title") as string || existingPuzzle.title,
       level: formData.get("level") as string || existingPuzzle.level,
       rating: parseFloat(formData.get("rating") as string) || existingPuzzle.rating,
@@ -123,7 +123,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ message: "Puzzle not found" }, { status: 404 });
     }
     return NextResponse.json({ message: "Puzzle deleted successfully" });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("DELETE Puzzle Error:", error);
     return NextResponse.json(
       { message: "Internal server error" },

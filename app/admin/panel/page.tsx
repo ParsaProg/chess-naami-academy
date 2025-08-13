@@ -2,8 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import ArticleUploadForm from "./widget/ArticleFormData";
-import VideoForm from "./widget/VideosFormData";
 import PuzzleUploadForm from "./widget/PuzzlesFormData";
 
 export default function AdminPanelPage() {
