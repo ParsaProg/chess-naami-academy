@@ -7,7 +7,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { IoShareSocialOutline } from "react-icons/io5";
 
 export default function Puzzles() {
-  const [isShowDialog, setIsShowDialog] = useState<boolean>(true);
+  const [isShowDialog, setIsShowDialog] = useState<boolean>(false);
   return (
     <div className="w-full mt-8">
       <DialogTrigger show={isShowDialog}/>
