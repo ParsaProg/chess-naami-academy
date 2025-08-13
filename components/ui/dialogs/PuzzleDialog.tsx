@@ -19,7 +19,7 @@ export default function DialogTrigger({
   value?: videoContainerData;
   setIsShowDialog?: (value: boolean) => void;
 }) {
-    const fen = "r1bqkbnr/pppppppp/2n5/1B6/4P3/8/PPPP1PPP/RNBQK1NR b KQkq - 2 3";
+  const fen = "r1bqkbnr/pppppppp/2n5/1B6/4P3/8/PPPP1PPP/RNBQK1NR b KQkq - 2 3";
   useEffect(() => {
     if (show) {
       document.documentElement.style.overflow = "hidden";
@@ -72,9 +72,6 @@ export default function DialogTrigger({
               />
               <h1 className="font-bold text-xl"></h1>
             </div>{" "}
-            <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-                <InteractiveChessboard fen={fen} />
-            </div>
           </motion.div>
         </>
       )}
