@@ -23,6 +23,7 @@ export default function SignUp() {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [bornDate, setBornDate] = useState("");
   const [info, setInfo] = useState("");
   const [message, setMessage] = useState("");
   const sendEmail = (e: React.FormEvent) => {
@@ -36,6 +37,7 @@ export default function SignUp() {
           name: name,
           time: `
           شماره تماس: ${phoneNumber}
+          تاریخ تولد: ${bornDate}
           کشور + شهر: ${country} + ${city} 
           توضیحات دربارۀ سطح شطرنجی: ${info}
           `,
@@ -130,6 +132,20 @@ export default function SignUp() {
             type="text"
             className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none"
             placeholder="شماره تماس خود را وارد کنید"
+          />
+        </div>
+        <div className="mt-5">
+          <h3 className="text-black font-[400] text-base sm:text-lg">
+            تاریخ تولد
+          </h3>
+          <input
+            required
+            value={bornDate}
+            onChange={(e) => setBornDate(e.target.value)}
+            autoComplete="bornDate"
+            type="text"
+            className="border-[1px] border-slate-300 rounded-lg p-3 text-base sm:text-lg w-full mt-2 outline-none"
+            placeholder="تاریخ تولد خود را وارد کنید"
           />
         </div>
         <div className="mt-3 flex items-center gap-x-5">
