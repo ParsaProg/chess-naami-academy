@@ -32,8 +32,8 @@ export default function AdminPanelPage() {
     !isLogin === null ||
     (!isLogin === false && (
       <div className="mt-[50px] w-full flex items-start justify-center">
-        <ArticleUploadForm />
-        <VideoForm />
+        {/* <ArticleUploadForm />
+        <VideoForm /> */}
       </div>
     ))
   );
