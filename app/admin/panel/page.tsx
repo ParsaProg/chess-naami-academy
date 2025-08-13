@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ArticleUploadForm from "./widget/ArticleFormData";
 import VideoForm from "./widget/VideosFormData";
+import PuzzleUploadForm from "./widget/PuzzlesFormData";
 
 export default function AdminPanelPage() {
   // const [selectedTap, setSelectedTap] = useState(0);
@@ -34,6 +35,7 @@ export default function AdminPanelPage() {
       <div className="mt-[50px] w-full flex items-start justify-center">
         {/* <ArticleUploadForm />
         <VideoForm /> */}
+        <PuzzleUploadForm />
       </div>
     ))
   );
