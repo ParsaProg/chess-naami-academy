@@ -56,7 +56,7 @@ export default function Puzzles() {
       try {
         if (puzzlesData.length === 0) {
           const response = await fetch(
-            "/asetPuzzleDialogDatadmin/api/puzzles",
+            "/admin/api/puzzles",
             {
               method: "GET",
               headers: {
