@@ -10,7 +10,6 @@ import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { usePathname, useRouter } from "next/navigation";
-import { CiSearch } from "react-icons/ci";
 import Drawer from "./Drawer";
 import { useEffect, useState } from "react";
 import { MdCastForEducation } from "react-icons/md";
@@ -123,17 +122,6 @@ export default function NavBar() {
           </section>
         </section>
         <section className="flex items-center gap-x-2">
-          <div className="relative [@media(max-width:1500px)]:hidden">
-            <input
-              type="text"
-              placeholder="جستجو کنید"
-              className=" w-[200px] px-10 py-2 rounded-lg border-[1px] border-slate-300 text-black outline-none focus:ring-[#F69B0D] focus:ring-2 ring-offset-2 transition-all duration-200"
-            />
-            <CiSearch
-              size={20}
-              className="absolute right-3 top-[50%] translate-y-[-50%]"
-            />
-          </div>
           <Link href={"/sign-up"}>
             <div
               className={
