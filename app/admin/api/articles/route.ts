@@ -41,8 +41,6 @@ export async function GET(req: NextRequest) {
 
   try {
     await connectToDatabase();
-    
-    // دریافت تمام مقالات به صورت مستقیم (بدون ساختار data تودرتو)
     const articles = await Article.find({})
       .sort({ createdAt: -1 })
       .lean();
