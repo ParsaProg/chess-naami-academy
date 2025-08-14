@@ -55,15 +55,12 @@ export default function Puzzles() {
     const getPuzzlesData = async () => {
       try {
         if (puzzlesData.length === 0) {
-          const response = await fetch(
-            "/admin/api/puzzles",
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer mysecrettoken123`,
-              },
-            }
-          );
+          const response = await fetch("/admin/api/puzzles", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer mysecrettoken123`,
+            },
+          });
           const puzzleData = await response.json();
           if (puzzlesDataItems !== puzzleData) {
             setPuzzlesData(puzzleData);
@@ -134,7 +131,7 @@ function PuzzlesContainer({
           width={800}
           height={800}
           unoptimized
-          alt="puzzles-image"
+          alt="آموزش شطرنج, شطرنج ایران, باشگاه شطرنج ایران, شطرنج تهران, شطرنج مرزداران, شطرنج آنلاین, ویدیو آموزشی شطرنجو, پازل شطرنج ایران, پازل شطرنج , (پازل شطرنج)"
           src={puzzleImage}
           className="opacity-[0.8] z-10 absolute top-0 right-0 w-full h-[300px]"
         ></Image>

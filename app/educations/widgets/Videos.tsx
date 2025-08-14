@@ -121,7 +121,7 @@ function VideoContainer({
       <div className="overflow-hidden relative flex flex-col items-start justify-between w-full h-[180px] transition-colors hover:bg-[#00000091] bg-[#0000004a] rounded-tl-lg rounded-tr-lg">
         <Image
           className="w-full z-[10]"
-          alt="bg-video-images"
+          alt="آموزش شطرنج, شطرنج ایران, باشگاه شطرنج ایران, شطرنج تهران, شطرنج مرزداران, شطرنج آنلاین, ویدیو آموزشی شطرنج"
           width={800}
           height={800}
           src={posterImage}
