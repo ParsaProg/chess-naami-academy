@@ -81,7 +81,7 @@ export default function VideoForm() {
     }
   };
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-white p-6 rounded-lg shadow-md w-full">
       <h2 className="text-xl font-bold mb-6 text-gray-800">
         افزودن ویدیو جدید
       </h2>

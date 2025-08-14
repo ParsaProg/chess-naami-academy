@@ -1,0 +1,9 @@
+.select-menu{
+    display: blcok;
+}
+
+@media (max-width: 640px) {
+    .select-menu{
+        display: none;
+    }
+}
