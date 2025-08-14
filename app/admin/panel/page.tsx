@@ -8,7 +8,7 @@ import ManaginPanelIcon from "@/public/assets/icons/admin-avatar.png";
 import SelectTabMenu from "./utils/SelectTabMenu";
 
 export default function AdminPanelPage() {
-  const [selectedTap, setSelectedTap] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(0);
   const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const router = useRouter();
 
@@ -33,11 +33,11 @@ export default function AdminPanelPage() {
   return (
     !isLogin === null ||
     (!isLogin === false && (
-      <div className="mt-[50px] w-[90%] mx-auto flex items-start justify-center">
+      <div className="mt-[50px] w-full mx-auto">
         {/* <ArticleUploadForm />
         <VideoForm /> */}
         {/* <PuzzleUploadForm /> */}
-        <section className="flex items-center justify-between w-full">
+        <section className="px-[30px] border-b-[1px] pb-[20px] border-b-slate-300 flex items-center justify-between w-full">
           <div className="flex items-center gap-x-2">
             <div className="bg-[#6363C6] rounded-lg p-3 flex items-center justify-center text-white">
               <FaRegChessQueen size={20}/>
@@ -48,7 +48,7 @@ export default function AdminPanelPage() {
             <Image unoptimized alt="managing-panel-icon" src={ManaginPanelIcon}/>
           </div>
         </section>
-        <SelectTabMenu />
+        <SelectTabMenu selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
       </div>
     ))
   );
