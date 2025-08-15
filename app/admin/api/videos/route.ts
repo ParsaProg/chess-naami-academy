@@ -2,34 +2,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Video from "@/models/Videos";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import { existsSync } from "fs";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 export const config = {
   api: {
     bodyParser: false,
-    sizeLimit: '10mb'
+    sizeLimit: "10mb",
   },
 };
 
+const s3 = new S3Client({
+  region: process.env.LIARA_REGION,
+  credentials: {
+    accessKeyId: process.env.LIARA_ACCESS_KEY!,
+    secretAccessKey: process.env.LIARA_SECRET_KEY!,
+  },
+});
+
 async function savePosterImage(file: File): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `video_poster_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
-  const uploadDir = path.join(process.cwd(), 'public/uploads/videos');
+  const filename = `video_poster_${Date.now()}_${file.name.replace(
+    /\s+/g,
+    "_"
+  )}`;
+  const bucketName = process.env.LIARA_BUCKET_NAME!;
 
-  if (!existsSync(uploadDir)) {
-    await mkdir(uploadDir, { recursive: true });
-  }
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: `videos/${filename}`,
+    Body: buffer,
+    ContentType: file.type,
+    ACL: "public-read",
+  });
 
-  const filePath = path.join(uploadDir, filename);
-  await writeFile(filePath, buffer);
-  return `/uploads/videos/${filename}`;
+  await s3.send(command);
+
+  // مسیر عمومی فایل روی باکت Liara
+  return `https://${bucketName}.liara.space/videos/${filename}`;
 }
 
 export async function GET(req: NextRequest) {
   // Authorzation with admin token
-  const token = req.headers.get('Authorization')?.split(' ')[1];
+  const token = req.headers.get("Authorization")?.split(" ")[1];
   if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "دسترسی غیرمجاز" },
@@ -53,15 +67,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     // احراز هویت ساده
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return NextResponse.json(
         { success: false, message: "دسترسی غیرمجاز" },
         { status: 401 }
       );
     }
 
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split(" ")[1];
     if (token !== process.env.NEXT_API_SECRET_TOKEN) {
       return NextResponse.json(
         { success: false, message: "توکن نامعتبر" },
@@ -75,12 +89,19 @@ export async function POST(req: NextRequest) {
     const title = formData.get("title") as string;
     const level = formData.get("level") as string;
     const time = formData.get("time") as string;
-    const views = formData.get("views") as string || "0";
+    const views = (formData.get("views") as string) || "0";
     const publisher = formData.get("publisher") as string;
     const videoLink = formData.get("videoLink") as string;
     const posterImageFile = formData.get("posterImage") as File;
 
-    if (!title || !level || !time || !publisher || !videoLink || !posterImageFile) {
+    if (
+      !title ||
+      !level ||
+      !time ||
+      !publisher ||
+      !videoLink ||
+      !posterImageFile
+    ) {
       return NextResponse.json(
         { success: false, message: "تمامی فیلدهای ضروری را پر کنید" },
         { status: 400 }
@@ -96,14 +117,13 @@ export async function POST(req: NextRequest) {
       views,
       publisher,
       videoLink,
-      posterImage: posterImagePath
+      posterImage: posterImagePath,
     });
 
     return NextResponse.json(
       { success: true, data: newVideo },
       { status: 201 }
     );
-
   } catch (error) {
     console.error("خطا در سمت سرور:", error);
     return NextResponse.json(
