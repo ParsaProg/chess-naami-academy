@@ -55,15 +55,16 @@ export default function MainArticlesContainer({
           <p className="font-[500] text-black text-lg mt-3">{desc}</p>
           <div className="flex [@media(max-width:860px)]:flex-col flex-row justify-between mt-5 w-[95%]">
             <div className="flex items-center gap-x-3 [@media(max-width:860px)]:mb-5">
-              <div
-                style={{
-                  backgroundImage: `url(${publisherImage})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "cenetr",
-                  backgroundRepeat: "no-repeat",
-                }}
-                className="rounded-full border-[1px] border-slate-400 w-10 h-10 "
-              ></div>
+              <div className="rounded-full border-[1px] border-slate-400 w-10 h-10 overflow-hidden">
+                <Image
+                  alt="شطرنج ایران, مقالات شطرنج ایران"
+                  src={publisherImage}
+                  unoptimized
+                  width={800}
+                  height={800}
+                  className="w-10 h-10"
+                />
+              </div>
               <h2 className="font-[500] text-black text-lg">{publisherName}</h2>
             </div>
             <section className="flex items-center ">
