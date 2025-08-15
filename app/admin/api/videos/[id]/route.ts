@@ -1,129 +1,169 @@
-// app/api/admin/videos/[id]/route.ts
+// app/admin/api/articles/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
-import Video from "@/models/Videos";
+import Article from "@/models/Article";
+import { checkAuth } from "@/lib/auth";
+import mongoose from "mongoose";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-export const config = {
-  api: {
-    bodyParser: false,
-    sizeLimit: "10mb",
-  },
-};
-
+// ---------------- S3 Client ----------------
 const s3 = new S3Client({
-  region: process.env.LIARA_REGION,
+  region: "default",
+  endpoint: process.env.LIARA_ENDPOINT,
   credentials: {
     accessKeyId: process.env.LIARA_ACCESS_KEY!,
     secretAccessKey: process.env.LIARA_SECRET_KEY!,
   },
 });
 
-// ---------------- Helper: Upload poster image ----------------
-async function savePosterImage(file: File): Promise<string> {
+// ---------------- Helper: Upload file to Liara Bucket ----------------
+async function saveUploadedFile(file: File, subfolder: string): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `video_poster_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
-  const bucketName = process.env.LIARA_BUCKET_NAME!;
+  const filename = `${subfolder}_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
+  const uploadKey = `${subfolder}/${filename}`;
 
   await s3.send(
     new PutObjectCommand({
-      Bucket: bucketName,
-      Key: `videos/${filename}`,
+      Bucket: process.env.LIARA_BUCKET_NAME!,
+      Key: uploadKey,
       Body: buffer,
       ContentType: file.type,
       ACL: "public-read",
     })
   );
 
-  return `https://${bucketName}.liara.space/videos/${filename}`;
+  return `${process.env.LIARA_ENDPOINT}/${process.env.LIARA_BUCKET_NAME}/${uploadKey}`;
 }
 
-// ---------------- GET single video ----------------
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-    return NextResponse.json({ success: false, message: "دسترسی غیرمجاز" }, { status: 401 });
+// استخراج id از URL
+function getIdFromUrl(request: NextRequest): string | null {
+  try {
+    const url = new URL(request.url);
+    const parts = url.pathname.split("/");
+    return parts[parts.length - 1] || null;
+  } catch {
+    return null;
+  }
+}
+
+// ---------------- Types ----------------
+interface UpdateArticleData {
+  title?: string;
+  content?: string;
+  cats?: string[];
+  importantText?: string;
+  desc?: string;
+  time?: string;
+  publishDate?: string;
+  publisherName?: string;
+  publisherTag?: string;
+  isSpecial?: boolean;
+  titleImage?: string;
+  publisherImage?: string;
+}
+
+// ---------------- GET ----------------
+export async function GET(request: NextRequest) {
+  const authError = await checkAuth(request);
+  if (authError) return authError;
+
+  const id = getIdFromUrl(request);
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
   }
 
   try {
     await connectToDatabase();
-    const video = await Video.findById(params.id);
-    if (!video) {
-      return NextResponse.json({ success: false, message: "ویدیو پیدا نشد" }, { status: 404 });
+    const article = await Article.findById(id);
+    if (!article) {
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
-    return NextResponse.json(video);
+    return NextResponse.json(article);
   } catch (error) {
-    console.error("خطا در دریافت ویدیو:", error);
-    return NextResponse.json({ success: false, message: "خطای سرور" }, { status: 500 });
+    console.error("GET Article Error:", error);
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }
 
-// ---------------- DELETE video ----------------
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const token = req.headers.get("Authorization")?.split(" ")[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-    return NextResponse.json({ success: false, message: "دسترسی غیرمجاز" }, { status: 401 });
+// ---------------- PUT ----------------
+export async function PUT(request: NextRequest) {
+  const authError = await checkAuth(request);
+  if (authError) return authError;
+
+  const id = getIdFromUrl(request);
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
   }
 
   try {
     await connectToDatabase();
-    const deletedVideo = await Video.findByIdAndDelete(params.id);
-    if (!deletedVideo) {
-      return NextResponse.json({ success: false, message: "ویدیو پیدا نشد" }, { status: 404 });
+    const formData = await request.formData();
+
+    const title = formData.get("title") as string | null;
+    const content = formData.get("content") as string | null;
+    const cats = formData.get("cats") ? JSON.parse(formData.get("cats") as string) : undefined;
+    const importantText = formData.get("importantText") as string | null;
+    const desc = formData.get("desc") as string | null;
+    const time = formData.get("time") as string | null;
+    const publishDate = formData.get("publishDate") as string | null;
+    const publisherName = formData.get("publisherName") as string | null;
+    const publisherTag = formData.get("publisherTag") as string | null;
+    const isSpecial = formData.get("isSpecial") === "true";
+
+    const titleImageFile = formData.get("titleImage") as File | null;
+    const publisherImageFile = formData.get("publisherImage") as File | null;
+
+    const updateData: UpdateArticleData = {
+      title: title || undefined,
+      content: content || undefined,
+      cats: cats || undefined,
+      importantText: importantText || undefined,
+      desc: desc || undefined,
+      time: time || undefined,
+      publishDate: publishDate || undefined,
+      publisherName: publisherName || undefined,
+      publisherTag: publisherTag || undefined,
+      isSpecial,
+    };
+
+    if (titleImageFile) {
+      updateData.titleImage = await saveUploadedFile(titleImageFile, "title");
     }
-    return NextResponse.json({ success: true, message: "ویدیو حذف شد" });
+    if (publisherImageFile) {
+      updateData.publisherImage = await saveUploadedFile(publisherImageFile, "publisher");
+    }
+
+    const updatedArticle = await Article.findByIdAndUpdate(id, updateData, { new: true });
+    if (!updatedArticle) {
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, data: updatedArticle });
   } catch (error) {
-    console.error("خطا در حذف ویدیو:", error);
-    return NextResponse.json({ success: false, message: "خطای سرور" }, { status: 500 });
+    console.error("PUT Article Error:", error);
+    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
   }
 }
 
-// ---------------- PUT: Update video ----------------
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const authHeader = req.headers.get("Authorization");
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return NextResponse.json({ success: false, message: "دسترسی غیرمجاز" }, { status: 401 });
-  }
+// ---------------- DELETE ----------------
+export async function DELETE(request: NextRequest) {
+  const authError = await checkAuth(request);
+  if (authError) return authError;
 
-  const token = authHeader.split(" ")[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
-    return NextResponse.json({ success: false, message: "توکن نامعتبر" }, { status: 401 });
+  const id = getIdFromUrl(request);
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
   }
 
   try {
     await connectToDatabase();
-    const formData = await req.formData();
-
-    const title = formData.get("title") as string;
-    const level = formData.get("level") as string;
-    const time = formData.get("time") as string;
-    const views = parseInt((formData.get("views") as string) || "0");
-    const publisher = formData.get("publisher") as string;
-    const videoLink = formData.get("videoLink") as string;
-    const posterImageFile = formData.get("posterImage") as File | null;
-
-    if (!title || !level || !time || !publisher || !videoLink) {
-      return NextResponse.json(
-        { success: false, message: "تمامی فیلدهای ضروری را پر کنید" },
-        { status: 400 }
-      );
+    const deleted = await Article.findByIdAndDelete(id);
+    if (!deleted) {
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
-
-    const updateData: any = { title, level, time, views, publisher, videoLink };
-
-    if (posterImageFile) {
-      const posterImagePath = await savePosterImage(posterImageFile);
-      updateData.posterImage = posterImagePath;
-    }
-
-    const updatedVideo = await Video.findByIdAndUpdate(params.id, updateData, { new: true });
-    if (!updatedVideo) {
-      return NextResponse.json({ success: false, message: "ویدیو پیدا نشد" }, { status: 404 });
-    }
-
-    return NextResponse.json({ success: true, data: updatedVideo }, { status: 200 });
+    return NextResponse.json({ message: "Deleted successfully" });
   } catch (error) {
-    console.error("خطا در بروزرسانی ویدیو:", error);
-    return NextResponse.json({ success: false, message: "خطای سرور" }, { status: 500 });
+    console.error("DELETE Article Error:", error);
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }
