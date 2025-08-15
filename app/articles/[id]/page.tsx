@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import SpecialArticleContainer from "@/components/ui/articles/special-articles-container";
 import "../../../styles/loaderSpinner.css";
+import Image from "next/image";
 
 interface Article {
   _id: string;
@@ -92,14 +93,10 @@ export default function MainArticlesDetailsPage() {
       <div className="flex flex-col sm:flex-row items-center justify-between mt-8 w-full rounded-lg shadow-xl border border-slate-300 p-5 gap-5 sm:gap-0">
         <section className="flex flex-row items-center gap-x-2">
           <div
-            style={{
-              backgroundImage: `url(${article.publisherImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-            className="rounded-full border border-slate-400 w-14 h-14"
-          ></div>
+            className="rounded-full border border-slate-400 w-14 h-14 overflow-hidden"
+          >
+            <Image alt="شطرنج ایران, مقالات شطرنج ایران" src={article.publisherImage} unoptimized width={800} height={800} className="w-14 h-14"/>
+          </div>
           <div className="flex flex-col">
             <span className="text-lg font-semibold text-slate-900">
               {article.publisherName}
