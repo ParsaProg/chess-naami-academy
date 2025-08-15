@@ -9,7 +9,6 @@ const nextConfig = {
     ];
   },
   images: {
-    loader: 'default',
     domains: ["chessnaami.ir"],
     remotePatterns: [
       {
