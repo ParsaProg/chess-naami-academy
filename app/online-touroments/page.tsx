@@ -46,7 +46,7 @@ export default function OnlineTouroments() {
       const filtredDownTournoment = tournomentsDataCashed.filter((v => v.minRating! < 1100));
       setTournomentsData(filtredDownTournoment)
     }
-  }, [filterMode]);
+  }, [filterMode, tournomentsDataCashed]);
   return (
     <div className="online-tournoments w-[90%] mx-auto mt-[50px]">
       <div className="text-black flex items-center gap-x-3 justify-center text-3xl">
