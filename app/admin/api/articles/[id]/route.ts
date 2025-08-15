@@ -6,6 +6,22 @@ import { checkAuth } from "@/lib/auth";
 import mongoose from "mongoose";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
+interface UpdateArticleData {
+  title?: string;
+  content?: string;
+  cats?: string[];
+  importantText?: string;
+  desc?: string;
+  time?: string;
+  publishDate?: string;
+  publisherName?: string;
+  publisherTag?: string;
+  isSpecial?: boolean;
+  titleImage?: string;
+  publisherImage?: string;
+}
+
+
 // ---------------- S3 Client ----------------
 const s3 = new S3Client({
   region: "default",
@@ -95,7 +111,7 @@ export async function PUT(request: NextRequest) {
     const titleImageFile = formData.get("titleImage") as File | null;
     const publisherImageFile = formData.get("publisherImage") as File | null;
 
-    const updateData: any = {
+    const updateData: UpdateArticleData = {
       title,
       content,
       cats,
