@@ -255,7 +255,7 @@ export default function VideoForm() {
           {/* پیش‌نمایش عکس */}
           {previewImage && (
             <div className="mt-2">
-              <Image
+              <img
                 src={previewImage}
                 alt="پیش‌نمایش عکس پوستر"
                 className="h-40 object-cover rounded-md"
