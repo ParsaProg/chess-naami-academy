@@ -3,9 +3,7 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Puzzle from "@/models/Puzzles";
 import { checkAuth } from "@/lib/auth";
 import mongoose from "mongoose";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import { existsSync } from "fs";
+import { uploadToLiara } from "@/lib/uploadToLiara"; // متد جدید آپلود به لیارا
 
 // Extract ID from URL
 function getIdFromUrl(request: NextRequest): string | null {
@@ -16,21 +14,6 @@ function getIdFromUrl(request: NextRequest): string | null {
   } catch {
     return null;
   }
-}
-
-// Helper function to save uploaded file
-async function saveUploadedFile(file: File, subfolder: string): Promise<string> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `${subfolder}_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
-  const uploadDir = path.join(process.cwd(), 'public/uploads');
-
-  if (!existsSync(uploadDir)) {
-    await mkdir(uploadDir, { recursive: true });
-  }
-
-  const filePath = path.join(uploadDir, filename);
-  await writeFile(filePath, buffer);
-  return `/uploads/${filename}`;
 }
 
 export async function GET(request: NextRequest) {
@@ -91,7 +74,7 @@ export async function PUT(request: NextRequest) {
     // Handle image update if provided
     const puzzleImageFile = formData.get("puzzleImage") as File | null;
     if (puzzleImageFile && puzzleImageFile.size > 0) {
-      updateData.puzzleImage = await saveUploadedFile(puzzleImageFile, 'puzzle');
+      updateData.puzzleImage = await uploadToLiara(puzzleImageFile, "puzzle");
     }
 
     // Update puzzle
