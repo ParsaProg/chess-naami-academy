@@ -1,78 +1,66 @@
-// app/admin/api/videos/[id]/route.ts
+// app/api/admin/videos/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Video from "@/models/Videos";
-import { checkAuth } from "@/lib/auth";
-import mongoose from "mongoose";
-import { unlink, writeFile, mkdir } from "fs/promises";
-import path from "path";
-import { existsSync } from "fs";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-// استخراج id از URL
-function getIdFromUrl(request: NextRequest): string | null {
-  try {
-    const url = new URL(request.url);
-    const parts = url.pathname.split("/");
-    return parts[parts.length - 1] || null;
-  } catch {
-    return null;
-  }
-}
+const s3 = new S3Client({
+  region: process.env.LIARA_REGION,
+  credentials: {
+    accessKeyId: process.env.LIARA_ACCESS_KEY!,
+    secretAccessKey: process.env.LIARA_SECRET_KEY!,
+  },
+});
 
-// حذف فایل قدیمی هنگام آپدیت
-async function deleteOldFile(filename: string) {
-  if (filename) {
-    try {
-      const filePath = path.join(process.cwd(), 'public', filename);
-      await unlink(filePath);
-    } catch (error) {
-      console.error("Error deleting old file:", error);
-    }
-  }
-}
-
-// تابع کمکی برای ذخیره فایل جدید
-async function saveUploadedFile(file: File): Promise<string> {
+async function uploadImageToLiara(
+  file: File,
+  folder: string = "videos"
+): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `video_poster_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
-  const uploadDir = path.join(process.cwd(), 'public/uploads/videos');
+  const filename = `${folder}_poster_${Date.now()}_${file.name.replace(
+    /\s+/g,
+    "_"
+  )}`;
+  const bucketName = process.env.LIARA_BUCKET_NAME!;
 
-  // ایجاد دایرکتوری اگر وجود نداشته باشد
-  if (!existsSync(uploadDir)) {
-    await mkdir(uploadDir, { recursive: true });
-  }
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: `${folder}/${filename}`,
+    Body: buffer,
+    ContentType: file.type,
+    ACL: "public-read",
+  });
 
-  const filePath = path.join(uploadDir, filename);
-  await writeFile(filePath, buffer);
-  return `/uploads/videos/${filename}`;
+  await s3.send(command);
+
+  return `https://${bucketName}.liara.space/${folder}/${filename}`;
 }
 
-export async function GET(request: NextRequest) {
-  const authError = await checkAuth(request);
-  if (authError) return authError;
-
-  const id = getIdFromUrl(request);
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+// ===== GET SINGLE VIDEO =====
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const token = req.headers.get("Authorization")?.split(" ")[1];
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
-      { success: false, message: "شناسه نامعتبر" },
-      { status: 400 }
+      { success: false, message: "دسترسی غیرمجاز" },
+      { status: 401 }
     );
   }
 
   try {
     await connectToDatabase();
-    const video = await Video.findById(id);
-    
+    const video = await Video.findById(params.id);
     if (!video) {
       return NextResponse.json(
-        { success: false, message: "ویدیو یافت نشد" },
+        { success: false, message: "ویدیو پیدا نشد" },
         { status: 404 }
       );
     }
-    
     return NextResponse.json(video);
   } catch (error) {
-    console.error("GET Video Error:", error);
+    console.error("خطا در دریافت ویدیو:", error);
     return NextResponse.json(
       { success: false, message: "خطای سرور" },
       { status: 500 }
@@ -80,120 +68,93 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function PUT(request: NextRequest) {
-  const authError = await checkAuth(request);
-  if (authError) return authError;
-
-  const id = getIdFromUrl(request);
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+// ===== DELETE VIDEO =====
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const token = req.headers.get("Authorization")?.split(" ")[1];
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
     return NextResponse.json(
-      { success: false, message: "شناسه نامعتبر" },
-      { status: 400 }
+      { success: false, message: "دسترسی غیرمجاز" },
+      { status: 401 }
     );
   }
 
   try {
     await connectToDatabase();
-    const formData = await request.formData();
-    
-    // دریافت فیلدهای متنی
-    const updateData = {
-      title: formData.get("title") as string,
-      level: formData.get("level") as string,
-      time: formData.get("time") as string,
-      views: formData.get("views") as string,
-      publisher: formData.get("publisher") as string,
-      videoLink: formData.get("videoLink") as string,
-    };
-
-    // دریافت فایل جدید (اگر وجود دارد)
-    const newPosterImage = formData.get("posterImage") as File | null;
-    let posterImagePath = null;
-
-    if (newPosterImage && newPosterImage.size > 0) {
-      // ذخیره فایل جدید
-      posterImagePath = await saveUploadedFile(newPosterImage);
-
-      // حذف فایل قدیمی
-      const currentVideo = await Video.findById(id);
-      if (currentVideo?.posterImage) {
-        await deleteOldFile(currentVideo.posterImage);
-      }
-    }
-
-    // آپدیت دیتا
-    const updatedData = {
-      ...updateData,
-      ...(posterImagePath ? { posterImage: posterImagePath } : {})
-    };
-
-    const updatedVideo = await Video.findByIdAndUpdate(id, updatedData, {
-      new: true,
-    });
-
-    if (!updatedVideo) {
+    const deletedVideo = await Video.findByIdAndDelete(params.id);
+    if (!deletedVideo) {
       return NextResponse.json(
-        { success: false, message: "ویدیو یافت نشد" },
+        { success: false, message: "ویدیو پیدا نشد" },
         { status: 404 }
       );
     }
-
-    return NextResponse.json({
-      success: true,
-      data: updatedVideo,
-    });
-
+    return NextResponse.json({ success: true, message: "ویدیو حذف شد" });
   } catch (error) {
-    console.error("PUT Video Error:", error);
+    console.error("خطا در حذف ویدیو:", error);
     return NextResponse.json(
-      { success: false, message: "خطای سرور در بروزرسانی ویدیو" },
+      { success: false, message: "خطای سرور" },
       { status: 500 }
     );
   }
 }
 
-export async function DELETE(request: NextRequest) {
-  const authError = await checkAuth(request);
-  if (authError) return authError;
-
-  const id = getIdFromUrl(request);
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+// ===== UPDATE VIDEO =====
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return NextResponse.json(
-      { success: false, message: "شناسه نامعتبر" },
-      { status: 400 }
+      { success: false, message: "دسترسی غیرمجاز" },
+      { status: 401 }
+    );
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+    return NextResponse.json(
+      { success: false, message: "توکن نامعتبر" },
+      { status: 401 }
     );
   }
 
   try {
     await connectToDatabase();
-    
-    // یافتن ویدیو برای حذف فایل مرتبط
-    const videoToDelete = await Video.findById(id);
-    
-    if (!videoToDelete) {
+    const formData = await req.formData();
+
+    const title = formData.get("title") as string;
+    const level = formData.get("level") as string;
+    const time = formData.get("time") as string;
+    const views = (formData.get("views") as string) || "0";
+    const publisher = formData.get("publisher") as string;
+    const videoLink = formData.get("videoLink") as string;
+    const posterImageFile = formData.get("posterImage") as File | null;
+
+    const updateData: any = { title, level, time, views, publisher, videoLink };
+
+    if (posterImageFile) {
+      const posterImagePath = await uploadImageToLiara(posterImageFile);
+      updateData.posterImage = posterImagePath;
+    }
+
+    const updatedVideo = await Video.findByIdAndUpdate(params.id, updateData, {
+      new: true,
+    });
+    if (!updatedVideo) {
       return NextResponse.json(
-        { success: false, message: "ویدیو یافت نشد" },
+        { success: false, message: "ویدیو پیدا نشد" },
         { status: 404 }
       );
     }
 
-    // حذف فایل پوستر
-    if (videoToDelete.posterImage) {
-      await deleteOldFile(videoToDelete.posterImage);
-    }
-
-    // حذف سند از دیتابیس
-    await Video.findByIdAndDelete(id);
-
-    return NextResponse.json({
-      success: true,
-      message: "ویدیو با موفقیت حذف شد",
-    });
-
+    return NextResponse.json({ success: true, data: updatedVideo });
   } catch (error) {
-    console.error("DELETE Video Error:", error);
+    console.error("خطا در بروزرسانی ویدیو:", error);
     return NextResponse.json(
-      { success: false, message: "خطای سرور در حذف ویدیو" },
+      { success: false, message: "خطای سرور" },
       { status: 500 }
     );
   }
