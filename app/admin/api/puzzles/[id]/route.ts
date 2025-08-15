@@ -3,7 +3,41 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Puzzle from "@/models/Puzzles";
 import { checkAuth } from "@/lib/auth";
 import mongoose from "mongoose";
-import { uploadToLiara } from "@/lib/uploadToLiara"; // متد جدید آپلود به لیارا
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+const s3 = new S3Client({
+  region: "default",
+  endpoint: process.env.LIARA_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.LIARA_ACCESS_KEY!,
+    secretAccessKey: process.env.LIARA_SECRET_KEY!,
+  },
+});
+// ---------------- Helper: Upload file to Liara Bucket ----------------
+async function saveUploadedFile(
+  file: File,
+  subfolder: string
+): Promise<string> {
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const filename = `${subfolder}_${Date.now()}_${file.name.replace(
+    /\s+/g,
+    "_"
+  )}`;
+  const uploadKey = `${subfolder}/${filename}`;
+
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: process.env.LIARA_BUCKET_NAME!,
+      Key: uploadKey,
+      Body: buffer,
+      ContentType: file.type,
+      ACL: "public-read", // فایل رو public می‌کنه
+    })
+  );
+
+  return `${process.env.LIARA_ENDPOINT}/${process.env.LIARA_BUCKET_NAME}/${uploadKey}`;
+}
+// متد جدید آپلود به لیارا
 
 // Extract ID from URL
 function getIdFromUrl(request: NextRequest): string | null {
@@ -29,7 +63,10 @@ export async function GET(request: NextRequest) {
     await connectToDatabase();
     const puzzle = await Puzzle.findById(id);
     if (!puzzle) {
-      return NextResponse.json({ message: "Puzzle not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Puzzle not found" },
+        { status: 404 }
+      );
     }
     return NextResponse.json(puzzle);
   } catch (error) {
@@ -57,28 +94,41 @@ export async function PUT(request: NextRequest) {
     // Get existing puzzle
     const existingPuzzle = await Puzzle.findById(id);
     if (!existingPuzzle) {
-      return NextResponse.json({ message: "Puzzle not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Puzzle not found" },
+        { status: 404 }
+      );
     }
 
     // Prepare update data
     const updateData: Record<string, unknown> = {
-      title: formData.get("title") as string || existingPuzzle.title,
-      level: formData.get("level") as string || existingPuzzle.level,
-      rating: parseFloat(formData.get("rating") as string) || existingPuzzle.rating,
-      solved: parseInt(formData.get("solved") as string) || existingPuzzle.solved,
+      title: (formData.get("title") as string) || existingPuzzle.title,
+      level: (formData.get("level") as string) || existingPuzzle.level,
+      rating:
+        parseFloat(formData.get("rating") as string) || existingPuzzle.rating,
+      solved:
+        parseInt(formData.get("solved") as string) || existingPuzzle.solved,
       cats: JSON.parse(formData.get("cats") as string) || existingPuzzle.cats,
-      answers: JSON.parse(formData.get("answers") as string) || existingPuzzle.answers,
-      correctAnswer: formData.get("correctAnswer") as string || existingPuzzle.correctAnswer,
+      answers:
+        JSON.parse(formData.get("answers") as string) || existingPuzzle.answers,
+      correctAnswer:
+        (formData.get("correctAnswer") as string) ||
+        existingPuzzle.correctAnswer,
     };
 
     // Handle image update if provided
     const puzzleImageFile = formData.get("puzzleImage") as File | null;
     if (puzzleImageFile && puzzleImageFile.size > 0) {
-      updateData.puzzleImage = await uploadToLiara(puzzleImageFile, "puzzle");
+      updateData.puzzleImage = await saveUploadedFile(
+        puzzleImageFile,
+        "puzzle"
+      );
     }
 
     // Update puzzle
-    const updatedPuzzle = await Puzzle.findByIdAndUpdate(id, updateData, { new: true });
+    const updatedPuzzle = await Puzzle.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
     return NextResponse.json(updatedPuzzle);
   } catch (error) {
@@ -103,7 +153,10 @@ export async function DELETE(request: NextRequest) {
     await connectToDatabase();
     const deleted = await Puzzle.findByIdAndDelete(id);
     if (!deleted) {
-      return NextResponse.json({ message: "Puzzle not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Puzzle not found" },
+        { status: 404 }
+      );
     }
     return NextResponse.json({ message: "Puzzle deleted successfully" });
   } catch (error: unknown) {
