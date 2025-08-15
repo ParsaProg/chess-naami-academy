@@ -110,6 +110,7 @@ export default function DialogTrigger({
                   className="object-contain"
                   sizes="(max-width: 768px) 95vw, 600px"
                   priority
+                  unoptimized
                 />
               </div>
 
