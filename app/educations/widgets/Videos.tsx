@@ -31,19 +31,18 @@ export default function Videos() {
     videoLink: "",
   });
   const [videosData, setVideosData] = useState<VideoContainerSchema[]>([]);
-  
+
   useEffect(() => {
     const videosDataItems = localStorage.getItem("videosDataEducation");
-    const parsedVideos = videosDataItems ? JSON.parse(videosDataItems): []
+    const parsedVideos = videosDataItems ? JSON.parse(videosDataItems) : [];
     setVideosData(parsedVideos);
     const getVideosData = async () => {
-      
       try {
         if (videosData.length === 0) {
           const response = await fetch("/admin/api/videos", {
             method: "GET",
             headers: {
-              Authorization: `Bearer mysecrettoken123`,
+              Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
             },
           });
           const videoData = await response.json();
@@ -69,22 +68,24 @@ export default function Videos() {
           آموزش‌های تصویری از اساتید برجسته شطرنج
         </h3>
         <div className="flex items-start justify-start grow-[2] flex-wrap gap-8 mt-5">
-          {videosData.map((val, _i) => {
-            return (
-              <VideoContainer
-                key={_i}
-                level={val.level}
-                time={val.time}
-                title={val.title}
-                views={val.views}
-                publisher={val.publisher}
-                videoLink={val.videoLink}
-                posterImage={val.posterImage}
-                setIsShowDialog={setIsShowDialog}
-                setDialogValue={setDialogValue}
-              />
-            );
-          })}
+          {videosData.length > 0 &&
+            Array.isArray(videosData) &&
+            videosData.map((val, _i) => {
+              return (
+                <VideoContainer
+                  key={_i}
+                  level={val.level}
+                  time={val.time}
+                  title={val.title}
+                  views={val.views}
+                  publisher={val.publisher}
+                  videoLink={val.videoLink}
+                  posterImage={val.posterImage}
+                  setIsShowDialog={setIsShowDialog}
+                  setDialogValue={setDialogValue}
+                />
+              );
+            })}
         </div>
       </div>
       <DialogTrigger
