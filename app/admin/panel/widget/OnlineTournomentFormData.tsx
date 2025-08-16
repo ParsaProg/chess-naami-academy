@@ -68,7 +68,6 @@ const TournamentAdminPanel = () => {
         throw new Error('خطا در ارسال اطلاعات');
       }
 
-      const data = await response.json();
       toast.success('تورنمنت با موفقیت ایجاد شد!');
     } catch (error) {
       if (error instanceof Error) {

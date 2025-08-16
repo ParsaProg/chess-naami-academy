@@ -34,7 +34,7 @@ export default function EducationPage() {
     } else if (tabParam === "puzzles") {
       setSelectedTapIndex(2);
     }
-  }, [selectedTapIndex]);
+  }, [selectedTapIndex, searchParams]);
 
   return (
     <div className="flex flex-col w-[90%] mt-[50px] mx-auto">
