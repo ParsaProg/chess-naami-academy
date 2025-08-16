@@ -58,9 +58,10 @@ export default function Puzzles() {
           const response = await fetch("/admin/api/puzzles", {
             method: "GET",
             headers: {
-              Authorization: `Bearer mysecrettoken123`,
+              Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
             },
           });
+          if (!response.ok) throw new Error("Can't fetch data");
           const puzzleData = await response.json();
           if (puzzlesDataItems !== puzzleData) {
             setPuzzlesData(puzzleData);
@@ -89,23 +90,25 @@ export default function Puzzles() {
           مهارت‌های تاکتیکی خود را با حل پازل‌های متنوع تقویت کنید
         </h3>
         <div className="flex items-start justify-start grow-[2] flex-wrap gap-8 mt-5">
-          {puzzlesData.map((val, _i) => {
-            return (
-              <PuzzlesContainer
-                title={val.title}
-                level={val.level}
-                rating={val.rating}
-                answers={val.answers}
-                cats={val.cats}
-                correctAnswer={val.correctAnswer}
-                puzzleImage={val.puzzleImage}
-                solved={val.solved}
-                setIsShowDialog={setIsShowDialog}
-                setPuzzleDialogData={setPuzzleDialogData}
-                key={_i}
-              />
-            );
-          })}
+          {Array.isArray(puzzlesData) &&
+            puzzlesData.length > 0 &&
+            puzzlesData.map((val, _i) => {
+              return (
+                <PuzzlesContainer
+                  title={val.title}
+                  level={val.level}
+                  rating={val.rating}
+                  answers={val.answers}
+                  cats={val.cats}
+                  correctAnswer={val.correctAnswer}
+                  puzzleImage={val.puzzleImage}
+                  solved={val.solved}
+                  setIsShowDialog={setIsShowDialog}
+                  setPuzzleDialogData={setPuzzleDialogData}
+                  key={_i}
+                />
+              );
+            })}
         </div>
       </div>
     </div>
