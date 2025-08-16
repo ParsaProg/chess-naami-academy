@@ -25,7 +25,7 @@ interface BooksContainerDataSchema {
   level: string;
   downlaods: string;
   pdfLink: string;
-  handleDownload: (value: string) => void
+  handleDownload: (value: string) => void;
 }
 
 export default function Books() {
@@ -40,7 +40,7 @@ export default function Books() {
           const response = await fetch("/admin/api/books", {
             method: "GET",
             headers: {
-              Authorization: `Bearer mysecrettoken123`,
+              Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
             },
           });
           const bookData = await response.json();
@@ -74,22 +74,24 @@ export default function Books() {
         مجموعه‌ای از بهترین کتاب‌های شطرنج به صورت رایگان
       </h3>
       <div className="flex items-center gap-8 flex-wrap mt-8">
-        {booksData.map((val, _i) => {
-          return (
-            <BookContainer
-              title={val.title}
-              pdfLink={val.pdfLink}
-              subTitle={val.subTitle}
-              downlaods={val.downlaods}
-              author={val.author}
-              level={val.level}
-              pages={val.pages}
-              size={val.size}
-              handleDownload={handleDownload}
-              key={_i}
-            />
-          );
-        })}
+        {Array.isArray(booksData) &&
+          booksData.length > 0 &&
+          booksData.map((val, _i) => {
+            return (
+              <BookContainer
+                title={val.title}
+                pdfLink={val.pdfLink}
+                subTitle={val.subTitle}
+                downlaods={val.downlaods}
+                author={val.author}
+                level={val.level}
+                pages={val.pages}
+                size={val.size}
+                handleDownload={handleDownload}
+                key={_i}
+              />
+            );
+          })}
       </div>
     </div>
   );
@@ -104,7 +106,7 @@ function BookContainer({
   pages,
   pdfLink,
   size,
-  handleDownload
+  handleDownload,
 }: BooksContainerDataSchema) {
   return (
     <div className="shadow-xl rounded-lg border-[1px] border-slate-200 w-[550px] p-5">
