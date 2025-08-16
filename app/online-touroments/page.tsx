@@ -19,7 +19,7 @@ export default function OnlineTouroments() {
       const res = await fetch("/admin/api/online-tournoments", {
         method: "GET",
         headers: {
-          Authorization: "Berear mysecrettoken123",
+          Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
         },
       });
       if (!res.ok) throw new Error("Can not fetch data from the server");
