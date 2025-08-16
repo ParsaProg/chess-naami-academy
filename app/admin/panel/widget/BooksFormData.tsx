@@ -1,9 +1,8 @@
 // app/admin/books/page.tsx
-'use client';
+"use client";
 
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useState, ChangeEvent, FormEvent } from "react";
+import { toast } from "react-toastify";
 
 type BookFormData = {
   title: string;
@@ -18,57 +17,58 @@ type BookFormData = {
 };
 
 export default function BooksAdminPanel() {
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<BookFormData>({
-    title: '',
-    subTitle: '',
-    author: '',
-    pages: '',
-    size: '',
-    level: '',
-    downlaods: '0',
+    title: "",
+    subTitle: "",
+    author: "",
+    pages: "",
+    size: "",
+    level: "",
+    downlaods: "0",
     pdfFile: null,
-    pdfLink: ''
+    pdfLink: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value === '' ? '' : Number(value)
+      [name]: value === "" ? "" : Number(value),
     }));
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      if (file.type === 'application/pdf') {
-        setFormData(prev => ({
+      if (file.type === "application/pdf") {
+        setFormData((prev) => ({
           ...prev,
           pdfFile: file,
-          pdfLink: '' // Reset link if new file is uploaded
+          pdfLink: "", // Reset link if new file is uploaded
         }));
       } else {
-        toast.error('لطفا فقط فایل PDF آپلود کنید');
+        toast.error("لطفا فقط فایل PDF آپلود کنید");
       }
     }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     // اعتبارسنجی فیلدهای اجباری
     if (!formData.title || !formData.author || !formData.pdfFile) {
-      toast.error('لطفا فیلدهای الزامی را پر کنید');
+      toast.error("لطفا فیلدهای الزامی را پر کنید");
       return;
     }
 
@@ -76,40 +76,51 @@ export default function BooksAdminPanel() {
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('subTitle', formData.subTitle || '');
-      formDataToSend.append('author', formData.author);
-      formDataToSend.append('pages', formData.pages.toString());
-      formDataToSend.append('size', formData.size || '0MB');
-      formDataToSend.append('level', formData.level || 'مبتدی');
-      formDataToSend.append('downlaods', formData.downlaods);
-      
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("subTitle", formData.subTitle || "");
+      formDataToSend.append("author", formData.author);
+      formDataToSend.append("pages", formData.pages.toString());
+      formDataToSend.append("size", formData.size || "0MB");
+      formDataToSend.append("level", formData.level || "مبتدی");
+      formDataToSend.append("downlaods", formData.downlaods);
+
       if (formData.pdfFile) {
-        formDataToSend.append('pdfFile', formData.pdfFile);
+        formDataToSend.append("pdfFile", formData.pdfFile);
       }
 
-      const response = await fetch('/admin/api/books', {
-        method: 'POST',
+      const response = await fetch("/admin/api/books", {
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
         },
-        body: formDataToSend
+        body: formDataToSend,
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'خطا در ارسال اطلاعات');
+        throw new Error(data.message || "خطا در ارسال اطلاعات");
       }
 
-      toast.success('کتاب با موفقیت اضافه شد!');
-      router.push('/admin/books');
-      router.refresh(); // برای بروزرسانی لیست کتاب‌ها
+      toast.success("کتاب با موفقیت اضافه شد!");
+      setFormData({
+        title: "",
+        subTitle: "",
+        author: "",
+        pages: "",
+        size: "",
+        level: "",
+        downlaods: "0",
+        pdfFile: null,
+        pdfLink: "",
+      });
     } catch (error) {
-      console.error('Error:', error);
-      toast.error(error instanceof Error 
-        ? error.message 
-        : 'خطای ناشناخته در ارتباط با سرور');
+      console.error("Error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "خطای ناشناخته در ارتباط با سرور"
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -117,16 +128,23 @@ export default function BooksAdminPanel() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6 text-right">افزودن کتاب جدید</h1>
-      
+      <h1 className="text-2xl font-bold text-gray-800 mb-6 text-right">
+        افزودن کتاب جدید
+      </h1>
+
       <form onSubmit={handleSubmit} className="w-full space-y-6">
         {/* اطلاعات اصلی */}
         <div className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-right">اطلاعات اصلی کتاب</h2>
-          
+          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-right">
+            اطلاعات اصلی کتاب
+          </h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 عنوان کتاب * <span className="text-red-500">*</span>
               </label>
               <input
@@ -142,7 +160,10 @@ export default function BooksAdminPanel() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="subTitle" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="subTitle"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 زیرعنوان
               </label>
               <input
@@ -157,7 +178,10 @@ export default function BooksAdminPanel() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="author" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="author"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 نویسنده * <span className="text-red-500">*</span>
               </label>
               <input
@@ -173,7 +197,10 @@ export default function BooksAdminPanel() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="pages" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="pages"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 تعداد صفحات
               </label>
               <input
@@ -189,7 +216,10 @@ export default function BooksAdminPanel() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="size" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="size"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 حجم کتاب
               </label>
               <input
@@ -204,7 +234,10 @@ export default function BooksAdminPanel() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="level" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="level"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 سطح کتاب
               </label>
               <select
@@ -222,7 +255,10 @@ export default function BooksAdminPanel() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="downlaods" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="downlaods"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 تعداد دانلودها
               </label>
               <input
@@ -237,7 +273,10 @@ export default function BooksAdminPanel() {
             </div>
 
             <div className="space-y-2 col-span-2">
-              <label htmlFor="pdfFile" className="block text-sm font-medium text-gray-700 text-right">
+              <label
+                htmlFor="pdfFile"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
                 فایل PDF کتاب * <span className="text-red-500">*</span>
               </label>
               <input
@@ -254,7 +293,9 @@ export default function BooksAdminPanel() {
                   فایل انتخاب شده: {formData.pdfFile.name}
                 </p>
               )}
-              <p className="text-xs text-gray-500 mt-1 text-right">فرمت مجاز: PDF - حداکثر حجم: 10MB</p>
+              <p className="text-xs text-gray-500 mt-1 text-right">
+                فرمت مجاز: PDF - حداکثر حجم: 10MB
+              </p>
             </div>
           </div>
         </div>
@@ -263,7 +304,6 @@ export default function BooksAdminPanel() {
         <div className="flex justify-end gap-4">
           <button
             type="button"
-            onClick={() => router.push('/admin/books')}
             className="px-6 py-3 bg-gray-300 text-gray-800 font-medium rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
             انصراف
@@ -275,13 +315,31 @@ export default function BooksAdminPanel() {
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center">
-                <svg className="animate-spin ml-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin ml-2 h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 در حال ارسال...
               </span>
-            ) : 'ذخیره کتاب'}
+            ) : (
+              "ذخیره کتاب"
+            )}
           </button>
         </div>
       </form>

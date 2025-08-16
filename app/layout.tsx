@@ -7,6 +7,7 @@ import LetsSignUp from "@/components/ui/SignUp";
 import favicon from "./favicon.ico";
 import Head from "next/head";
 import NProgressProvider from "@/components/transition/NProgressProvider";
+import ToastProvider from "@/components/toastProvider";
 
 export const metadata: Metadata = {
   title: "آکادمی شطرنج نعامی",
@@ -101,7 +102,7 @@ export default function RootLayout({
         <NavBar />
         <div className="h-[50px]"></div>
         <NProgressProvider />
-
+        <ToastProvider />
         {children}
 
         <LetsSignUp />
