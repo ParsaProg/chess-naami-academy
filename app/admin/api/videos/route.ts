@@ -1,7 +1,7 @@
 // app/api/admin/videos/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
-import Video from "@/models/Videos";
+import Videos from "@/models/Videos";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 // ---------------- S3 Client ----------------
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
 
   try {
     await connectToDatabase();
-    const videos = await Video.find({}).sort({ createdAt: -1 }).lean();
+    const videos = await Videos.find({}).sort({ createdAt: -1 }).lean();
     return NextResponse.json(videos);
   } catch (error: unknown) {
     console.error("Error fetching videos:", error);
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
     // Upload poster image to S3
     const posterImagePath = await saveUploadedFile(posterImageFile, "video");
 
-    const newVideo = await Video.create({
+    const newVideo = await Videos.create({
       title,
       level,
       time,

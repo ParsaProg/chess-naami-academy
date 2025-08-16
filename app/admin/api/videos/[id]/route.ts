@@ -1,10 +1,20 @@
-// app/admin/api/articles/[id]/route.ts
+// app/admin/api/videos/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
-import Article from "@/models/Article";
+import Videos from "@/models/Videos";
 import { checkAuth } from "@/lib/auth";
 import mongoose from "mongoose";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+
+interface UpdateVideoData {
+  posterImage?: string;
+  level?: string;
+  time?: string;
+  title?: string;
+  views?: string;
+  publisher?: string;
+  videoLink?: string;
+}
 
 // ---------------- S3 Client ----------------
 const s3 = new S3Client({
@@ -35,6 +45,23 @@ async function saveUploadedFile(file: File, subfolder: string): Promise<string> 
   return `${process.env.LIARA_ENDPOINT}/${process.env.LIARA_BUCKET_NAME}/${uploadKey}`;
 }
 
+// ---------------- Helper: Delete file from Liara Bucket ----------------
+async function deleteFileFromS3(url: string): Promise<void> {
+  try {
+    const key = url.split(`${process.env.LIARA_BUCKET_NAME}/`)[1];
+    if (key) {
+      await s3.send(
+        new DeleteObjectCommand({
+          Bucket: process.env.LIARA_BUCKET_NAME!,
+          Key: key,
+        })
+      );
+    }
+  } catch (err) {
+    console.error("Failed to delete S3 object:", err);
+  }
+}
+
 // استخراج id از URL
 function getIdFromUrl(request: NextRequest): string | null {
   try {
@@ -46,124 +73,112 @@ function getIdFromUrl(request: NextRequest): string | null {
   }
 }
 
-// ---------------- Types ----------------
-interface UpdateArticleData {
-  title?: string;
-  content?: string;
-  cats?: string[];
-  importantText?: string;
-  desc?: string;
-  time?: string;
-  publishDate?: string;
-  publisherName?: string;
-  publisherTag?: string;
-  isSpecial?: boolean;
-  titleImage?: string;
-  publisherImage?: string;
-}
-
-// ---------------- GET ----------------
 export async function GET(request: NextRequest) {
   const authError = await checkAuth(request);
   if (authError) return authError;
 
   const id = getIdFromUrl(request);
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+    return NextResponse.json({ message: "شناسه نامعتبر است" }, { status: 400 });
   }
 
   try {
     await connectToDatabase();
-    const article = await Article.findById(id);
-    if (!article) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    const video = await Videos.findById(id);
+    if (!video) {
+      return NextResponse.json({ message: "ویدیو یافت نشد" }, { status: 404 });
     }
-    return NextResponse.json(article);
+    return NextResponse.json(video);
   } catch (error) {
-    console.error("GET Article Error:", error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    console.error("خطا در دریافت ویدیو:", error);
+    return NextResponse.json({ message: "خطای سرور" }, { status: 500 });
   }
 }
 
-// ---------------- PUT ----------------
 export async function PUT(request: NextRequest) {
   const authError = await checkAuth(request);
   if (authError) return authError;
 
   const id = getIdFromUrl(request);
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+    return NextResponse.json({ message: "شناسه نامعتبر است" }, { status: 400 });
   }
 
   try {
     await connectToDatabase();
     const formData = await request.formData();
 
-    const title = formData.get("title") as string | null;
-    const content = formData.get("content") as string | null;
-    const cats = formData.get("cats") ? JSON.parse(formData.get("cats") as string) : undefined;
-    const importantText = formData.get("importantText") as string | null;
-    const desc = formData.get("desc") as string | null;
-    const time = formData.get("time") as string | null;
-    const publishDate = formData.get("publishDate") as string | null;
-    const publisherName = formData.get("publisherName") as string | null;
-    const publisherTag = formData.get("publisherTag") as string | null;
-    const isSpecial = formData.get("isSpecial") === "true";
+    const posterImageFile = formData.get("posterImage") as File | null;
+    const level = formData.get("level") as string;
+    const time = formData.get("time") as string;
+    const title = formData.get("title") as string;
+    const views = formData.get("views") as string;
+    const publisher = formData.get("publisher") as string;
+    const videoLink = formData.get("videoLink") as string;
 
-    const titleImageFile = formData.get("titleImage") as File | null;
-    const publisherImageFile = formData.get("publisherImage") as File | null;
-
-    const updateData: UpdateArticleData = {
-      title: title || undefined,
-      content: content || undefined,
-      cats: cats || undefined,
-      importantText: importantText || undefined,
-      desc: desc || undefined,
-      time: time || undefined,
-      publishDate: publishDate || undefined,
-      publisherName: publisherName || undefined,
-      publisherTag: publisherTag || undefined,
-      isSpecial,
+    const updateData: UpdateVideoData = {
+      level,
+      time,
+      title,
+      views,
+      publisher,
+      videoLink
     };
 
-    if (titleImageFile) {
-      updateData.titleImage = await saveUploadedFile(titleImageFile, "title");
-    }
-    if (publisherImageFile) {
-      updateData.publisherImage = await saveUploadedFile(publisherImageFile, "publisher");
-    }
-
-    const updatedArticle = await Article.findByIdAndUpdate(id, updateData, { new: true });
-    if (!updatedArticle) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    // آپلود تصویر جدید اگر ارسال شده باشد
+    if (posterImageFile) {
+      // حذف تصویر قبلی اگر وجود داشته باشد
+      const existingVideo = await Videos.findById(id);
+      if (existingVideo?.posterImage) {
+        await deleteFileFromS3(existingVideo.posterImage);
+      }
+      updateData.posterImage = await saveUploadedFile(posterImageFile, "video-posters");
     }
 
-    return NextResponse.json({ success: true, data: updatedArticle });
+    const updatedVideo = await Videos.findByIdAndUpdate(id, updateData, { new: true });
+    if (!updatedVideo) {
+      return NextResponse.json({ message: "ویدیو یافت نشد" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, data: updatedVideo });
   } catch (error) {
-    console.error("PUT Article Error:", error);
-    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
+    console.error("خطا در بروزرسانی ویدیو:", error);
+    return NextResponse.json(
+      { success: false, message: "خطای سرور" }, 
+      { status: 500 }
+    );
   }
 }
 
-// ---------------- DELETE ----------------
 export async function DELETE(request: NextRequest) {
   const authError = await checkAuth(request);
   if (authError) return authError;
 
   const id = getIdFromUrl(request);
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+    return NextResponse.json({ message: "شناسه نامعتبر است" }, { status: 400 });
   }
 
   try {
     await connectToDatabase();
-    const deleted = await Article.findByIdAndDelete(id);
-    if (!deleted) {
-      return NextResponse.json({ message: "Not found" }, { status: 404 });
+    
+    // پیدا کردن ویدیو قبل از حذف برای پاک کردن تصویر
+    const videoToDelete = await Videos.findById(id);
+    if (!videoToDelete) {
+      return NextResponse.json({ message: "ویدیو یافت نشد" }, { status: 404 });
     }
-    return NextResponse.json({ message: "Deleted successfully" });
+
+    // حذف تصویر از S3
+    if (videoToDelete.posterImage) {
+      await deleteFileFromS3(videoToDelete.posterImage);
+    }
+
+    // حذف ویدیو از دیتابیس
+    await Videos.findByIdAndDelete(id);
+
+    return NextResponse.json({ message: "ویدیو با موفقیت حذف شد" });
   } catch (error) {
-    console.error("DELETE Article Error:", error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    console.error("خطا در حذف ویدیو:", error);
+    return NextResponse.json({ message: "خطای سرور" }, { status: 500 });
   }
 }
