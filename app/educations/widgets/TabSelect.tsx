@@ -6,17 +6,20 @@ import { FcPuzzle } from "react-icons/fc";
 interface TabSelectType {
   selectedTapIndex: number;
   setSelectedTapIndex: (value: number) => void;
+  updateSearchParams: (param: string, value: string) => void;
 }
 
 export default function TabSelect({
   selectedTapIndex,
   setSelectedTapIndex,
+  updateSearchParams,
 }: TabSelectType) {
   return (
     <div className=" flex flex-row [@media(max-width:730px)]:flex-col w-full shadow-lg bg-slate-100 items-center justify-between rounded-lg p-2 font-bold text-black text-xl gap-x-5 text-center">
       <div
         onClick={() => {
           setSelectedTapIndex(0);
+          updateSearchParams("tab", "videos");
         }}
         className={`transition-all duration-200 ${
           selectedTapIndex === 0 ? "bg-slate-300" : "bg-transparent"
@@ -28,6 +31,7 @@ export default function TabSelect({
       <div
         onClick={() => {
           setSelectedTapIndex(1);
+          updateSearchParams("tab", "books");
         }}
         className={`transition-all duration-200 w-full ${
           selectedTapIndex === 1 ? "bg-slate-300" : "bg-transparent"
@@ -39,6 +43,7 @@ export default function TabSelect({
       <div
         onClick={() => {
           setSelectedTapIndex(2);
+          updateSearchParams("tab", "puzzles");
         }}
         className={`transition-all duration-200 w-full ${
           selectedTapIndex === 2 ? "bg-slate-300" : "bg-transparent"
