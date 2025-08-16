@@ -6,7 +6,7 @@ import Tournament from "@/models/OnlineT";
 export async function GET(req: NextRequest) {
   // Authentication
   const token = req.headers.get('Authorization')?.split(' ')[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "Unauthorized access" },
       { status: 401 }
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   // Authentication
   const token = req.headers.get('Authorization')?.split(' ')[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "Unauthorized access" },
       { status: 401 }

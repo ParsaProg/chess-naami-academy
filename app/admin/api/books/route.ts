@@ -5,7 +5,7 @@ import Book from "@/models/Books";
 export async function GET(req: NextRequest) {
   // Authorization with admin token
   const token = req.headers.get("Authorization")?.split(" ")[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "دسترسی غیرمجاز" },
       { status: 401 }
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }
 
     const token = authHeader.split(" ")[1];
-    if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+    if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
       return NextResponse.json(
         { success: false, message: "توکن نامعتبر" },
         { status: 401 }

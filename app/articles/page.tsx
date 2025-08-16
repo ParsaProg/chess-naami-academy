@@ -36,7 +36,7 @@ export default function ArticlesPage() {
         const res = await fetch("/admin/api/articles", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
           },
         });
         if (!res.ok) throw new Error("Unauthorized or server error");

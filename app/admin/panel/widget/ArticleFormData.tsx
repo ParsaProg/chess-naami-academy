@@ -107,7 +107,7 @@ export default function ArticleUploadForm() {
       await axios.post("/admin/api/articles", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`
+          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {

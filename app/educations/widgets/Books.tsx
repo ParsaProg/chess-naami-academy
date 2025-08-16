@@ -40,7 +40,7 @@ export default function Books() {
           const response = await fetch("/admin/api/books", {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
             },
           });
           const bookData = await response.json();

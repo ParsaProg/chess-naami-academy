@@ -17,7 +17,7 @@ function getIdFromUrl(request: NextRequest): string | null {
 export async function GET(request: NextRequest) {
   // Authorization
   const token = request.headers.get('Authorization')?.split(' ')[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "دسترسی غیرمجاز" },
       { status: 401 }
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   // Authorization
   const token = request.headers.get('Authorization')?.split(' ')[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "دسترسی غیرمجاز" },
       { status: 401 }
@@ -103,7 +103,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   // Authorization
   const token = request.headers.get('Authorization')?.split(' ')[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "دسترسی غیرمجاز" },
       { status: 401 }

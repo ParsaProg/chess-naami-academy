@@ -38,7 +38,7 @@ export default function MainArticlesDetailsPage() {
         setIsLoading(true);
         const response = await fetch("/admin/api/articles", {
           headers: {
-            Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
           },
         });
         if (!response.ok) throw new Error("Unauthorized or server error");

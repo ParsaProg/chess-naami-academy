@@ -40,7 +40,7 @@ async function saveUploadedFile(file: File, subfolder: string): Promise<string> 
 // ---------------- GET: Get all puzzles ----------------
 export async function GET(req: NextRequest) {
   const token = req.headers.get('Authorization')?.split(' ')[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "Unauthorized access" },
       { status: 401 }
@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
 // ---------------- POST: Create new puzzle ----------------
 export async function POST(req: NextRequest) {
   const token = req.headers.get('Authorization')?.split(' ')[1];
-  if (token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json(
       { success: false, message: "Unauthorized access" },
       { status: 401 }

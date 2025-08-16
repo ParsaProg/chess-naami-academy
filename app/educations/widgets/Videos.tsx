@@ -42,7 +42,7 @@ export default function Videos() {
           const response = await fetch("/admin/api/videos", {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
             },
           });
           const videoData = await response.json();

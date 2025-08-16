@@ -58,7 +58,7 @@ export default function Puzzles() {
           const response = await fetch("/admin/api/puzzles", {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
             },
           });
           if (!response.ok) throw new Error("Can't fetch data");

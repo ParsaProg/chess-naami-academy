@@ -4,7 +4,7 @@ export function checkAuth(req: NextRequest) {
   const authHeader = req.headers.get('authorization')
   const token = authHeader?.split(' ')[1] // Bearer token
 
-  if (!token || token !== process.env.NEXT_API_SECRET_TOKEN) {
+  if (!token || token !== process.env.NEXT_PUBLIC_API_SECRET_TOKEN) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
