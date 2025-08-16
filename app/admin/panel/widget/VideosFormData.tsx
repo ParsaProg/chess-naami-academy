@@ -64,7 +64,7 @@ export default function VideoForm() {
       const response = await axios.post("/admin/api/videos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: "Bearer mysecrettoken123", // توکن ثابت
+          Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`, // توکن ثابت
         },
       });
 
