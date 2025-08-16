@@ -7,7 +7,7 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client
 export const config = {
   api: {
     bodyParser: false,
-    sizeLimit: "10mb",
+    sizeLimit: "100mb",
   },
 };
 
