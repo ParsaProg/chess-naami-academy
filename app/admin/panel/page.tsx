@@ -9,6 +9,7 @@ import SelectTabMenu from "./utils/SelectTabMenu";
 import ArticleUploadForm from "./widget/ArticleFormData";
 import VideoForm from "./widget/VideosFormData";
 import PuzzleUploadForm from "./widget/PuzzlesFormData";
+import TournamentAdminPanel from "./widget/OnlineTournomentFormData";
 
 export default function AdminPanelPage() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -65,7 +66,7 @@ export default function AdminPanelPage() {
           {selectedTab === 0 ? (
             <ArticleUploadForm />
           ) : selectedTab === 1 ? (
-            <div></div>
+            <TournamentAdminPanel />
           ) : selectedTab === 2 ? (
             <VideoForm />
           ) : selectedTab === 3 ? (
