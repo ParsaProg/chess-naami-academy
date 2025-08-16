@@ -147,10 +147,9 @@ const TournamentAdminPanel = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-right"
               >
                 <option value="">انتخاب وضعیت</option>
-                <option value="created">ایجاد شده</option>
-                <option value="started">شروع شده</option>
+                <option value="live">شروع شده</option>
+                <option value="upcoming">آینده</option>
                 <option value="finished">پایان یافته</option>
-                <option value="canceled">لغو شده</option>
               </select>
             </div>
 
