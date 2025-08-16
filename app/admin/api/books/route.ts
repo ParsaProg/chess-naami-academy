@@ -40,23 +40,6 @@ async function saveUploadedPdf(file: File): Promise<string> {
   return `${process.env.LIARA_ENDPOINT}/${process.env.LIARA_BUCKET_NAME}/${uploadKey}`;
 }
 
-// ---------------- Helper: Delete PDF from Liara Bucket ----------------
-async function deletePdfFromS3(url: string): Promise<void> {
-  try {
-    const key = url.split(`${process.env.LIARA_BUCKET_NAME}/`)[1];
-    if (key) {
-      await s3.send(
-        new DeleteObjectCommand({
-          Bucket: process.env.LIARA_BUCKET_NAME!,
-          Key: key,
-        })
-      );
-    }
-  } catch (err) {
-    console.error("Failed to delete PDF from S3:", err);
-  }
-}
-
 export async function GET(req: NextRequest) {
   // Authorization
   const token = req.headers.get("Authorization")?.split(" ")[1];
