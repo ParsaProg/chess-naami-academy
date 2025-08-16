@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Book from "@/models/Books";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
-import mongoose from "mongoose";
 
 export const config = {
   api: {
