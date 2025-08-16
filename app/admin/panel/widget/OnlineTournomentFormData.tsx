@@ -1,5 +1,5 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { toast } from 'react-toastify';
+import { useState, ChangeEvent, FormEvent } from "react";
+import { toast } from "react-toastify";
 
 type TournamentFormData = {
   title: string;
@@ -17,31 +17,33 @@ type TournamentFormData = {
 const TournamentAdminPanel = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [formData, setFormData] = useState<TournamentFormData>({
-    title: '',
-    status: '',
-    startTime: '',
-    endTime: '',
-    description: '',
-    participants: '',
-    ratingCategory: '',
-    minRating: '',
-    maxRating: '',
-    lichessUrl: ''
+    title: "",
+    status: "",
+    startTime: "",
+    endTime: "",
+    description: "",
+    participants: "",
+    ratingCategory: "",
+    minRating: "",
+    maxRating: "",
+    lichessUrl: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value === '' ? '' : Number(value)
+      [name]: value === "" ? "" : Number(value),
     }));
   };
 
@@ -50,30 +52,46 @@ const TournamentAdminPanel = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/admin/api/online-tournoments', {
-        method: 'POST',
+      const response = await fetch("/admin/api/online-tournoments", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
         },
         body: JSON.stringify({
           ...formData,
           participants: Number(formData.participants),
-          minRating: formData.minRating ? Number(formData.minRating) : undefined,
-          maxRating: formData.maxRating ? Number(formData.maxRating) : undefined
-        })
+          minRating: formData.minRating
+            ? Number(formData.minRating)
+            : undefined,
+          maxRating: formData.maxRating
+            ? Number(formData.maxRating)
+            : undefined,
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('خطا در ارسال اطلاعات');
+        throw new Error("خطا در ارسال اطلاعات");
       }
 
-      toast.success('تورنمنت با موفقیت ایجاد شد!');
+      toast.success("تورنمنت با موفقیت ایجاد شد!");
+      setFormData({
+        title: "",
+        status: "",
+        startTime: "",
+        endTime: "",
+        description: "",
+        participants: "",
+        ratingCategory: "",
+        minRating: "",
+        maxRating: "",
+        lichessUrl: "",
+      });
     } catch (error) {
       if (error instanceof Error) {
         toast.error(`خطا: ${error.message}`);
       } else {
-        toast.error('خطای ناشناخته رخ داده است');
+        toast.error("خطای ناشناخته رخ داده است");
       }
     } finally {
       setIsSubmitting(false);
@@ -82,16 +100,25 @@ const TournamentAdminPanel = () => {
 
   return (
     <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6 text-right">ایجاد تورنمنت جدید</h1>
-      
+      <h1 className="text-2xl font-bold text-gray-800 mb-6 text-right">
+        ایجاد تورنمنت جدید
+      </h1>
+
       <form onSubmit={handleSubmit} className="w-full space-y-6">
         {/* اطلاعات اصلی */}
         <div className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-right">اطلاعات اصلی</h2>
-          
+          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-right">
+            اطلاعات اصلی
+          </h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 text-right">عنوان تورنمنت *</label>
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                عنوان تورنمنت *
+              </label>
               <input
                 type="text"
                 id="title"
@@ -105,7 +132,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700 text-right">وضعیت *</label>
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                وضعیت *
+              </label>
               <select
                 id="status"
                 name="status"
@@ -123,7 +155,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="startTime" className="block text-sm font-medium text-gray-700 text-right">زمان شروع *</label>
+              <label
+                htmlFor="startTime"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                زمان شروع *
+              </label>
               <input
                 type="datetime-local"
                 id="startTime"
@@ -136,7 +173,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="endTime" className="block text-sm font-medium text-gray-700 text-right">زمان پایان *</label>
+              <label
+                htmlFor="endTime"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                زمان پایان *
+              </label>
               <input
                 type="datetime-local"
                 id="endTime"
@@ -149,7 +191,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="participants" className="block text-sm font-medium text-gray-700 text-right">تعداد شرکت‌کنندگان *</label>
+              <label
+                htmlFor="participants"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                تعداد شرکت‌کنندگان *
+              </label>
               <input
                 type="number"
                 id="participants"
@@ -164,7 +211,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="ratingCategory" className="block text-sm font-medium text-gray-700 text-right">دسته‌بندی ریتینگ *</label>
+              <label
+                htmlFor="ratingCategory"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                دسته‌بندی ریتینگ *
+              </label>
               <select
                 id="ratingCategory"
                 name="ratingCategory"
@@ -182,7 +234,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="minRating" className="block text-sm font-medium text-gray-700 text-right">حداقل ریتینگ (اختیاری)</label>
+              <label
+                htmlFor="minRating"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                حداقل ریتینگ (اختیاری)
+              </label>
               <input
                 type="number"
                 id="minRating"
@@ -196,7 +253,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="maxRating" className="block text-sm font-medium text-gray-700 text-right">حداکثر ریتینگ (اختیاری)</label>
+              <label
+                htmlFor="maxRating"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                حداکثر ریتینگ (اختیاری)
+              </label>
               <input
                 type="number"
                 id="maxRating"
@@ -210,7 +272,12 @@ const TournamentAdminPanel = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="lichessUrl" className="block text-sm font-medium text-gray-700 text-right">لینک Lichess *</label>
+              <label
+                htmlFor="lichessUrl"
+                className="block text-sm font-medium text-gray-700 text-right"
+              >
+                لینک Lichess *
+              </label>
               <input
                 type="url"
                 id="lichessUrl"
@@ -227,10 +294,17 @@ const TournamentAdminPanel = () => {
 
         {/* توضیحات */}
         <div className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-right">توضیحات</h2>
-          
+          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-right">
+            توضیحات
+          </h2>
+
           <div className="space-y-2">
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 text-right">توضیحات تورنمنت *</label>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 text-right"
+            >
+              توضیحات تورنمنت *
+            </label>
             <textarea
               id="description"
               name="description"
@@ -251,7 +325,7 @@ const TournamentAdminPanel = () => {
             disabled={isSubmitting}
             className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
           >
-            {isSubmitting ? 'در حال ارسال...' : 'ایجاد تورنمنت'}
+            {isSubmitting ? "در حال ارسال..." : "ایجاد تورنمنت"}
           </button>
         </div>
       </form>
