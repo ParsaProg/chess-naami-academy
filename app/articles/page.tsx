@@ -34,6 +34,7 @@ export default function ArticlesPage() {
     const fetchArticles = async () => {
       try {
         const res = await fetch("/admin/api/articles", {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${process.env.NEXT_API_SECRET_TOKEN}`,
           },

@@ -81,7 +81,7 @@ const TournamentAdminPanel = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 bg-white rounded-lg shadow-md">
+    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold text-gray-800 mb-6 text-right">ایجاد تورنمنت جدید</h1>
       
       <form onSubmit={handleSubmit} className="w-full space-y-6">
