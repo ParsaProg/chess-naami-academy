@@ -1,6 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap");
 @import "tailwindcss";
 
+@font-face {
+  font-family: "IranSans";
+  src: url("../public/assets/fonts/IRANSansWeb.eot");
+}
+
 body {
   font-family: "Vazirmatn";
   margin: 0;
