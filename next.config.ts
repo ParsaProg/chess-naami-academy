@@ -8,6 +8,38 @@ const nextConfig = {
       },
     ];
   },
+  reactStrictMode: true,
+  experimental: {
+    optimizeCss: true,
+  },
+  i18n: {
+    locales: ["fa", "en"], // اگر فقط فارسی داری: ['fa']
+    defaultLocale: "fa",
+    localeDetection: true,
+  },
+  trailingSlash: false,
+  async headers() {
+    return [
+      {
+        source: "/:all*(png|jpg|jpeg|gif|webp|avif|svg)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/:all*(js|css|woff2)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     domains: ["chessnaami.ir"],
     remotePatterns: [
@@ -22,12 +54,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "**",
-        pathname: '/uploads/**',
+        pathname: "/uploads/**",
       },
       {
         protocol: "http",
         hostname: "**",
-        pathname: '/uploads/**',
+        pathname: "/uploads/**",
       },
     ],
   },

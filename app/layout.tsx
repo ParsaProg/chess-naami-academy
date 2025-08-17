@@ -9,12 +9,50 @@ import Head from "next/head";
 import NProgressProvider from "@/components/transition/NProgressProvider";
 import ToastProvider from "@/components/toastProvider";
 
+const siteName = "آکادمی شطرنج نعامی";
+const siteUrl  = 'https://chessnaami.ir'
+const siteDesc =
+  "آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین";
 export const metadata: Metadata = {
-  title: "آکادمی شطرنج نعامی",
-  description:
-    "آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteName,
+    template: `%s | ${siteName}`,
+  },
+  description: siteDesc,
+  applicationName: siteName,
+  alternates: {
+    canonical: siteUrl,
+    languages: {
+      fa: siteUrl + "/fa",
+    },
+    types: { "application/rss+xml": siteUrl + "/rss.xml" },
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName,
+    title: siteName,
+    description: siteDesc,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: siteDesc,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  other: {
+    "theme-color": "#ffffff",
+  },
 };
-
 export default function RootLayout({
   children,
 }: {
