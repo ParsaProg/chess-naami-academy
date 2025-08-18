@@ -9,8 +9,8 @@ export default async function handler(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   
   // Extract dynamic parameters
-  const title = searchParams.get('title') || 'Default Title'
-  const description = searchParams.get('description') || 'Default description'
+  const title = searchParams.get('title') || "آکادمی شطرنج نعامی"
+  const description = searchParams.get('description') || "آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
   const imageUrl = searchParams.get('image') || 'https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true'
 
   return new ImageResponse(
