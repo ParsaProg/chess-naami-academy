@@ -8,10 +8,13 @@ export async function generateMetadata(): Promise<Metadata> {
     description: "جدیدترین مقالات در حوزه شطرنج",
     openGraph: {
       title: "مقالات تخصصی | مجله شما",
-      description: "بهترین مقالات آموزشی و تخصصی در زمینه برنامه نویسی و تکنولوژی",
+      description:
+        "بهترین مقالات آموزشی و تخصصی در زمینه برنامه نویسی و تکنولوژی",
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          url: `${
+            process.env.NEXT_PUBLIC_SITE_URL
+          }/api/og?title=${encodeURIComponent(
             "مقالات تخصصی"
           )}&description=${encodeURIComponent(
             "مجموعه کامل مقالات آموزشی و تخصصی"
@@ -27,13 +30,10 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "مقالات تخصصی | مجله شما",
-      description: "بهترین مقالات آموزشی و تخصصی در زمینه برنامه نویسی و تکنولوژی",
+      description:
+        "بهترین مقالات آموزشی و تخصصی در زمینه برنامه نویسی و تکنولوژی",
       images: [
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
-          "مقالات تخصصی"
-        )}&description=${encodeURIComponent(
-          "مجموعه کامل مقالات آموزشی و تخصصی"
-        )}&type=list`,
+        "https://chessnaami.ir/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmr-naami.e37d5607.png&w=750&q=75",
       ],
     },
   };
@@ -41,9 +41,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // بخش اصلی Layout که حتماً باید وجود داشته باشد
 export default function ArticlesLayout({ children }: { children: ReactNode }) {
-  return (
-    <div className="articles-layout">
-      {children}
-    </div>
-  );
+  return <div className="articles-layout">{children}</div>;
 }
