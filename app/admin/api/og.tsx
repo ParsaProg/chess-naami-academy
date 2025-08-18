@@ -80,7 +80,7 @@ export default async function handler(req: NextRequest) {
               marginRight: '20px',
             }}
           />
-          <span style={{ fontSize: '28px' }}>YourBrand</span>
+          <span style={{ fontSize: '28px' }}>آکادمی شطرنج نعامی</span>
         </div>
       </div>
     ),
