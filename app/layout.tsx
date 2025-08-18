@@ -89,7 +89,7 @@ export default function RootLayout({
         <meta property="og:url" content="https://www.chessnaami.ir/" />
         <meta property="og:type" content="website" />
         {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true" />
         <meta name="twitter:title" content="آکادمی شطرنج ابراهیم نعامی" />
         <meta
           name="twitter:description"
@@ -134,7 +134,7 @@ export default function RootLayout({
         <SEO
           title="آکادمی شطرنج نعامی"
           description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
-          ogImage="https://raw.githubusercontent.com/ParsaProg/chess-naami-academy/refs/heads/main/app/favicon.ico"
+          ogImage="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true"
         />
 
         <NavBar />
