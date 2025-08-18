@@ -7,18 +7,12 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "مقالات تخصصی",
     description: "جدیدترین مقالات در حوزه شطرنج",
     openGraph: {
-      title: "مقالات تخصصی | مجله شما",
+      title: "مقالات تخصصی شطرنج | آکادمی نعامی",
       description:
-        "بهترین مقالات آموزشی و تخصصی در زمینه برنامه نویسی و تکنولوژی",
+        "بهترین مقالات آموزشی و تخصصی در زمینه شطرنج",
       images: [
         {
-          url: `${
-            process.env.NEXT_PUBLIC_SITE_URL
-          }/api/og?title=${encodeURIComponent(
-            "مقالات تخصصی"
-          )}&description=${encodeURIComponent(
-            "مجموعه کامل مقالات آموزشی و تخصصی"
-          )}&type=list`,
+          url: "https://chessnaami.ir/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmr-naami.e37d5607.png&w=750&q=75",
           width: 1200,
           height: 630,
           alt: "مقالات تخصصی",
