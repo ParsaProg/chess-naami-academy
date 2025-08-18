@@ -11,7 +11,7 @@ export default async function handler(req: NextRequest) {
   // Extract dynamic parameters
   const title = searchParams.get('title') || 'Default Title'
   const description = searchParams.get('description') || 'Default description'
-  const imageUrl = searchParams.get('image') || 'https://yourdomain.com/default-image.jpg'
+  const imageUrl = searchParams.get('image') || 'https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true'
 
   return new ImageResponse(
     (
