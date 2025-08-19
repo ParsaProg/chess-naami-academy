@@ -21,53 +21,53 @@ interface Article {
   isSpecial: boolean;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
+// SERVER-SIDE METADATA
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
 
-  const res = await fetch(`${baseUrl}/admin/api/articles/${params.id}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
-    },
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`${baseUrl}/admin/api/articles/${params.id}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
+      },
+      cache: "no-store",
+    });
 
-  if (!res.ok) {
+    if (!res.ok) throw new Error("Article fetch failed");
+
+    const article: Article = await res.json();
+
+    return {
+      title: article.title,
+      description: article.desc,
+      openGraph: {
+        title: article.title,
+        description: article.desc,
+        images: [
+          {
+            url: `${article.titleImage}`,
+            width: 1200,
+            height: 630,
+            alt: article.title,
+          },
+        ],
+        type: "article",
+        url: `${baseUrl}/articles/${params.id}`,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: article.title,
+        description: article.desc,
+        images: [`${baseUrl}${article.titleImage}`],
+      },
+    };
+  } catch (err) {
+    console.error(err);
     return {
       title: "مقاله یافت نشد",
       description: "خطا در بارگذاری مقاله",
     };
   }
-
-  const article: Article = await res.json();
-
-  return {
-    title: article.title,
-    description: article.desc,
-    openGraph: {
-      title: article.title,
-      description: article.desc,
-      images: [
-        {
-          url: `${article.titleImage}`,
-          width: 1200,
-          height: 630,
-          alt: article.title,
-        },
-      ],
-      type: "article",
-      url: `${baseUrl}/articles/${params.id}`,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: article.title,
-      description: article.desc,
-      images: [`${baseUrl}${article.titleImage}`],
-    },
-  };
 }
 
 export default function MainArticlesDetailsPage() {
