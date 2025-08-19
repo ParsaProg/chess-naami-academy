@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: "بهترین مقالات آموزشی و تخصصی در زمینه شطرنج",
       images: [
         {
-          url: `${baseUrl}/images/mr-naami.png`, // باید توی public/images باشه
+          url: `${baseUrl}/images/mr-naami.jpg`, // باید توی public/images باشه
           width: 1200,
           height: 630,
           alt: "مقالات تخصصی",
@@ -23,9 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "مقالات تخصصی | مجله شما",
+      title: "مقالات تخصصی | شطرنج نعامی",
       description: "بهترین مقالات آموزشی و تخصصی در زمینه شطرنج",
-      images: [`${baseUrl}/images/mr-naami.png`],
+      images: [`${baseUrl}/images/mr-naami.jpg`],
     },
   };
 }
