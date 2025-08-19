@@ -18,7 +18,7 @@ const nextConfig = {
     optimizeCss: true,
   },
   i18n: {
-    locales: ["fa", "en"], // اگر فقط فارسی داری: ['fa']
+    locales: ["fa"],
     defaultLocale: "fa",
     localeDetection: true,
   },

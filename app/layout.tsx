@@ -23,9 +23,6 @@ export const metadata: Metadata = {
   applicationName: siteName,
   alternates: {
     canonical: siteUrl,
-    languages: {
-      fa: siteUrl + "/fa",
-    },
     types: { "application/rss+xml": siteUrl + "/rss.xml" },
   },
   openGraph: {
