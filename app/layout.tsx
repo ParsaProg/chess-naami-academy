@@ -10,7 +10,7 @@ import NProgressProvider from "@/components/transition/NProgressProvider";
 import ToastProvider from "@/components/toastProvider";
 
 const siteName = "آکادمی شطرنج نعامی";
-const siteUrl  = 'https://chessnaami.ir'
+const siteUrl = "https://chessnaami.ir";
 const siteDesc =
   "آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین";
 export const metadata: Metadata = {
@@ -34,11 +34,13 @@ export const metadata: Metadata = {
     siteName,
     title: siteName,
     description: siteDesc,
+    images: ["https://chessnaami.ir/assets/images/mr-naami.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: siteName,
     description: siteDesc,
+    images: ["https://chessnaami.ir/assets/images/mr-naami.png"],
   },
   robots: {
     index: true,
@@ -84,12 +86,15 @@ export default function RootLayout({
         />
         <meta
           property="og:image"
-          content="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true"
+          content="https://chessnaami.ir/assets/images/mr-naami.png"
         />
         <meta property="og:url" content="https://www.chessnaami.ir/" />
         <meta property="og:type" content="website" />
         {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true" />
+        <meta
+          name="twitter:card"
+          content="https://chessnaami.ir/assets/images/mr-naami.png"
+        />
         <meta name="twitter:title" content="آکادمی شطرنج ابراهیم نعامی" />
         <meta
           name="twitter:description"
@@ -97,7 +102,7 @@ export default function RootLayout({
         />
         <meta
           name="twitter:image"
-          content="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true"
+          content="https://chessnaami.ir/assets/images/mr-naami.png"
         />
         {/* Favicon */}
         <title>آکادمی شطرنج نعامی</title>
@@ -134,7 +139,7 @@ export default function RootLayout({
         <SEO
           title="آکادمی شطرنج نعامی"
           description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
-          ogImage="https://github.com/ParsaProg/chess-naami-academy/blob/main/public/assets/images/mr-naami.png?raw=true"
+          ogImage="https://chessnaami.ir/assets/images/mr-naami.png"
         />
 
         <NavBar />
