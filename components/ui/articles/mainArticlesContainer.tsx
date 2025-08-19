@@ -29,7 +29,7 @@ export default function MainArticlesContainer({
             decoding="async"
             onLoad={() => setIsLoad(true)}
             draggable={false}
-            alt="آموزش شطرنج, شطرنج ایران, باشگاه شطرنج ایران, شطرنج تهران, شطرنج مرزداران, شطرنج آنلاین"
+            alt={titleText}
             unoptimized
             className={`z-10 rounded-tl-lg rounded-tr-lg size-full object-cover rounded-[inherit] border bg-muted/40 transition-all duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-[opacity,filter,transform]
           ${
@@ -57,7 +57,7 @@ export default function MainArticlesContainer({
             <div className="flex items-center gap-x-3 [@media(max-width:860px)]:mb-5">
               <div className="rounded-full border-[1px] border-slate-400 w-10 h-10 overflow-hidden">
                 <Image
-                  alt="شطرنج ایران, مقالات شطرنج ایران"
+                  alt={titleText}
                   src={publisherImage}
                   unoptimized
                   width={800}
