@@ -24,11 +24,11 @@ interface Article {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { id: string };
 }): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
 
-  const res = await fetch(`${baseUrl}/admin/api/articles/${params.slug}`, {
+  const res = await fetch(`${baseUrl}/admin/api/articles/${params.id}`, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
     },
@@ -59,7 +59,7 @@ export async function generateMetadata({
         },
       ],
       type: "article",
-      url: `${baseUrl}/articles/${params.slug}`,
+      url: `${baseUrl}/articles/${params.id}`,
     },
     twitter: {
       card: "summary_large_image",
