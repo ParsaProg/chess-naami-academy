@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { Metadata, ResolvingMetadata } from "next";
 import ArticleClient from "./ArticleClient";
 
 interface Article {
@@ -21,8 +21,15 @@ interface Article {
   isSpecial: boolean;
 }
 
+interface PageProps {
+  params: { id: string };
+}
+
 // SERVER-SIDE METADATA
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata(
+  props: PageProps,
+): Promise<Metadata> {
+  const { params } = props;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
 
   try {
