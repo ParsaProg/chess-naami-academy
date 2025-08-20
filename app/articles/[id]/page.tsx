@@ -21,17 +21,22 @@ interface Article {
   isSpecial: boolean;
 }
 
+interface ArticlePageParams {
+  id: string;
+}
+
+interface ArticlePageProps {
+  params: ArticlePageParams;
+}
+
 // SERVER-SIDE METADATA
-export async function generateMetadata(
-  props: any,
-): Promise<Metadata> {
-  const { params } = props;
+export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
-  const windowEncodeIdPathPart = window.location.pathname.split("/");
-  const slug = decodeURIComponent(windowEncodeIdPathPart[windowEncodeIdPathPart.length - 1])
+  const windowEncodeIdPathPart = params.id;
+  const slug = decodeURIComponent(windowEncodeIdPathPart)
 
   try {
-    const res = await fetch(`${baseUrl}/admin/api/articles/${params.id}`, {
+    const res = await fetch(`${baseUrl}/admin/api/articles`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       },
