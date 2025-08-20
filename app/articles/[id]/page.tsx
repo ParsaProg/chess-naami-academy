@@ -20,6 +20,15 @@ interface Article {
   isSpecial: boolean;
 }
 
+// Helper function to decode URL parameters
+function decodeSlug(slug: string): string {
+  try {
+    return decodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
+}
+
 // SERVER-SIDE METADATA
 export async function generateMetadata({
   params,
@@ -28,7 +37,7 @@ export async function generateMetadata({
 }) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
   const { id } = await params;
-  const slug = decodeURIComponent(id);
+  const slug = decodeSlug(id);
 
   try {
     const res = await fetch(`${baseUrl}/admin/api/articles`, {
@@ -40,42 +49,93 @@ export async function generateMetadata({
 
     if (!res.ok) throw new Error("Article fetch failed");
 
-    const article = await res.json();
-    const mainArticle = article.find((value: Article) => value.title === slug);
+    const articles = await res.json();
+    const mainArticle = articles.find((article: Article) => 
+      article.title === slug || 
+      decodeURIComponent(article.title) === slug
+    );
+
+    if (!mainArticle) {
+      return {
+        title: "مقاله یافت نشد - ChessNaami",
+        description: "مقاله مورد نظر وجود ندارد یا حذف شده است",
+      };
+    }
+
+    // Ensure image URL is absolute
+    const imageUrl = mainArticle.titleImage.startsWith('http') 
+      ? mainArticle.titleImage 
+      : `${baseUrl}${mainArticle.titleImage}`;
 
     return {
-      title: mainArticle.title,
+      title: `${mainArticle.title} - ChessNaami`,
       description: mainArticle.desc,
       openGraph: {
         title: mainArticle.title,
         description: mainArticle.desc,
         images: [
           {
-            url: `${mainArticle.titleImage}`,
+            url: imageUrl,
             width: 1200,
             height: 630,
             alt: mainArticle.title,
           },
         ],
         type: "article",
-        url: `${baseUrl}/articles/${id}`,
+        url: `${baseUrl}/articles/${encodeURIComponent(mainArticle.title)}`,
+        siteName: "ChessNaami",
       },
       twitter: {
         card: "summary_large_image",
         title: mainArticle.title,
         description: mainArticle.desc,
-        images: [`${baseUrl}${mainArticle.titleImage}`],
+        images: [imageUrl],
+      },
+      alternates: {
+        canonical: `${baseUrl}/articles/${encodeURIComponent(mainArticle.title)}`,
       },
     };
   } catch (err) {
-    console.error(err);
+    console.error("Metadata generation error:", err);
     return {
-      title: "مقاله یافت نشد",
-      description: "خطا در بارگذاری مقاله",
+      title: "خطا در بارگذاری مقاله - ChessNaami",
+      description: "متاسفانه مشکلی در بارگذاری مقاله به وجود آمده است",
     };
   }
 }
 
-export default function MainArticlesDetailsPage() {
+// Generate static params for better performance
+export async function generateStaticParams() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
+    const res = await fetch(`${baseUrl}/admin/api/articles`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
+      },
+      // Cache for 1 hour for static generation
+      next: { revalidate: 3600 }
+    });
+
+    if (!res.ok) throw new Error("Articles fetch failed");
+
+    const articles = await res.json();
+    
+    return articles.map((article: Article) => ({
+      id: encodeURIComponent(article.title),
+    }));
+  } catch (err) {
+    console.error("Static params generation error:", err);
+    return [];
+  }
+}
+
+export default async function MainArticlesDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const slug = decodeSlug(id);
+  
   return <ArticleClient />;
 }
