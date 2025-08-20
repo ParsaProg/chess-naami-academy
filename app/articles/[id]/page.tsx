@@ -129,12 +129,7 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function MainArticlesDetailsPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default async function MainArticlesDetailsPage() {
   
   return <ArticleClient />;
 }
