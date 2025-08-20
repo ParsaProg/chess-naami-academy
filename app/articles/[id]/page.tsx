@@ -21,14 +21,6 @@ interface Article {
   isSpecial: boolean;
 }
 
-interface ArticlePageParams {
-  id: string;
-}
-
-interface ArticlePageProps {
-  params: ArticlePageParams;
-}
-
 // SERVER-SIDE METADATA
 export async function generateMetadata(props: {
   params: { id: string };
