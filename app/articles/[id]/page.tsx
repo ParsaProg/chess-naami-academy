@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import ArticleClient from "./ArticleClient";
 
 interface Article {
