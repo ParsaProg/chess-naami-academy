@@ -9,7 +9,6 @@ import WhyUs from "@/components/main/landing/whyUs";
 import { useRef } from "react";
 import ScrollToContact from "@/lib/ScrollToContact";
 import { Suspense } from "react";
-import BackgroundParticles from "@/components/ui/BackgroundParticles";
 
 export default function Home() {
   const whyUsComponentRef = useRef<HTMLDivElement>(null);
