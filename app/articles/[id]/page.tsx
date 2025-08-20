@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import ArticleClient from "./ArticleClient";
 
 interface Article {
@@ -31,6 +31,8 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { params } = props;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
+  const windowEncodeIdPathPart = window.location.pathname.split("/");
+  const slug = decodeURIComponent(windowEncodeIdPathPart[windowEncodeIdPathPart.length - 1])
 
   try {
     const res = await fetch(`${baseUrl}/admin/api/articles/${params.id}`, {
@@ -42,20 +44,21 @@ export async function generateMetadata(
 
     if (!res.ok) throw new Error("Article fetch failed");
 
-    const article: Article = await res.json();
+    const article = await res.json();
+    const mainArticle = article.finde((value: Article) => value.title === slug)
 
     return {
-      title: article.title,
-      description: article.desc,
+      title: mainArticle.title,
+      description: mainArticle.desc,
       openGraph: {
-        title: article.title,
-        description: article.desc,
+        title: mainArticle.title,
+        description: mainArticle.desc,
         images: [
           {
-            url: `${article.titleImage}`,
+            url: `${mainArticle.titleImage}`,
             width: 1200,
             height: 630,
-            alt: article.title,
+            alt: mainArticle.title,
           },
         ],
         type: "article",
@@ -63,9 +66,9 @@ export async function generateMetadata(
       },
       twitter: {
         card: "summary_large_image",
-        title: article.title,
-        description: article.desc,
-        images: [`${baseUrl}${article.titleImage}`],
+        title: mainArticle.title,
+        description: mainArticle.desc,
+        images: [`${baseUrl}${mainArticle.titleImage}`],
       },
     };
   } catch (err) {
