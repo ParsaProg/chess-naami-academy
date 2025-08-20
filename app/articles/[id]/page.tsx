@@ -22,13 +22,14 @@ interface Article {
 }
 
 // SERVER-SIDE METADATA
-export async function generateMetadata(props: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const { params } = props;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
-  const windowEncodeIdPathPart = params.id;
-  const slug = decodeURIComponent(windowEncodeIdPathPart);
+  const { id } = await params;
+  const slug = decodeURIComponent(id);
 
   try {
     const res = await fetch(`${baseUrl}/admin/api/articles`, {
@@ -41,7 +42,7 @@ export async function generateMetadata(props: {
     if (!res.ok) throw new Error("Article fetch failed");
 
     const article = await res.json();
-    const mainArticle = article.finde((value: Article) => value.title === slug);
+    const mainArticle = article.find((value: Article) => value.title === slug);
 
     return {
       title: mainArticle.title,
@@ -58,7 +59,7 @@ export async function generateMetadata(props: {
           },
         ],
         type: "article",
-        url: `${baseUrl}/articles/${params.id}`,
+        url: `${baseUrl}/articles/${id}`,
       },
       twitter: {
         card: "summary_large_image",
