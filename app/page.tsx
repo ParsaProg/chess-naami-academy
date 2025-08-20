@@ -9,6 +9,7 @@ import WhyUs from "@/components/main/landing/whyUs";
 import { useRef } from "react";
 import ScrollToContact from "@/lib/ScrollToContact";
 import { Suspense } from "react";
+import BackgroundParticles from "@/components/ui/BackgroundParticles";
 
 export default function Home() {
   const whyUsComponentRef = useRef<HTMLDivElement>(null);
@@ -68,7 +69,7 @@ export default function Home() {
         }
       >
         {" "}
-        <StudentComments CommentsComponentRef={CommentsComponentRef}/>
+        <StudentComments CommentsComponentRef={CommentsComponentRef} />
       </Suspense>
       <Suspense
         fallback={
@@ -82,6 +83,7 @@ export default function Home() {
       <Suspense fallback={null}>
         <ScrollToContact />
       </Suspense>
+
 
       {/* <ReadyToStartLearning /> */}
       <div className="pb-[20px]"></div>

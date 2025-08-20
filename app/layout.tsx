@@ -8,6 +8,7 @@ import favicon from "./favicon.ico";
 import Head from "next/head";
 import NProgressProvider from "@/components/transition/NProgressProvider";
 import ToastProvider from "@/components/toastProvider";
+import BackgroundParticles from "@/components/ui/BackgroundParticles";
 
 const siteName = "آکادمی شطرنج نعامی";
 const siteUrl = "https://chessnaami.ir";
@@ -133,6 +134,7 @@ export default function RootLayout({
         />
       </Head>
       <body className="select-none w-full">
+        <BackgroundParticles />
         <SEO
           title="آکادمی شطرنج نعامی"
           description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
@@ -147,6 +149,8 @@ export default function RootLayout({
 
         <LetsSignUp />
         <Footer />
+
+        <BackgroundParticles />
       </body>
     </html>
   );
