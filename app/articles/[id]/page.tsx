@@ -21,13 +21,9 @@ interface Article {
   isSpecial: boolean;
 }
 
-interface PageProps {
-  params: { id: string };
-}
-
 // SERVER-SIDE METADATA
 export async function generateMetadata(
-  props: PageProps,
+  props: any,
 ): Promise<Metadata> {
   const { params } = props;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
