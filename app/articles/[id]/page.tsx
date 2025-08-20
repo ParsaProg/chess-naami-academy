@@ -135,7 +135,6 @@ export default async function MainArticlesDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const slug = decodeSlug(id);
   
   return <ArticleClient />;
 }
