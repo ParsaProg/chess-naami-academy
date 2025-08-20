@@ -30,10 +30,13 @@ interface ArticlePageProps {
 }
 
 // SERVER-SIDE METADATA
-export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { params } = props;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
   const windowEncodeIdPathPart = params.id;
-  const slug = decodeURIComponent(windowEncodeIdPathPart)
+  const slug = decodeURIComponent(windowEncodeIdPathPart);
 
   try {
     const res = await fetch(`${baseUrl}/admin/api/articles`, {
@@ -46,7 +49,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     if (!res.ok) throw new Error("Article fetch failed");
 
     const article = await res.json();
-    const mainArticle = article.finde((value: Article) => value.title === slug)
+    const mainArticle = article.finde((value: Article) => value.title === slug);
 
     return {
       title: mainArticle.title,
