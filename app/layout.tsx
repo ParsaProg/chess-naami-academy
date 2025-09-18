@@ -134,7 +134,6 @@ export default function RootLayout({
         />
       </Head>
       <body className="select-none w-full">
-        <BackgroundParticles />
         <SEO
           title="آکادمی شطرنج نعامی"
           description="آموزشگاه شطرنج استاد نعامی با ۱۴ سال فعالیت مستمر در زمینه آموزش شطرنج، به صورت حضوری و آنلاین"
@@ -149,8 +148,6 @@ export default function RootLayout({
 
         <LetsSignUp />
         <Footer />
-
-        <BackgroundParticles />
       </body>
     </html>
   );
