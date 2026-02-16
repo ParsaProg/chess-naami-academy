@@ -1,45 +1,61 @@
-// lib/mongodb.ts or utils/mongodb.ts
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from 'mongoose';
 
-const MONGODB_URI: string = process.env.MONGODB_URI!;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error(
-    "لطفاً متغیر محیطی MONGODB_URI را در فایل .env.local تنظیم کنید"
-  );
+  if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE === 'phase-production-build') {
+    console.log('MongoDB URI not set during build - skipping connection');
+  } else {
+    throw new Error('Please define MONGODB_URI environment variable');
+  }
 }
 
-interface MongooseCache {
-  conn: Mongoose | null;
-  promise: Promise<Mongoose> | null;
+interface Cached {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
 
 declare global {
-  // This prevents TypeScript error when adding to the global object
-  // Only in development, since global variables are shared in Fast Refresh
-  var mongoose: MongooseCache | undefined;
+  var mongoose: Cached;
 }
 
-const globalForMongoose = globalThis as typeof globalThis & {
-  mongoose?: MongooseCache;
-};
+let cached: Cached = global.mongoose || { conn: null, promise: null };
 
-const cached = globalForMongoose.mongoose ?? {
-  conn: null,
-  promise: null,
-};
+if (!global.mongoose) {
+  global.mongoose = { conn: null, promise: null };
+  cached = global.mongoose;
+}
 
-export async function connectToDatabase(): Promise<Mongoose> {
-  if (cached.conn) return cached.conn;
+export async function connectToDatabase() {
+  // If we're in build mode and no URI, return mock connection
+  if (!MONGODB_URI) {
+    if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE === 'phase-production-build') {
+      console.log('Skipping MongoDB connection during build');
+      return null;
+    }
+    throw new Error('Please define MONGODB_URI environment variable');
+  }
+
+  if (cached.conn) {
+    return cached.conn;
+  }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
+    const opts = {
       bufferCommands: false,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
     });
   }
 
-  cached.conn = await cached.promise;
-  globalForMongoose.mongoose = cached;
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
 
   return cached.conn;
 }

@@ -15,7 +15,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true,
   },
   i18n: {
     locales: ["fa"],

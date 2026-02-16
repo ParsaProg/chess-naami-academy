@@ -6,6 +6,11 @@ import { checkAuth } from "@/lib/auth";
 import mongoose from "mongoose";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+// OR if you want to be more explicit:
+// export const revalidate = 0;
+
 interface UpdateArticleData {
   title?: string;
   content?: string;
@@ -21,19 +26,30 @@ interface UpdateArticleData {
   publisherImage?: string;
 }
 
-
 // ---------------- S3 Client ----------------
-const s3 = new S3Client({
-  region: "default",
-  endpoint: process.env.LIARA_ENDPOINT,
-  credentials: {
-    accessKeyId: process.env.LIARA_ACCESS_KEY!,
-    secretAccessKey: process.env.LIARA_SECRET_KEY!,
-  },
-});
+// Initialize S3 client conditionally
+const getS3Client = () => {
+  if (!process.env.LIARA_ENDPOINT || !process.env.LIARA_ACCESS_KEY || !process.env.LIARA_SECRET_KEY) {
+    return null;
+  }
+  
+  return new S3Client({
+    region: "default",
+    endpoint: process.env.LIARA_ENDPOINT,
+    credentials: {
+      accessKeyId: process.env.LIARA_ACCESS_KEY!,
+      secretAccessKey: process.env.LIARA_SECRET_KEY!,
+    },
+  });
+};
 
 // ---------------- Helper: Upload file to Liara Bucket ----------------
 async function saveUploadedFile(file: File, subfolder: string): Promise<string> {
+  const s3 = getS3Client();
+  if (!s3) {
+    throw new Error("S3 client not configured");
+  }
+
   const buffer = Buffer.from(await file.arrayBuffer());
   const filename = `${subfolder}_${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
   const uploadKey = `${subfolder}/${filename}`;
@@ -62,7 +78,19 @@ function getIdFromUrl(request: NextRequest): string | null {
   }
 }
 
+// Helper function to check if we're in build mode
+function isBuildTime() {
+  return process.env.NODE_ENV === 'production' && 
+         (process.env.NEXT_PHASE === 'phase-production-build' || 
+          process.env.VERCEL_ENV === 'preview' && !process.env.MONGODB_URI);
+}
+
 export async function GET(request: NextRequest) {
+  // If we're in build mode, return a simple response without DB connection
+  if (isBuildTime()) {
+    return NextResponse.json({ message: "Build mode - placeholder response" }, { status: 200 });
+  }
+
   const authError = await checkAuth(request);
   if (authError) return authError;
 
@@ -85,6 +113,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  // If we're in build mode, return a simple response without DB connection
+  if (isBuildTime()) {
+    return NextResponse.json({ success: true, message: "Build mode - placeholder response" }, { status: 200 });
+  }
+
   const authError = await checkAuth(request);
   if (authError) return authError;
 
@@ -145,6 +178,11 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  // If we're in build mode, return a simple response without DB connection
+  if (isBuildTime()) {
+    return NextResponse.json({ message: "Build mode - placeholder response" }, { status: 200 });
+  }
+
   const authError = await checkAuth(request);
   if (authError) return authError;
 
