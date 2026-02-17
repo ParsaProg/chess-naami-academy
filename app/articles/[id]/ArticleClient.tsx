@@ -28,6 +28,7 @@ interface Article {
 export default function ArticleClient() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [article, setArticle] = useState<Article>();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const pathParts = window.location.pathname.split("/");
@@ -36,20 +37,32 @@ export default function ArticleClient() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch("/admin/api/articles", {
+        setError(null);
+        
+          
+        const response = await fetch(`/admin/api/articles`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
           },
+          // Add cache control
+          next: { revalidate: 3600 } // Revalidate every hour
         });
+        
         if (!response.ok) throw new Error("Unauthorized or server error");
 
         const data = await response.json();
         const mainArticle = data.find(
           (article: Article) => article.title === id
         );
+        
+        if (!mainArticle) {
+          throw new Error("Article not found");
+        }
+        
         setArticle(mainArticle);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching article data:", error);
+        setError(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -66,13 +79,14 @@ export default function ArticleClient() {
     );
   }
 
-  if (!article) {
+  if (error || !article) {
     return (
       <h1 className="text-black mt-[50px] w-full text-center font-bold text-3xl">
-        مقاله‌ای با این نام یافت نشد
+        {error || "مقاله‌ای با این نام یافت نشد"}
       </h1>
     );
   }
+  
   return (
     <div className="flex flex-col items-start w-[90%] mx-auto">
       <div className="mt-10 w-full">

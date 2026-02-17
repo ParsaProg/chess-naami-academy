@@ -8,8 +8,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/uploads/:path*",
-        destination: "/public/uploads/:path*",
+        source: '/admin/api/:path*',
+        destination: '/api/:path*',
       },
     ];
   },
