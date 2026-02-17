@@ -2,6 +2,12 @@ import ArticleClient from "./ArticleClient";
 import { connectToDatabase } from "@/lib/mongodb";
 import Article from "@/models/Article";
 
+/**
+ * 🚀 Disable static generation
+ * This prevents filename-too-long errors
+ */
+export const dynamic = "force-dynamic";
+
 interface ArticleType {
   _id: string;
   title: string;
@@ -22,7 +28,6 @@ interface ArticleType {
   isSpecial: boolean;
 }
 
-// Helper to safely decode slug
 function decodeSlug(slug: string): string {
   try {
     return decodeURIComponent(slug);
@@ -32,7 +37,7 @@ function decodeSlug(slug: string): string {
 }
 
 /**
- * ✅ Next.js 15 requires params to be a Promise
+ * ✅ Next.js 15 requires params to be Promise
  */
 export async function generateMetadata({
   params,
@@ -99,24 +104,6 @@ export async function generateMetadata({
       description:
         "متاسفانه مشکلی در بارگذاری مقاله به وجود آمده است",
     };
-  }
-}
-
-/**
- * ✅ Generate static paths directly from DB
- */
-export async function generateStaticParams() {
-  try {
-    await connectToDatabase();
-
-    const articles = await Article.find({}, "title").lean();
-
-    return articles.map((article: any) => ({
-      id: encodeURIComponent(article.title),
-    }));
-  } catch (err) {
-    console.error("Static params error:", err);
-    return [];
   }
 }
 
