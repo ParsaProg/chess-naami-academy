@@ -1,7 +1,6 @@
 import ArticleClient from "./ArticleClient";
 import { connectToDatabase } from "@/lib/mongodb";
 import Article from "@/models/Article";
-import mongoose from "mongoose";
 
 interface ArticleType {
   _id: string;
@@ -23,6 +22,7 @@ interface ArticleType {
   isSpecial: boolean;
 }
 
+// Helper to safely decode slug
 function decodeSlug(slug: string): string {
   try {
     return decodeURIComponent(slug);
@@ -31,18 +31,23 @@ function decodeSlug(slug: string): string {
   }
 }
 
+/**
+ * ✅ Next.js 15 requires params to be a Promise
+ */
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://chessnaami.ir";
 
   try {
     await connectToDatabase();
 
-    const slug = decodeSlug(params.id);
+    const slug = decodeSlug(id);
 
     const article = await Article.findOne({
       title: slug,
@@ -77,16 +82,29 @@ export async function generateMetadata({
         url: `${baseUrl}/articles/${encodeURIComponent(article.title)}`,
         siteName: "ChessNaami",
       },
+      twitter: {
+        card: "summary_large_image",
+        title: article.title,
+        description: article.desc,
+        images: [imageUrl],
+      },
+      alternates: {
+        canonical: `${baseUrl}/articles/${encodeURIComponent(article.title)}`,
+      },
     };
   } catch (err) {
     console.error("Metadata error:", err);
     return {
       title: "خطا در بارگذاری مقاله - ChessNaami",
-      description: "متاسفانه مشکلی در بارگذاری مقاله به وجود آمده است",
+      description:
+        "متاسفانه مشکلی در بارگذاری مقاله به وجود آمده است",
     };
   }
 }
 
+/**
+ * ✅ Generate static paths directly from DB
+ */
 export async function generateStaticParams() {
   try {
     await connectToDatabase();
