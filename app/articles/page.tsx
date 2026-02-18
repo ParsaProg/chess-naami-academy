@@ -58,10 +58,10 @@ export default function ArticlesPage() {
         <h1 className="flex font-bold text-3xl text-black">مقالات ویژه</h1>
         <div className="w-full flex [@media(max-width:940px)]:flex-col gap-y-3 mt-8 gap-x-5">
           {articles.some((article) => article.isSpecial) ? (
-            articles
+            articles.reverse()
               .filter((article) => article.isSpecial)
-              .map((article) => (
-                <SpecialArticleContainer
+              .map((article, _I) => (
+                _I <= 3 && <SpecialArticleContainer
                   key={article._id}
                   imageTitle={article.titleImage}
                   title={article.title}

@@ -1,9 +1,14 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import SpecialArticleContainer from "@/components/ui/articles/special-articles-container";
 import "../../../styles/loaderSpinner.css";
 import Image from "next/image";
+import { BsStopwatch } from "react-icons/bs";
+import { MdEmail } from "react-icons/md";
+import { FaPhone } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import Link from "next/link";
 
 interface Article {
   _id: string;
@@ -38,27 +43,26 @@ export default function ArticleClient() {
       try {
         setIsLoading(true);
         setError(null);
-        
-          
+
         const response = await fetch(`/admin/api/articles`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
           },
           // Add cache control
-          next: { revalidate: 3600 } // Revalidate every hour
+          next: { revalidate: 3600 }, // Revalidate every hour
         });
-        
+
         if (!response.ok) throw new Error("Unauthorized or server error");
 
         const data = await response.json();
         const mainArticle = data.find(
-          (article: Article) => article.title === id
+          (article: Article) => article.title === id,
         );
-        
+
         if (!mainArticle) {
           throw new Error("Article not found");
         }
-        
+
         setArticle(mainArticle);
       } catch (error: any) {
         console.error("Error fetching article data:", error);
@@ -86,7 +90,7 @@ export default function ArticleClient() {
       </h1>
     );
   }
-  
+
   return (
     <div className="flex flex-col items-start w-[90%] mx-auto">
       <div className="mt-10 w-full">
@@ -134,6 +138,24 @@ export default function ArticleClient() {
             {article.importantText}
           </h5>
         </div>
+        <section className="flex items-center gap-5 flex-wrap mt-5">
+          <Link href={"/sign-up"} className="bg-orange-400 rounded-lg p-3 text-white font-bold">
+            ثبت‌نام و مشاوره رایگان
+          </Link>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center rounded-full w-[45px] h-[45px] bg-[#F9F3C3] text-[#F09F0A]">
+              <FaPhone size={18} />
+            </div>
+            <div className="flex flex-col items-start gap-y-1">
+              <h1 className="font-bold text-black text-lg">
+                تلفن تماس
+              </h1>
+              <h4 className="font-[400] text-slate-600 text-sm">
+                ۰۹۳۳۴۰۱۳۰۰۶
+              </h4>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
