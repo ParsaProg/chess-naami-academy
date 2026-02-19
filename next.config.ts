@@ -5,14 +5,6 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-  async rewrites() {
-    return [
-      {
-        source: '/admin/api/:path*',
-        destination: '/api/:path*',
-      },
-    ];
-  },
   reactStrictMode: true,
   experimental: {
     // optimizeCss: true,
