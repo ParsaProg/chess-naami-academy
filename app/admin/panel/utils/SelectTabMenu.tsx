@@ -10,6 +10,7 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import "./selectMenu.css";
+import { TiTrash } from "react-icons/ti";
 
 export default function SelectTabMenu({
   selectedTab,
@@ -160,6 +161,18 @@ export default function SelectTabMenu({
         >
           <IoExtensionPuzzleOutline size={20} />
           پازل‌های شطرنجی
+        </div><div
+          onClick={() => {
+            setSelectedTab(5);
+          }}
+          className={`flex items-center gap-x-2 font-bold text-xl cursor-pointer rounded-lg transition-all duration-200 w-full px-3 py-3 select-none sm:justify-start justify-start ${
+            selectedTab === 5
+              ? "bg-red-100 text-[#580000] "
+              : "bg-white text-[#580000]"
+          }`}
+        >
+          <TiTrash size={25} />
+          حذف موارد اضافی
         </div>
       </section>
     </div>
