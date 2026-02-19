@@ -11,6 +11,7 @@ import VideoForm from "./widget/VideosFormData";
 import PuzzleUploadForm from "./widget/PuzzlesFormData";
 import TournamentAdminPanel from "./widget/OnlineTournomentFormData";
 import BooksAdminPanel from "./widget/BooksFormData";
+import RemoveDataFromApiListWidget from "./widget/RemoveDataFromApi";
 
 export default function AdminPanelPage() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -73,7 +74,7 @@ export default function AdminPanelPage() {
           ) : selectedTab === 3 ? (
             <BooksAdminPanel />
           ) : (
-            <PuzzleUploadForm />
+            selectedTab === 4? <PuzzleUploadForm />: <RemoveDataFromApiListWidget />
           )}
         </section>
       </div>
