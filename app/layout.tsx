@@ -9,6 +9,7 @@ import Head from "next/head";
 import NProgressProvider from "@/components/transition/NProgressProvider";
 import ToastProvider from "@/components/toastProvider";
 import BackgroundParticles from "@/components/ui/BackgroundParticles";
+import CallButton from "@/components/main/CallButton";
 
 const siteName = "آکادمی شطرنج نعامی";
 const siteUrl = "https://chessnaami.ir";
@@ -144,6 +145,7 @@ export default function RootLayout({
         <div className="h-[50px]"></div>
         <NProgressProvider />
         <ToastProvider />
+        <CallButton />
         {children}
 
         <LetsSignUp />
