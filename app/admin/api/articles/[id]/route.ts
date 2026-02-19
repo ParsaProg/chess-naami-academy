@@ -186,6 +186,7 @@ export async function DELETE(request: NextRequest) {
   const authError = await checkAuth(request);
   if (authError) return authError;
 
+
   const id = getIdFromUrl(request);
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
     return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
