@@ -2,8 +2,20 @@
 
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function CallButton() {
+  const [isShow, setIsShow] = useState<boolean>(false);
+  useEffect(() => {
+    const userDeviceOs = navigator.userAgent || navigator.vendor;
+    if(/android/i.test(userDeviceOs) || /iPad|iPhone|iPod/.test(userDeviceOs)){
+      setIsShow(true);
+    }
+    else{
+      setIsShow(false);
+    }
+  }, []);
+  if(!isShow) return null;
   return (
     <motion.a
     href={"tel:+989334013006"}
