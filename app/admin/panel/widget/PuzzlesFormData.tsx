@@ -1,4 +1,3 @@
-// components/PuzzleFormData.tsx
 "use client";
 
 import { useState, useRef, ChangeEvent } from "react";
@@ -72,6 +71,12 @@ export default function PuzzleUploadForm() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage({ text: "حجم فایل نباید بیشتر از ۵ مگابایت باشد", type: "error" });
+      return;
+    }
+
     setPuzzleImage(file);
 
     const reader = new FileReader();
@@ -101,6 +106,11 @@ export default function PuzzleUploadForm() {
       return;
     }
 
+    if (formData.cats.length === 0) {
+      setMessage({ text: "حداقل یک دسته‌بندی را انتخاب کنید", type: "error" });
+      return;
+    }
+
     setIsUploading(true);
     setUploadProgress(0);
     setMessage({ text: "", type: "" });
@@ -119,22 +129,36 @@ export default function PuzzleUploadForm() {
     // Add file
     formDataToSend.append("puzzleImage", puzzleImage);
 
+    // Get token from environment
+    const token = process.env.NEXT_PUBLIC_API_SECRET_TOKEN;
+    
+    if (!token) {
+      setMessage({ text: "خطای پیکربندی: توکن امنیتی یافت نشد", type: "error" });
+      setIsUploading(false);
+      return;
+    }
+
     try {
-      await axios.post("/admin/api/puzzles", formDataToSend, {
+      // Using the correct endpoint: /admin/api/puzzles
+      const response = await axios.post("/admin/api/puzzles", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`
+          "Authorization": `Bearer ${token}`
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
-            setUploadProgress(
-              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
             );
+            setUploadProgress(percentCompleted);
           }
         },
+        timeout: 30000, // 30 seconds timeout
       });
 
-      setMessage({ text: "پازل با موفقیت ذخیره شد!", type: "success" });
+      console.log("Upload successful:", response.data);
+      
+      setMessage({ text: response.data.message || "پازل با موفقیت ذخیره شد!", type: "success" });
       
       // Reset form
       setFormData({
@@ -152,17 +176,42 @@ export default function PuzzleUploadForm() {
 
     } catch (error: unknown) {
       console.error("خطا در ارسال پازل:", error);
-      setMessage({
-        text: "خطا در ارسال پازل",
-        type: "error"
-      });
+      
+      // Better error handling
+      if (axios.isAxiosError(error)) {
+        if (error.code === 'ECONNABORTED') {
+          setMessage({ text: "خطا: زمان درخواست به پایان رسید", type: "error" });
+        } else if (error.response) {
+          // The request was made and the server responded with a status code
+          console.error("Error response data:", error.response.data);
+          console.error("Error response status:", error.response.status);
+          
+          const errorMessage = error.response.data?.message || 
+                              error.response.data?.error || 
+                              `خطای سرور (${error.response.status})`;
+          
+          setMessage({ 
+            text: errorMessage, 
+            type: "error" 
+          });
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error("No response received:", error.request);
+          setMessage({ text: "خطا: سرور پاسخ نمی‌دهد", type: "error" });
+        } else {
+          // Something happened in setting up the request
+          setMessage({ text: `خطا: ${error.message}`, type: "error" });
+        }
+      } else {
+        setMessage({ text: "خطای ناشناخته در ارسال پازل", type: "error" });
+      }
     } finally {
       setIsUploading(false);
     }
   };
 
   return (
-    <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-md" dir="rtl">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
         افزودن پازل جدید
       </h2>
@@ -184,6 +233,7 @@ export default function PuzzleUploadForm() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            disabled={isUploading}
           />
         </div>
 
@@ -202,6 +252,7 @@ export default function PuzzleUploadForm() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            disabled={isUploading}
           >
             <option value="easy">آسان</option>
             <option value="medium">متوسط</option>
@@ -227,6 +278,7 @@ export default function PuzzleUploadForm() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            disabled={isUploading}
           />
         </div>
 
@@ -246,6 +298,7 @@ export default function PuzzleUploadForm() {
             value={formData.solved}
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isUploading}
           />
         </div>
 
@@ -264,6 +317,7 @@ export default function PuzzleUploadForm() {
                   checked={formData.cats.includes(category)}
                   onChange={handleCatsChange}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  disabled={isUploading}
                 />
                 <label
                   htmlFor={`cat-${category}`}
@@ -283,7 +337,7 @@ export default function PuzzleUploadForm() {
           </label>
           <div className="space-y-2">
             {[0, 1, 2, 3].map((index) => (
-              <div key={index} className="flex items-center space-x-2">
+              <div key={index} className="flex items-center space-x-2 space-x-reverse">
                 <input
                   type="radio"
                   id={`correctAnswer-${index}`}
@@ -291,7 +345,9 @@ export default function PuzzleUploadForm() {
                   value={index}
                   checked={formData.correctAnswer === index.toString()}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 ml-2"
+                  required
+                  disabled={isUploading}
                 />
                 <input
                   type="text"
@@ -300,6 +356,7 @@ export default function PuzzleUploadForm() {
                   placeholder={`گزینه ${index + 1}`}
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
+                  disabled={isUploading}
                 />
               </div>
             ))}
@@ -312,7 +369,7 @@ export default function PuzzleUploadForm() {
             htmlFor="puzzleImage"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            تصویر پازل *
+            تصویر پازل * (حداکثر ۵ مگابایت)
           </label>
           <input
             id="puzzleImage"
@@ -321,7 +378,8 @@ export default function PuzzleUploadForm() {
             onChange={handleFileChange}
             accept="image/*"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
+            required={!puzzleImage}
+            disabled={isUploading}
           />
           {preview.puzzleImage && (
             <div className="mt-2">
