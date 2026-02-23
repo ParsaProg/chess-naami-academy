@@ -45,6 +45,7 @@ export default function Puzzles() {
     correctAnswer: "",
   });
   const [puzzlesData, setPuzzlesData] = useState<PuzzlesDataSchema[]>([]);
+  const safePuzzlesData = Array.isArray(puzzlesData) ? puzzlesData : [];
   const [isShowDialog, setIsShowDialog] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -182,7 +183,7 @@ export default function Puzzles() {
           </div>
         ) : (
           <div className="flex items-start justify-start grow-[2] flex-wrap gap-8 mt-5">
-            {puzzlesData.map((val, index) => (
+            {safePuzzlesData.map((val, index) => (
               <PuzzlesContainer
                 key={val._id || index}
                 title={val.title}
